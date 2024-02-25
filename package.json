@@ -8,8 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test:ci": "playwright test",
-    "test:local": "BASE_URL=http://localhost:3000 playwright test"
+    "test:ci": "npx playwright test",
+    "test:local": "BASE_URL=http://localhost:3000 npx playwright test"
   },
   "dependencies": {
     "@astrojs/image": "^0.16.7",
