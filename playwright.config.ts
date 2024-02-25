@@ -37,9 +37,4 @@ export default defineConfig({
       use: { ...devices["iPhone 12"] },
     },
   ],
-  webServer: {
-    command: "npm run start",
-    url: process.env.CI ? process.env.BASE_URL : "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
-  },
 });
