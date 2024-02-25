@@ -5,8 +5,6 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      BASE_URL: https://$(echo ${GITHUB_SHA::8}).michalinqa-dev.pages.dev
     steps:
       - uses: actions/checkout@v3
         name: Check out repository code
@@ -22,22 +20,19 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install
 
-      - name: Wait for Cloudflare Pages Deployment
-        run: |
-          url="${{ env.BASE_URL }}"
-          echo "Waiting for deployment at $url"
-          timeout=300 # 5 minutes
-          while ! curl --output /dev/null --silent --head --fail "$url"; do
-            timeout=$((timeout-30))
-            if [ "$timeout" -le 0 ]; then
-              echo "Timed out waiting for deployment."
-              exit 1
-            fi
-            echo "Waiting 30 seconds for deployment..."
-            sleep 30
-          done
+      - name: Construct BASE_URL
+        run: echo "BASE_URL=https://$(echo ${GITHUB_REF_NAME//\//-} | cut -c1-28).michalinqa-dev.pages.dev" >> $GITHUB_ENV
+
+      - name: Wait for Cloudflare Pages Publish
+        uses: lewagon/wait-on-check-action@v1.3.1
+        with:
+          ref: ${{ github.ref }}
+          check-name: "Cloudfare Pages"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 15
 
       - name: Run Playwright tests
         run: npm test
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
+          BASE_URL: ${{ env.BASE_URL }}
