@@ -1,101 +1,126 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from "@playwright/test";
 
-test.describe('mobile version of nav', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('/');
-	});
+test.describe("Page Navigation", () => {
+  test.beforeEach(async ({ page, baseURL }) => {
+    await page.goto(baseURL!);
+  });
 
-	test('menu icon is shown on mobile', async ({ page, isMobile }) => {
-		if (isMobile) {
-			const burgerMenu = page.locator('#astronav-menu');
-			await expect(burgerMenu).toBeVisible();
-			const menuItems = page.locator('.astronav-toggle');
-			await expect(menuItems).toHaveCount(3);
-		}
-	});
+  test.describe("Mobile Navigation", () => {
+    test("Menu icon and items are visible on mobile", async ({
+      page,
+      isMobile,
+    }) => {
+      if (isMobile) {
+        const menuIcon = page.locator("#astronav-menu");
+        await expect(menuIcon).toBeVisible();
+        const menuItems = page.locator(".astronav-toggle");
+        await expect(menuItems).toHaveCount(3);
+      }
+    });
+  });
+
+  test.describe("Desktop Navigation", () => {
+    test("Navigation header and items are correctly displayed and functional", async ({
+      page,
+      isMobile,
+      baseURL,
+    }) => {
+      const navigationHeader = page.locator('[data-testid="header"]');
+      if (!isMobile) {
+        await expect(navigationHeader).toBeVisible();
+        const navItems = ["About", "Projects", "Contact"];
+        for (const item of navItems) {
+          await navigationHeader.locator(`:text("${item}")`).click();
+          await expect(page).toHaveURL(`${baseURL}#${item.toLowerCase()}`);
+        }
+      }
+    });
+  });
 });
 
-test.describe('ui test', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('/');
-	});
+test.describe("Page Content", () => {
+  test.beforeEach(async ({ page, baseURL }) => {
+    await page.goto(baseURL!);
+  });
 
-	test('website is shown correctly', async ({ page }) => {
-		await expect(page).toHaveURL('http://localhost:3000/');
-		await expect(page).toHaveTitle('A Very Descriptive Title');
-		const metaDescription = page.locator("meta[name='description']");
-		await expect(metaDescription).toHaveAttribute(
-			'content',
-			'A heavily optimized description full of well-researched keywords.'
-		);
-		const html = page.locator('html');
-		await expect(html).toHaveClass('scroll-smooth');
-		await expect(page.getByTestId('hero')).toBeVisible();
-		await expect(page.getByTestId('about')).toBeVisible();
-		await expect(page.getByTestId('projects')).toBeVisible();
-		await expect(page.getByTestId('contact')).toBeVisible();
-		await expect(page.getByTestId('footer')).toBeVisible();
-	});
+  test("Website elements are correctly displayed", async ({
+    page,
+    baseURL,
+  }) => {
+    await expect(page).toHaveURL(baseURL!);
+    await expect(page).toHaveTitle("A Very Descriptive Title");
 
-	test('navbar is shown correctly and working on desktop', async ({ page, isMobile }) => {
-		const header = page.getByTestId('header');
-		if (!isMobile) {
-			await expect(header).toBeVisible();
-			await header.getByText('About').click();
-			await expect(page).toHaveURL('http://localhost:3000/#about');
-			await header.getByText('Projects').click();
-			await expect(page).toHaveURL('http://localhost:3000/#projects');
-			await header.getByText('Contact').click();
-			await expect(page).toHaveURL('http://localhost:3000/#contact');
-		}
-	});
+    const descriptionMetaTag = page.locator("meta[name='description']");
+    await expect(descriptionMetaTag).toHaveAttribute(
+      "content",
+      "A heavily optimized description full of well-researched keywords."
+    );
+
+    const htmlElement = page.locator("html");
+    await expect(htmlElement).toHaveClass("scroll-smooth");
+
+    const sections = ["hero", "about", "projects", "contact", "footer"];
+    for (const section of sections) {
+      await expect(page.locator(`[data-testid="${section}"]`)).toBeVisible();
+    }
+  });
+
+  test.describe("Card Hover Effects", () => {
+    test("Card hover effect is applied correctly", async ({ page }) => {
+      const firstCard = page.locator('[data-testid="card"]').first();
+      await firstCard.hover();
+      await expect(firstCard).toHaveClass(
+        "rounded-xl bg-white p-3 shadow-lg duration-100 hover:scale-105 hover:transform hover:shadow-xl"
+      );
+    });
+  });
 });
 
-test.describe('testing button functionalities', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('http://localhost:3000/');
-	});
+test.describe("Button Functionality", () => {
+  test.beforeEach(async ({ page, baseURL }) => {
+    await page.goto(baseURL!);
+  });
 
-	test('back to top button is working', async ({ page }) => {
-		const scrollY = await page.evaluate(() => document.documentElement.scrollHeight);
-		await page.evaluate(() => {
-			window.scrollTo(0, scrollY);
-		});
-		await page.getByTestId('back-to-top-button').click();
-		await page.evaluate(() => {
-			window.scrollTo(0, 0);
-		});
-	});
+  test("Back-to-top button functionality", async ({ page }) => {
+    const documentHeight = await page.evaluate(
+      () => document.documentElement.scrollHeight
+    );
+    const viewportHeight = await page.evaluate(() => window.innerHeight);
 
-	test('toggle theme button is working', async ({ page, isMobile }) => {
-		if (!isMobile) {
-			await page.getByTestId('theme-switch').click();
-			await expect(page.locator('html')).toHaveClass('scroll-smooth dark');
-			await page.evaluate(() => {
-				window.localStorage.setItem('theme', 'dark');
-			});
-			await page.getByTestId('theme-switch').click();
-			await expect(page.locator('html')).toHaveClass('scroll-smooth');
-			await page.evaluate(() => {
-				window.localStorage.removeItem('theme');
-			});
-		}
-	});
-});
+    await page.evaluate((height) => {
+      window.scrollTo(0, height);
+    }, documentHeight);
 
-test.describe('hover effect on cards', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('/');
-	});
+    await page.waitForFunction(
+      (height) => Math.abs(window.scrollY - height) <= 5,
+      documentHeight - viewportHeight
+    );
 
-	test('hover effect on cards is working', async ({ page }) => {
-		await page.getByTestId('card').first().hover();
-		await expect(page.locator('article').first()).toHaveClass(
-			'rounded-xl bg-white p-3 shadow-lg duration-100 hover:scale-105 hover:transform hover:shadow-xl'
-		);
-	});
-});
+    const backToTopButton = page.locator('[data-testid="back-to-top-button"]');
+    await backToTopButton.click();
 
-test.afterAll(async ({ page }) => {
-	await page.close();
+    await page.waitForFunction(() => window.scrollY === 0);
+
+    const scrollTopPosition = await page.evaluate(() => window.scrollY);
+    expect(scrollTopPosition).toBe(0);
+  });
+
+  test("Theme toggle button functionality", async ({ page, isMobile }) => {
+    if (!isMobile) {
+      const themeToggleButton = page.locator('[data-testid="theme-switch"]');
+      await themeToggleButton.click();
+      await expect(page.locator("html")).toHaveClass("scroll-smooth dark");
+
+      await page.evaluate(() => {
+        window.localStorage.setItem("theme", "dark");
+      });
+
+      await themeToggleButton.click();
+      await expect(page.locator("html")).toHaveClass("scroll-smooth");
+
+      await page.evaluate(() => {
+        window.localStorage.removeItem("theme");
+      });
+    }
+  });
 });

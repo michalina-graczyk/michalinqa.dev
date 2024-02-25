@@ -1,0 +1,45 @@
+name: Run Playwright Tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Check out repository code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Construct BASE_URL
+        run: echo "BASE_URL=https://$(echo ${GITHUB_REF_NAME//\//-} | cut -c1-28).michalinqa-dev.pages.dev" >> $GITHUB_ENV
+
+      - name: Wait for Cloudflare Pages Publish
+        uses: lewagon/wait-on-check-action@v1.3.1
+        with:
+          ref: ${{ github.ref }}
+          check-name: "Cloudflare Pages"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 15
+
+      - name: Run Playwright tests
+        run: npm run test:ci
+        env:
+          BASE_URL: ${{ env.BASE_URL }}
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

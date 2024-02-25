@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "playwright test"
+    "test:ci": "npx playwright test",
+    "test:local": "BASE_URL=http://localhost:3000 npx playwright test"
   },
   "dependencies": {
     "@astrojs/image": "^0.16.7",
@@ -23,6 +24,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.33.0",
+    "@types/node": "^20.11.20",
+    "dotenv": "^16.4.5",
     "prettier": "^2.8.8",
     "prettier-plugin-astro": "^0.8.0",
     "prettier-plugin-tailwindcss": "^0.2.8"
