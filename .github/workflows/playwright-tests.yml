@@ -6,7 +6,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      BASE_URL: https://$GITHUB_SHA.michalinqa-dev.pages.dev
+      BASE_URL: https://$(echo ${GITHUB_SHA::8}).michalinqa-dev.pages.dev
     steps:
       - uses: actions/checkout@v3
         name: Check out repository code
