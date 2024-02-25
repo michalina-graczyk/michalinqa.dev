@@ -32,7 +32,7 @@ jobs:
           wait-interval: 15
 
       - name: Run Playwright tests
-        run: npm test
+        run: npm run test:ci
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
           BASE_URL: ${{ env.BASE_URL }}
