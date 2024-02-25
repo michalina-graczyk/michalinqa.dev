@@ -28,7 +28,7 @@ test.describe("Page Navigation", () => {
       const navigationHeader = page.locator('[data-testid="header"]');
       if (!isMobile) {
         await expect(navigationHeader).toBeVisible();
-        const navItems = ["About", "Projects", "Contact"];
+        const navItems = ["O mnie", "Oferta", "Kontakt"];
         for (const item of navItems) {
           await navigationHeader.locator(`:text("${item}")`).click();
           await expect(page).toHaveURL(`${baseURL}#${item.toLowerCase()}`);
@@ -59,7 +59,7 @@ test.describe("Page Content", () => {
     const htmlElement = page.locator("html");
     await expect(htmlElement).toHaveClass("scroll-smooth");
 
-    const sections = ["hero", "about", "projects", "contact", "footer"];
+    const sections = ["hero", "about", "offers", "contact", "footer"];
     for (const section of sections) {
       await expect(page.locator(`[data-testid="${section}"]`)).toBeVisible();
     }
