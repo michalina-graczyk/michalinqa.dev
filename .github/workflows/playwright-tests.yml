@@ -27,7 +27,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.3.1
         with:
           ref: ${{ github.ref }}
-          check-name: "Cloudfare Pages"
+          check-name: "Cloudflare Pages"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 15
 
