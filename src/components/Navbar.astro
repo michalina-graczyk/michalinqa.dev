@@ -1,6 +1,6 @@
 ---
 import ToggleTheme from "@components/ui/ToggleTheme.astro";
-import { Astronav, MenuItems } from "astro-navbar";
+import { Astronav, MenuIcon, MenuItems } from "astro-navbar";
 
 const menuitems = [
   {
@@ -23,6 +23,11 @@ const menuitems = [
   class="my-5 flex flex-col items-center justify-between lg:flex-row"
 >
   <Astronav>
+    <div class="flex w-full items-center justify-between lg:w-auto">
+      <div class="block lg:hidden">
+        <MenuIcon class="h-4 w-4 text-black dark:text-white" />
+      </div>
+    </div>
     <MenuItems class="mt-2 hidden w-full lg:mt-0 lg:flex lg:w-auto">
       <ul class="flex flex-col lg:flex-row lg:gap-3">
         {
