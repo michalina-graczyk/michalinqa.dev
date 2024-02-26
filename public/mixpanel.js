@@ -65,12 +65,17 @@
   }
 
   if (window.mixpanel) {
+    var isProduction = window.location.hostname === "michalinqa.dev";
+
     window.mixpanel.init("90c85d8851f0d77561be3b876ae8d13e", {
-      track_pageview: true,
+      track_pageview: isProduction,
       persistence: "localStorage",
       loaded: function () {
         var userId = window.mixpanel.get_distinct_id();
         window.mixpanel.identify(userId);
+        if (!isProduction) {
+          window.mixpanel.opt_out_tracking();
+        }
       },
     });
   }
