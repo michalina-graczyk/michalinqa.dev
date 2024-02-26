@@ -21,7 +21,12 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Construct BASE_URL
-        run: echo "BASE_URL=https://$(echo ${GITHUB_REF_NAME//\//-} | cut -c1-28).michalinqa-dev.pages.dev" >> $GITHUB_ENV
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "BASE_URL=https://michalinqa-dev.pages.dev" >> $GITHUB_ENV
+          else
+            echo "BASE_URL=https://$(echo ${GITHUB_REF_NAME//\//-} | cut -c1-28).michalinqa-dev.pages.dev" >> $GITHUB_ENV
+          fi
 
       - name: Wait for Cloudflare Pages Publish
         uses: lewagon/wait-on-check-action@v1.3.1
