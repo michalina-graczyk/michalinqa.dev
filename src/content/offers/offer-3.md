@@ -1,6 +1,6 @@
 ---
 title: Ścieżki kariery
-description: Planowanie dedykowanej ścieżki kariery
+description: Indywidualne sesje planowania ścieżki kariery - Spersonalizowane podejście do Twojego sukcesu zawodowego.
 img_alt: project image alt text
 link: https://www.instagram.com/stories/highlights/18000801341428825/
 tags: ["kariera", "plan rozwoju", "planowanie"]
