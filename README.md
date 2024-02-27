@@ -1,6 +1,6 @@
 # michalinqa.dev personal website
 
-This is the source code for the personal website of [michalinqa.dev](https://michalinqa.dev). It's built with Astro, a modern front-end framework for building fast, optimized websites.
+This is the source code for the personal website of [michalinqa.dev](https://michalinqa.dev/?utm_source=github&utm_medium=web). It's built with Astro, a modern front-end framework for building fast, optimized websites.
 
 ## Getting Started
 
