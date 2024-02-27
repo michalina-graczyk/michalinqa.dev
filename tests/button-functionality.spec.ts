@@ -52,7 +52,7 @@ test.describe("Button Functionality", () => {
     }
   });
 
-  test("'Porozmawiajmy' button functionality", async ({ page }) => {
+  test("Contact button functionality", async ({ page }) => {
     const buttonLocator = "text=Porozmawiajmy!";
     const href = await page.getAttribute(buttonLocator, "href");
     expect(href).toBe("mailto:michalina@gaczyk.dev");
