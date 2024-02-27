@@ -13,11 +13,19 @@ import Button from "@components/ui/Button.astro";
       <h1
         class="mb-10 font-monospace text-3xl text-black dark:text-white lg:text-5xl"
       >
-        Cześć! Jestem <span class="text-orange">Michalina</span>, osiągnij swój sukces w IT ze mną!
+        Cześć! Jestem <span class="text-orange">Michalina</span>, osiągnij swój
+        sukces w IT ze mną!
       </h1>
     </div>
     <div class="mb-10">
-      <Button style={"primary"} size={"lg"} class={"flex"} name="learn more">
+      <Button
+        style={"primary"}
+        size={"lg"}
+        class={"flex"}
+        name="learn more"
+        href="#about"
+        onclick="window.mixpanel.track('Learn more button clicked')"
+      >
         Dowiedz się więcej
       </Button>
     </div>

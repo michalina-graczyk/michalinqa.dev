@@ -65,4 +65,18 @@ test.describe("Button Functionality", () => {
       "Contact by mail button clicked"
     );
   });
+
+  test("Learn more button functionality", async ({ page }) => {
+    const buttonLocator = "text=Dowiedz się więcej";
+    const href = await page.getAttribute(buttonLocator, "href");
+    expect(href).toBe("#about");
+
+    await page.click(buttonLocator);
+
+    const mixpanelEventsTracked = await getTrackedEvents(page);
+    expectLastEventToBeTracked(
+      mixpanelEventsTracked,
+      "Learn more button clicked"
+    );
+  });
 });
