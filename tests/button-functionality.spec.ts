@@ -1,4 +1,8 @@
 import { expect, test } from "@playwright/test";
+import {
+  expectLastEventToBeTracked,
+  getTrackedEvents,
+} from "./helpers/mixpanel";
 
 test.describe("Button Functionality", () => {
   test.beforeEach(async ({ page, baseURL }) => {
@@ -46,5 +50,19 @@ test.describe("Button Functionality", () => {
         window.localStorage.removeItem("theme");
       });
     }
+  });
+
+  test("Contact button functionality", async ({ page }) => {
+    const buttonLocator = "text=Porozmawiajmy!";
+    const href = await page.getAttribute(buttonLocator, "href");
+    expect(href).toBe("mailto:michalina@gaczyk.dev");
+
+    await page.click(buttonLocator);
+
+    const mixpanelEventsTracked = await getTrackedEvents(page);
+    expectLastEventToBeTracked(
+      mixpanelEventsTracked,
+      "Contact by mail button clicked"
+    );
   });
 });
