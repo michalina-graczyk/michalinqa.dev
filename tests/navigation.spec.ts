@@ -1,4 +1,8 @@
 import { expect, test } from "@playwright/test";
+import {
+  expectLastEventToBeTracked,
+  getTrackedEvents,
+} from "./helpers/mixpanel";
 
 test.describe("Page Navigation", () => {
   test.beforeEach(async ({ page, baseURL }) => {
@@ -36,6 +40,13 @@ test.describe("Page Navigation", () => {
         for (const item of navItems) {
           await navigationHeader.locator(`:text("${item.name}")`).click();
           await expect(page).toHaveURL(`${baseURL}#${item.nav}`);
+
+          const mixpanelEventsTracked = await getTrackedEvents(page);
+          expectLastEventToBeTracked(
+            mixpanelEventsTracked,
+            "Menu item clicked",
+            { Item: item.name }
+          );
         }
       }
     });

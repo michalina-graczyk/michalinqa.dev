@@ -13,6 +13,7 @@ import Social from "@components/ui/Social.astro";
     style={"primary"}
     name="Contact"
     href="mailto:michalina@gaczyk.dev"
+    onclick="window.mixpanel.track('Contact by mail button clicked');"
   >
     Porozmawiajmy!
   </Button>

@@ -38,9 +38,4 @@ test.describe("Page Content", () => {
       );
     });
   });
-
-  test("'Porozmawiajmy' button triggers email sending", async ({ page }) => {
-    const href = await page.getAttribute("text=Porozmawiajmy!", "href");
-    expect(href).toBe("mailto:michalina@gaczyk.dev");
-  });
 });

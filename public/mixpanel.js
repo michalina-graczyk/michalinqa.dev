@@ -68,13 +68,28 @@
     var isProduction = window.location.hostname === "michalinqa.dev";
 
     window.mixpanel.init("90c85d8851f0d77561be3b876ae8d13e", {
+      // Environment settings
+      ignore_dnt: !isProduction,
       track_pageview: isProduction,
+
+      // Persistence settings
       persistence: "localStorage",
+
+      // Initialization settings
       loaded: function () {
         var userId = window.mixpanel.get_distinct_id();
         window.mixpanel.identify(userId);
         if (!isProduction) {
           window.mixpanel.opt_out_tracking();
+          window.mixpanel.eventsTracked = [];
+          window.mixpanel.track = function (eventName, eventProperties) {
+            window.mixpanel.eventsTracked.push({ eventName, eventProperties });
+            console.log(
+              "[Development] Mixpanel event tracked:",
+              eventName,
+              eventProperties
+            );
+          };
         }
       },
     });
