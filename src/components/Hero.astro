@@ -1,6 +1,6 @@
 ---
 import heroImage from "@assets/images/hero.png";
-import { Image } from "@astrojs/image/components";
+import { Image } from "astro:assets";
 import Button from "@components/ui/Button.astro";
 ---
 
@@ -37,8 +37,7 @@ import Button from "@components/ui/Button.astro";
     <Image
       src={heroImage}
       alt="Coding girl"
-      aspectRatio="4:4"
-      format="png"
+      format={heroImage.format}
       width={600}
       height={600}
       loading="eager"

@@ -1,7 +1,7 @@
 {
   "name": "michalinqa.dev",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -9,26 +9,26 @@
     "preview": "astro preview",
     "astro": "astro",
     "test:ci": "npx playwright test",
-    "test:local": "BASE_URL=http://localhost:3000 npx playwright test"
+    "test:local": "BASE_URL=http://localhost:4321 npx playwright test"
   },
   "dependencies": {
-    "@astrojs/image": "^0.16.7",
-    "@astrojs/mdx": "^0.19.1",
-    "@astrojs/tailwind": "^3.1.1",
-    "@astrojs/ts-plugin": "^0.4.4",
-    "astro": "^2.3.4",
-    "astro-icon": "^0.8.0",
-    "astro-navbar": "^1.2.0",
-    "astro-seo": "^0.7.2",
-    "tailwindcss": "^3.0.24"
+    "@astrojs/mdx": "^2.1.1",
+    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/ts-plugin": "^1.5.3",
+    "astro": "^4.4.5",
+    "astro-icon": "^1.1.0",
+    "astro-navbar": "^2.3.1",
+    "astro-seo": "0.8.2",
+    "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.33.0",
+    "@iconify-json/simple-icons": "^1.1.93",
+    "@playwright/test": "^1.42.0",
     "@types/mixpanel-browser": "^2.49.0",
-    "@types/node": "^20.11.20",
+    "@types/node": "^20.11.21",
     "dotenv": "^16.4.5",
-    "prettier": "^2.8.8",
-    "prettier-plugin-astro": "^0.8.0",
-    "prettier-plugin-tailwindcss": "^0.2.8"
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0",
+    "prettier-plugin-tailwindcss": "^0.5.11"
   }
 }
