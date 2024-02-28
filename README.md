@@ -33,7 +33,6 @@ In case of project I'm using [Cloudflare Pages](https://pages.cloudflare.com).
 
 - [Astro](https://astro.build/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Astro Image](https://github.com/astrojs/image)
 - [Astro MDX](https://github.com/astrojs/mdx)
 - [Astro Tailwind](https://github.com/astrojs/tailwind)
 - [Astro TS Plugin](https://github.com/astrojs/ts-plugin)
