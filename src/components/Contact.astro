@@ -18,7 +18,28 @@ import Social from "@components/ui/Social.astro";
     Porozmawiajmy!
   </Button>
   <hr class="w-1/2" />
-  <div class="flex flex-col gap-8 lg:flex lg:flex-row lg:gap-20">
-    <Social />
-  </div>
+  <Social
+    socials={[
+      {
+        name: "github",
+        url: "https://github.com/michalina-graczyk",
+        icon: "simple-icons:github",
+      },
+      {
+        name: "linkedin",
+        url: "https://www.linkedin.com/in/michalina-graczyk/",
+        icon: "simple-icons:linkedin",
+      },
+      {
+        name: "x",
+        url: "https://x.com/MichalinQA",
+        icon: "simple-icons:x",
+      },
+      {
+        name: "instagram",
+        url: "https://www.instagram.com/michalina_graczyk/",
+        icon: "simple-icons:instagram",
+      },
+    ]}
+  />
 </section>

@@ -1,48 +1,31 @@
 ---
 import { Icon } from "astro-icon/components";
+
+export interface Props {
+  socials?: { name: string; url: string; icon: string }[];
+}
+
+const { socials } = Astro.props;
 ---
 
-<a
-  href="https://github.com/michalina-graczyk"
-  target="_blank"
-  rel="noopener"
-  aria-label="github"
-  ><Icon
-    class="h-8 hover:text-orange dark:hover:text-orange md:h-12"
-    name="simple-icons:github"
-    size={48}
-  />
-</a>
-<a
-  href="https://www.linkedin.com/in/michalina-graczyk/"
-  target="_blank"
-  rel="noopener"
-  aria-label="linkedin"
-  ><Icon
-    class="h-8 hover:text-orange dark:hover:text-orange md:h-12"
-    name="simple-icons:linkedin"
-    size={48}
-  />
-</a>
-<a
-  href="https://x.com/MichalinQA"
-  target="_blank"
-  rel="noopener"
-  aria-label="x.com"
-  ><Icon
-    class="h-8 hover:text-orange dark:hover:text-orange md:h-12"
-    name="simple-icons:x"
-    size={48}
-  />
-</a>
-<a
-  href="https://www.instagram.com/michalina_graczyk/"
-  target="_blank"
-  rel="noopener"
-  aria-label="instagram"
-  ><Icon
-    class="h-8 hover:text-orange dark:hover:text-orange md:h-12"
-    name="simple-icons:instagram"
-    size={48}
-  />
-</a>
+{
+  socials && (
+    <div class="flex flex-col gap-8 lg:flex lg:flex-row lg:gap-20">
+      {socials.map((social) => (
+        <a
+          href={social.url}
+          target="_blank"
+          rel="noopener"
+          aria-label={social.name}
+          onclick={`window.mixpanel.track('Social media button clicked', { 'Name': '${social.name}' })`}
+        >
+          <Icon
+            class="h-8 hover:text-orange dark:hover:text-orange md:h-12"
+            name={social.icon}
+            size={48}
+          />
+        </a>
+      ))}
+    </div>
+  )
+}
