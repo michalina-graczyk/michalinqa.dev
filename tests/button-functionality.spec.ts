@@ -79,4 +79,25 @@ test.describe("Button Functionality", () => {
       "Learn more button clicked"
     );
   });
+
+  test("Social buttons functionality", async ({ page }) => {
+    const socials = ["github", "linkedin", "x", "instagram"];
+
+    for (let i = 0; i < socials.length; i++) {
+      const name = socials[i];
+      const social = page.locator(`[aria-label="${name}"]`);
+
+      const href = await social.getAttribute("href");
+      expect(href).not.toBeNull();
+
+      await social.click();
+
+      const mixpanelEventsTracked = await getTrackedEvents(page);
+      expectLastEventToBeTracked(
+        mixpanelEventsTracked,
+        "Social media button clicked",
+        { Name: name }
+      );
+    }
+  });
 });
