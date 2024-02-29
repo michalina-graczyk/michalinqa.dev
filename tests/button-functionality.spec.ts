@@ -55,7 +55,7 @@ test.describe("Button Functionality", () => {
   test("Contact button functionality", async ({ page }) => {
     const buttonLocator = "text=Porozmawiajmy!";
     const href = await page.getAttribute(buttonLocator, "href");
-    expect(href).toBe("mailto:michalina@gaczyk.dev");
+    expect(href).toBe("mailto:michalina@graczyk.dev");
 
     await page.click(buttonLocator);
 
