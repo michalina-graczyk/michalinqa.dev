@@ -1,5 +1,8 @@
 ---
-import projectImage from "@assets/images/project.png";
+import consultationImage from "@assets/images/consultation.png";
+import interviewImage from "@assets/images/interview.png";
+import growthPlanImage from "@assets/images/growth-plan.png";
+
 import { Image } from "astro:assets";
 import Tags from "@components/ui/Tags.astro";
 
@@ -12,6 +15,16 @@ interface Props {
   children?: HTMLElement | HTMLElement[];
 }
 
+interface ImageMap {
+  [key: string]: ImageMetadata;
+}
+
+const imageMap: ImageMap = {
+  "Konsultacje online 1:1": consultationImage,
+  "Rozmowa rekrutacyjna": interviewImage,
+  "Ścieżki kariery": growthPlanImage,
+};
+
 const {
   url = "#",
   alt = "Project image",
@@ -19,6 +32,8 @@ const {
   title = "Project title",
   tags = ["Tags"],
 } = Astro.props;
+
+const image = imageMap[title];
 ---
 
 <section class="w-full p-4 md:w-1/2 lg:w-1/3">
@@ -29,9 +44,9 @@ const {
     <a href={url} aria-label="link to project">
       <div class="relative flex items-end overflow-hidden rounded-xl">
         <Image
-          src={projectImage}
+          src={image}
           alt={alt}
-          format={projectImage.format}
+          format={image.format}
           width={400}
           height={400}
           loading="eager"
