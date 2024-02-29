@@ -1,5 +1,6 @@
 ---
-
+import profilePhotoImage from "@assets/images/profile-photo.png";
+import { Image } from "astro:assets";
 ---
 
 <section
@@ -12,6 +13,7 @@
   >
     <h2 class="font-monospace text-2xl text-orange lg:text-4xl">O mnie</h2>
     <span class="mb-6 ml-2 h-1 w-10 bg-orange"></span>
+    <Image src={profilePhotoImage} alt="Profile Photo" />
   </div>
 
   <div class="w-full text-justify text-black dark:text-white lg:w-1/2">
