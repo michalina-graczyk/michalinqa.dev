@@ -52,8 +52,8 @@ test.describe("Button Functionality", () => {
     }
   });
 
-  test("Contact button functionality", async ({ page }) => {
-    const buttonLocator = "text=Porozmawiajmy!";
+  test("Email button functionality", async ({ page }) => {
+    const buttonLocator = "text=Napisz maila";
     const href = await page.getAttribute(buttonLocator, "href");
     expect(href).toBe("mailto:michalina@graczyk.dev");
 
@@ -63,6 +63,28 @@ test.describe("Button Functionality", () => {
     expectLastEventToBeTracked(
       mixpanelEventsTracked,
       "Contact by mail button clicked"
+    );
+  });
+
+  test("Meeting button functionality", async ({ page }) => {
+    const buttonLocator = "text=Umów spotkanie";
+
+    await page.click(buttonLocator);
+
+    const calendlyPopup = await page.waitForSelector(".calendly-popup-content");
+    expect(calendlyPopup).toBeTruthy();
+
+    const dataUrl = await calendlyPopup.getAttribute("data-url");
+    expect(dataUrl).toEqual(
+      expect.stringContaining(
+        "https://calendly.com/michalina_graczyk/konsultacje"
+      )
+    );
+
+    const mixpanelEventsTracked = await getTrackedEvents(page);
+    expectLastEventToBeTracked(
+      mixpanelEventsTracked,
+      "Contact by Calendly button clicked"
     );
   });
 
