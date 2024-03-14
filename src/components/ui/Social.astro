@@ -10,7 +10,7 @@ const { socials } = Astro.props;
 
 {
   socials && (
-    <div class="flex flex-col gap-8 lg:flex lg:flex-row lg:gap-20">
+    <div class="flex flex-row gap-8 lg:gap-20">
       {socials.map((social) => (
         <a
           href={social.url}
