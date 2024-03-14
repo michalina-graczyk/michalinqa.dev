@@ -1,5 +1,6 @@
 ---
 import Card from "@components/ui/Card.astro";
+import SectionTitle from "@components/ui/SectionTitle.astro";
 import { getCollection } from "astro:content";
 
 const offers = await getCollection("offers");
@@ -10,8 +11,7 @@ const offers = await getCollection("offers");
   id="offers"
   class="mb-10 flex flex-col items-center justify-center md:mb-0 md:h-screen"
 >
-  <h2 class="font-monospace text-2xl text-orange lg:text-4xl">Oferta</h2>
-  <span class="mb-10 h-1 w-10 bg-orange"></span>
+  <SectionTitle>Oferta</SectionTitle>
   <div class="mb-10 flex w-full flex-col flex-wrap items-center md:flex-row">
     {
       offers.map((offer) => (

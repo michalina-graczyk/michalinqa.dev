@@ -1,6 +1,37 @@
 ---
 import Button from "@components/ui/Button.astro";
 import Social from "@components/ui/Social.astro";
+import SectionTitle from "@components/ui/SectionTitle.astro";
+
+const calendlyURL =
+  "https://calendly.com/michalina_graczyk/konsultacje?background_color=1a1a1a&text_color=ffffff&primary_color=d16a3e";
+const emailAddress = "mailto:michalina@graczyk.dev";
+
+const onMeetingClick = `Calendly.initPopupWidget({url: '${calendlyURL}'}); window.mixpanel.track('Contact by Calendly button clicked'); return false;`;
+const onEmailClick = "window.mixpanel.track('Contact by mail button clicked');";
+
+const socials = [
+  {
+    name: "github",
+    url: "https://github.com/michalina-graczyk",
+    icon: "simple-icons:github",
+  },
+  {
+    name: "linkedin",
+    url: "https://www.linkedin.com/in/michalina-graczyk/",
+    icon: "simple-icons:linkedin",
+  },
+  {
+    name: "x",
+    url: "https://x.com/MichalinQA",
+    icon: "simple-icons:x",
+  },
+  {
+    name: "instagram",
+    url: "https://www.instagram.com/michalina_graczyk/",
+    icon: "simple-icons:instagram",
+  },
+];
 ---
 
 <section
@@ -8,38 +39,24 @@ import Social from "@components/ui/Social.astro";
   id="contact"
   class="flex flex-col flex-wrap items-center justify-center gap-8 text-black dark:text-white lg:mb-0 lg:h-screen"
 >
-  <Button
-    size={"lg"}
-    style={"primary"}
-    name="Contact"
-    href="mailto:michalina@graczyk.dev"
-    onclick="window.mixpanel.track('Contact by mail button clicked');"
-  >
-    Porozmawiajmy!
-  </Button>
+  <SectionTitle>Kontakt</SectionTitle>
+  <div class="flex gap-4">
+    <Button
+      size={"lg"}
+      style={"secondary"}
+      name="E-mail"
+      href={emailAddress}
+      onclick={onEmailClick}
+    >
+      Napisz maila
+    </Button>
+    <Button
+      size={"lg"}
+      style={"primary"}
+      name="Meeting"
+      onclick={onMeetingClick}>Umów spotkanie</Button
+    >
+  </div>
   <hr class="w-1/2" />
-  <Social
-    socials={[
-      {
-        name: "github",
-        url: "https://github.com/michalina-graczyk",
-        icon: "simple-icons:github",
-      },
-      {
-        name: "linkedin",
-        url: "https://www.linkedin.com/in/michalina-graczyk/",
-        icon: "simple-icons:linkedin",
-      },
-      {
-        name: "x",
-        url: "https://x.com/MichalinQA",
-        icon: "simple-icons:x",
-      },
-      {
-        name: "instagram",
-        url: "https://www.instagram.com/michalina_graczyk/",
-        icon: "simple-icons:instagram",
-      },
-    ]}
-  />
+  <Social socials={socials} />
 </section>
