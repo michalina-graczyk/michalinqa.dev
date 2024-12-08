@@ -7,4 +7,11 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://michalinqa.dev/",
   integrations: [tailwind(), mdx(), icon()],
+  i18n: {
+    defaultLocale: "pl",
+    locales: ["pl", "en"],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
 });
