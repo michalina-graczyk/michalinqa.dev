@@ -18,7 +18,7 @@ test.describe("Page Navigation", () => {
         const menuIcon = page.locator("#astronav-menu");
         await expect(menuIcon).toBeVisible();
         const menuItems = page.locator(".astronav-toggle");
-        await expect(menuItems).toHaveCount(3);
+        await expect(menuItems).toHaveCount(5);
       }
     });
   });
@@ -33,13 +33,15 @@ test.describe("Page Navigation", () => {
       if (!isMobile) {
         await expect(navigationHeader).toBeVisible();
         const navItems = [
-          { name: "O mnie", nav: "about" },
-          { name: "Oferta", nav: "offers" },
-          { name: "Kontakt", nav: "contact" },
+          { name: "O mnie", nav: "/#about" },
+          { name: "Oferta", nav: "/#offers" },
+          { name: "Kontakt", nav: "/#contact" },
+          { name: "CV", nav: "/cv" },
+          { name: "Blog", nav: "/blog" },
         ];
         for (const item of navItems) {
           await navigationHeader.locator(`:text("${item.name}")`).click();
-          await expect(page).toHaveURL(`${baseURL}#${item.nav}`);
+          await expect(page).toHaveURL(`${baseURL}${item.nav}`);
 
           const mixpanelEventsTracked = await getTrackedEvents(page);
           expectLastEventToBeTracked(
