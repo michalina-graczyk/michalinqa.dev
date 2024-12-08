@@ -1,0 +1,213 @@
+---
+import BackToTop from "@components/ui/BackToTop.astro";
+import Layout from "@layouts/Layout.astro";
+import SectionTitle from "@components/ui/SectionTitle.astro";
+import { Icon } from "astro-icon/components";
+
+// Add state management for language
+const currentPath = Astro.url.pathname;
+const searchParams = Astro.url.searchParams;
+const lang = searchParams.get("lang") || "pl"; // default to Polish
+
+console.log("Current language:", lang); // Add this line for debugging
+---
+
+<Layout>
+  <main class="mb-20">
+    <div class="mx-auto max-w-3xl px-4">
+      <!-- Language Switch -->
+      <div class="mb-6 flex justify-end gap-4">
+        <a
+          href={`${currentPath}?lang=pl`}
+          class={`${lang === "pl" ? "text-orange" : "text-black dark:text-white"} hover:text-orange`}
+        >
+          PL
+        </a>
+        <span class="text-black dark:text-white">|</span>
+        <a
+          href={`${currentPath}?lang=en`}
+          class={`${lang === "en" ? "text-orange" : "text-black dark:text-white"} hover:text-orange`}
+        >
+          EN
+        </a>
+      </div>
+
+      <!-- Header -->
+      <header class="mb-10 text-center">
+        <h1 class="mb-2 font-monospace text-4xl text-orange">
+          Michalina Graczyk
+        </h1>
+        <p class="text-lg font-bold text-black dark:text-white">
+          {lang === "en" ? "Quality Assurance Lead" : "Quality Assurance Lead"}
+        </p>
+        <div class="flex justify-center gap-4">
+          <a
+            href="https://www.linkedin.com/in/michalina-graczyk/"
+            target="_blank"
+            rel="noopener"
+            class="mt-2 inline-flex items-center text-black hover:text-orange dark:text-white dark:hover:text-orange"
+          >
+            <Icon class="h-5 w-5 mr-1" name="simple-icons:linkedin" />
+            <p>LinkedIn</p>
+          </a>
+          <a
+            href="https://github.com/michalina-graczyk"
+            target="_blank"
+            rel="noopener"
+            class="mt-2 inline-flex items-center text-black hover:text-orange dark:text-white dark:hover:text-orange"
+          >
+            <Icon class="h-5 w-5 mr-1" name="simple-icons:github" />
+            <p>GitHub</p>
+          </a>
+        </div>
+      </header>
+
+      <!-- Summary -->
+      <section class="mb-12">
+        <SectionTitle>{lang === "en" ? "About me" : "O mnie"}</SectionTitle>
+        <p class="text-black dark:text-white">
+          {
+            lang === "en"
+              ? "IT industry expert with over 9 years of experience, specializing in software quality assurance and team leadership. Passionate about effective communication and mentoring, helping others develop their IT careers."
+              : "Ekspertka z branży IT z ponad 9-letnim doświadczeniem, specjalizująca się w zapewnianiu jakości oprogramowania i przywództwie zespołowym. Pasjonatka efektywnej komunikacji i mentoringu, pomagająca innym w rozwoju kariery w IT."
+          }
+        </p>
+      </section>
+
+      <!-- Experience -->
+      <section class="mb-12">
+        <SectionTitle
+          >{lang === "en" ? "Experience" : "Doświadczenie"}</SectionTitle
+        >
+        <div class="space-y-8 text-black dark:text-white">
+          <div>
+            <h3 class="text-xl font-bold">Head of Quality Assurance</h3>
+            <p class="text-orange">
+              Saleor Commerce • 2022 - {lang === "en" ? "present" : "obecnie"}
+            </p>
+            <ul class="mt-2 list-disc pl-5 space-y-1">
+              {
+                lang === "en" ? (
+                  <>
+                    <li>
+                      Team management: skill development, mentoring and work
+                      organization
+                    </li>
+                    <li>
+                      QA Guild coordination: developing internal practices and
+                      promoting quality culture
+                    </li>
+                    <li>
+                      Design and optimization of quality assurance processes
+                    </li>
+                    <li>Oversight of manual and automated testing processes</li>
+                    <li>Management of QA team recruitment process</li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      Zarządzanie zespołem: rozwój umiejętności zespołu,
+                      mentoring i organizacja pracy
+                    </li>
+                    <li>
+                      Koordynacja QA Guild: rozwój wewnętrznych praktyk i
+                      promowanie kultury jakości
+                    </li>
+                    <li>
+                      Projektowanie i optymalizacja procesów zapewniania jakości
+                    </li>
+                    <li>
+                      Nadzór nad procesami testowania manualnego i
+                      automatycznego
+                    </li>
+                    <li>Zarządzanie procesem rekrutacji w zespole QA</li>
+                  </>
+                )
+              }
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold">Quality Assurance Specialist</h3>
+            <p class="text-orange">Saleor Commerce • 2020 - 2022</p>
+            <ul class="mt-2 list-disc pl-5 space-y-1">
+              {
+                lang === "en" ? (
+                  <>
+                    <li>First QA position in the company</li>
+                    <li>Introduction and implementation of automated tests</li>
+                    <li>Development of testing strategy and processes</li>
+                    <li>Building quality culture in the organization</li>
+                  </>
+                ) : (
+                  <>
+                    <li>Pierwsza osoba w firmie na stanowisku QA</li>
+                    <li>Wprowadzenie i implementacja testów automatycznych</li>
+                    <li>Rozwój strategii i procesów testowych</li>
+                    <li>Budowanie kultury jakości w organizacji</li>
+                  </>
+                )
+              }
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold">QA Engineer</h3>
+            <p class="text-orange">Kellton Europe (Tivix) • 2018 - 2020</p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold">Quality Control Engineer</h3>
+            <p class="text-orange">SoftServe • 2018</p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold">QA Engineer</h3>
+            <p class="text-orange">Shiji Group • 2016 - 2018</p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold">QA Engineer</h3>
+            <p class="text-orange">EUVIC • 2015 - 2018</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section class="mb-12">
+        <SectionTitle>Edukacja</SectionTitle>
+        <div class="space-y-4 text-black dark:text-white">
+          <div>
+            <h3 class="text-xl font-bold">Akademia WSB</h3>
+            <p class="text-orange">Magister Informatyki • 2016 - 2018</p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold">Politechnika Śląska</h3>
+            <p class="text-orange">
+              Inżynier Zarządzania i Inżynierii Produkcji • 2012 - 2016
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Certifications -->
+      <section class="mb-12">
+        <SectionTitle>Certyfikaty</SectionTitle>
+        <div class="space-y-4 text-black dark:text-white">
+          <div>
+            <h3 class="text-xl font-bold">Introduction to Observability</h3>
+            <p class="text-orange">Datadog • 2024</p>
+            <p class="text-sm">ID: eukfvuvi0u</p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold">ISTQB Foundation Level</h3>
+            <p class="text-orange">Polish Testing Board • 2016</p>
+            <p class="text-sm">ID: 06281/FLCT/2016</p>
+          </div>
+        </div>
+      </section>
+    </div>
+    <BackToTop />
+  </main>
+</Layout>
