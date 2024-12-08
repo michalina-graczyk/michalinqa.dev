@@ -1,0 +1,97 @@
+---
+import BackToTop from "@components/ui/BackToTop.astro";
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout>
+  <main>
+    <article class="container mx-auto px-4 py-8">
+      <div
+        class="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden max-w-4xl mx-auto border border-gray-200 dark:border-gray-700"
+      >
+        <!-- Article Header -->
+        <div class="p-8 border-b border-gray-200 dark:border-gray-700">
+          <h1 class="text-4xl font-bold mb-4 text-black dark:text-white">
+            From Cypress to Playwright - Saleor's Voyage
+          </h1>
+          <div
+            class="flex items-center text-gray-600 dark:text-gray-400 text-sm"
+          >
+            <span>Published on DEV.to</span>
+          </div>
+        </div>
+
+        <!-- Article Content -->
+        <div class="p-8">
+          <div class="text-black dark:text-white space-y-6">
+            <p class="text-xl">
+              This is the story of Saleor's path from our early days of
+              automated testing, to adapting to new tools, and finally to where
+              we stand today with a more robust and efficient testing framework.
+            </p>
+
+            <p>
+              Saleor recently migrated our end-to-end test suite from Cypress to
+              Playwright. In this article we share our journey, the challenges
+              we encountered, and how the transition unfolded.
+            </p>
+
+            <h2 class="text-2xl font-bold mt-8">How it started</h2>
+            <p>
+              Let's take a trip back to 2020. It's the beginning of the pandemic
+              and I'm diving into adding the first storefront end-to-end tests
+              written in Cypress. Back then, we didn't have a CI/CD setup -
+              GitHub history shows that our deployment workflow was established
+              in 2021.
+            </p>
+
+            <div
+              class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700"
+            >
+              <a
+                href="https://dev.to/saleor/from-cypress-to-playwright-saleors-voyage-5d8f"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center text-orange-600 dark:text-orange hover:underline"
+              >
+                Read the full article on DEV.to
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 ml-1"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    <BackToTop />
+  </main>
+</Layout>
+
+<style>
+  .lead-paragraph {
+    font-weight: 500;
+    color: #4a5568;
+  }
+
+  :global(.dark) .lead-paragraph {
+    color: #e2e8f0;
+  }
+
+  .prose {
+    max-width: none;
+  }
+
+  .prose h1,
+  .prose h2 {
+    color: inherit;
+  }
+</style>
