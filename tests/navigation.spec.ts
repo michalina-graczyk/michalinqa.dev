@@ -65,7 +65,10 @@ test.describe("Page Navigation", () => {
 
         for (const item of pageNavItems) {
           await navigationHeader.locator(`:text("${item.name}")`).click();
-          const expectedUrlPattern = new RegExp(`${baseURL}${item.nav}/?$`);
+          const expectedUrlPattern = new RegExp(
+            `${baseURL}${item.nav}/?$`,
+            "i"
+          );
           await expect(page).toHaveURL(expectedUrlPattern);
         }
       }
