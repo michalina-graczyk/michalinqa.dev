@@ -25,7 +25,7 @@ jobs:
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "BASE_URL=https://michalinqa-dev.pages.dev" >> $GITHUB_ENV
           else
-            echo "BASE_URL=https://$(echo ${GITHUB_REF_NAME//\//-} | cut -c1-28).michalinqa-dev.pages.dev" >> $GITHUB_ENV
+            echo "BASE_URL=https://$(echo ${GITHUB_REF_NAME//\//-} | tr '_' '-' | cut -c1-28).michalinqa-dev.pages.dev" >> $GITHUB_ENV
           fi
 
       - name: Wait for Cloudflare Pages Publish
