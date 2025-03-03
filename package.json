@@ -15,7 +15,7 @@
     "@astrojs/mdx": "^4.0.1",
     "@astrojs/tailwind": "^5.1.0",
     "@astrojs/ts-plugin": "^1.6.0",
-    "astro": "^5.0.3",
+    "astro": "^5.4.1",
     "astro-icon": "^1.1.0",
     "astro-navbar": "^2.3.1",
     "astro-seo": "0.8.3",
