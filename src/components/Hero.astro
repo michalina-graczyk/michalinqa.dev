@@ -37,9 +37,8 @@ import Button from "@components/ui/Button.astro";
     <Image
       src={heroImage}
       alt="Coding girl"
-      format={heroImage.format}
-      width={600}
-      height={600}
+      widths={[320, 480, 600, 800]}
+      sizes="(min-width: 1024px) 600px, (min-width: 768px) 50vw, calc(100vw - 40px)"
       loading="eager"
     />
   </div>
