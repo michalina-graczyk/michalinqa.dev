@@ -3,6 +3,13 @@ import Footer from "@components/Footer.astro";
 import Navbar from "@components/Navbar.astro";
 import { SEO } from "astro-seo";
 
+// Self-hosted fonts via @fontsource (GDPR-friendly, no external requests)
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/inconsolata/400.css";
+import "@fontsource/inconsolata/700.css";
+
 export interface LayoutProps {
   title: string;
 }
