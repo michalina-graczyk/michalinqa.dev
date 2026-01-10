@@ -34,7 +34,7 @@ test.describe("Page Content", () => {
       const firstCard = page.locator('[data-testid="card"]').first();
       await firstCard.hover();
       await expect(firstCard).toHaveClass(
-        "rounded-xl bg-white p-3 shadow-lg duration-100 hover:scale-105 hover:transform hover:shadow-xl"
+        "rounded-xl bg-white dark:bg-black p-3 shadow-lg dark:shadow-orange/20 duration-100 hover:scale-105 hover:transform hover:shadow-xl"
       );
     });
   });
