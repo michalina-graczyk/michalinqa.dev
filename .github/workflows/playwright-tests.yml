@@ -20,21 +20,30 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Construct BASE_URL
-        run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "BASE_URL=https://michalinqa-dev.pages.dev" >> $GITHUB_ENV
-          else
-            echo "BASE_URL=https://$(echo ${GITHUB_REF_NAME//\//-} | tr '_' '-' | cut -c1-28).michalinqa-dev.pages.dev" >> $GITHUB_ENV
-          fi
-
       - name: Wait for Cloudflare Pages Publish
+        if: github.ref != 'refs/heads/main'
         uses: lewagon/wait-on-check-action@v1.3.4
         with:
           ref: ${{ github.ref }}
           check-name: "Cloudflare Pages"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 15
+
+      - name: Get BASE_URL from Cloudflare deployment
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "BASE_URL=https://michalinqa-dev.pages.dev" >> $GITHUB_ENV
+          else
+            # Extract Branch Preview URL from Cloudflare Pages check output
+            PREVIEW_URL=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }}/check-runs \
+              --jq '.check_runs[] | select(.name == "Cloudflare Pages") | .output.summary' \
+              | tr '\n' ' ' \
+              | grep -o "Branch Preview URL.*href='[^']*'" \
+              | grep -o "https://[^']*")
+            echo "BASE_URL=${PREVIEW_URL}" >> $GITHUB_ENV
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run Playwright tests
         run: npm run test:ci
