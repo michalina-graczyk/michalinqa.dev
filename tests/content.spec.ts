@@ -11,13 +11,13 @@ test.describe("Page Content", () => {
   }) => {
     await expect(page).toHaveURL(baseURL!);
     await expect(page).toHaveTitle(
-      "Michalina Graczyk | Specjalistka ds. jakości i komunikacji w IT"
+      "Michalina Graczyk | Engineering Manager"
     );
 
     const descriptionMetaTag = page.locator("meta[name='description']");
     await expect(descriptionMetaTag).toHaveAttribute(
       "content",
-      "Liderka QA, Mentorka osób poszukujących swojej drogi w IT. #mentorka #qa #jakość #coaching."
+      "Michalina Graczyk - Engineering Manager w InPost | LLM Evaluation | Playwright | Test Automation | Shift Left Testing"
     );
 
     const htmlElement = page.locator("html");
