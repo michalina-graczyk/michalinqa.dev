@@ -13,7 +13,12 @@ import { Image } from "astro:assets";
     class="mb-10 flex w-full flex-col items-center justify-center lg:mb-0 lg:w-1/2"
   >
     <SectionTitle>O mnie</SectionTitle>
-    <Image src={profilePhotoImage} alt="Zdjęcie profilowe" />
+    <Image
+      src={profilePhotoImage}
+      alt="Zdjęcie profilowe"
+      widths={[150, 200, 300, 400]}
+      sizes="(min-width: 768px) 300px, 200px"
+    />
   </div>
 
   <div class="w-full text-justify text-black dark:text-white lg:w-1/2">

@@ -48,9 +48,8 @@ const image = imageMap[title];
         <Image
           src={image}
           alt={alt}
-          format={image.format}
-          width={400}
-          height={400}
+          widths={[200, 300, 400, 600]}
+          sizes="(min-width: 1024px) 400px, calc(100vw - 56px)"
           loading="eager"
         />
       </div>
