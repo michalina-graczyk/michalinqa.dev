@@ -11,7 +11,7 @@ test.describe("Page Content", () => {
   }) => {
     await expect(page).toHaveURL(baseURL!);
     await expect(page).toHaveTitle(
-      "Michalina Graczyk - Specjalistka ds. jakości i komunikacji w IT"
+      "Michalina Graczyk | Specjalistka ds. jakości i komunikacji w IT"
     );
 
     const descriptionMetaTag = page.locator("meta[name='description']");
