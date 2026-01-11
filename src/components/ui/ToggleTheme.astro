@@ -33,6 +33,15 @@
       }
     };
 
+    const applyTheme = (isDark: boolean) => {
+      const hasDarkClass = document.documentElement.classList.contains("dark");
+      if (isDark && !hasDarkClass) {
+        document.documentElement.classList.add("dark");
+      } else if (!isDark && hasDarkClass) {
+        document.documentElement.classList.remove("dark");
+      }
+    };
+
     if (
       localStorage.theme === "dark" ||
       (!("theme" in localStorage) &&
@@ -44,5 +53,15 @@
     button.addEventListener("click", () => {
       switchTheme();
     });
+
+    // Listen for OS theme preference changes
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        // Only apply OS preference if user hasn't explicitly set a theme
+        if (!("theme" in localStorage)) {
+          applyTheme(e.matches);
+        }
+      });
   });
 </script>
