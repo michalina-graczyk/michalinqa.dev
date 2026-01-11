@@ -1,4 +1,5 @@
 import plugin from "tailwindcss/plugin";
+import colors from "tailwindcss/colors";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -16,6 +17,7 @@ export default {
       black: "#000",
       white: "#fff",
       orange: "#E06330",
+      gray: colors.gray,
     },
     fontFamily: {
       // Headings
