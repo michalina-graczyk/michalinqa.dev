@@ -107,7 +107,8 @@ test.describe("Button Functionality", () => {
 
     for (let i = 0; i < socials.length; i++) {
       const name = socials[i];
-      const social = page.locator(`[aria-label="${name}"]`);
+      // Use partial aria-label match since labels are now more descriptive (e.g., "Odwiedź mój profil na GitHub")
+      const social = page.locator(`[aria-label*="${name}" i]`);
 
       const href = await social.getAttribute("href");
       expect(href).not.toBeNull();

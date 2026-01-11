@@ -16,7 +16,7 @@ const { socials } = Astro.props;
           href={social.url}
           target="_blank"
           rel="noopener"
-          aria-label={social.name}
+          aria-label={`Odwiedź mój profil na ${social.name === 'x' ? 'X (Twitter)' : social.name}`}
           onclick={`window.mixpanel.track('Social media button clicked', { 'Name': '${social.name}' })`}
         >
           <Icon

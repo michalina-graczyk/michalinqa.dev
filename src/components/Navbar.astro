@@ -43,7 +43,6 @@ const menuitems = [
             <>
               <li>
                 <a
-                  aria-label="navigation link"
                   href={item.path}
                   class="flex py-2 text-black hover:text-orange dark:text-white dark:hover:text-orange lg:px-3"
                   onclick={`window.mixpanel.track("Menu item clicked", { "Item": "${item.title}" })`}

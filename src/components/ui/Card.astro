@@ -40,7 +40,7 @@ const image = imageMap[title];
     data-testid="card"
     class="rounded-xl bg-white dark:bg-gray-800 p-3 shadow-lg dark:shadow-orange/20 duration-100 hover:scale-105 hover:transform hover:shadow-xl"
   >
-    <a href={url} aria-label="link to project">
+    <a href={url} aria-label={title ? `Zobacz ofertę: ${title}` : "Zobacz szczegóły oferty"}>
       <div
         class="relative flex items-end justify-center overflow-hidden rounded-xl"
       >
