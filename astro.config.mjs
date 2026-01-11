@@ -7,4 +7,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://michalinqa.dev/",
   integrations: [tailwind(), mdx(), icon()],
+  image: {
+    responsiveStyles: true,
+  },
 });
