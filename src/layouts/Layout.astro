@@ -11,20 +11,57 @@ import "@fontsource/inconsolata/400.css";
 import "@fontsource/inconsolata/700.css";
 
 export interface LayoutProps {
-  title: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
 }
 
+const defaultTitle =
+  "Michalina Graczyk | Specjalistka ds. jakości i komunikacji w IT";
+const defaultDescription =
+  "Liderka QA, Mentorka osób poszukujących swojej drogi w IT. #mentorka #qa #jakość #coaching.";
+const defaultImage = "/og-image.png";
+
 const {
-  title = "Michalina Graczyk | Specjalistka ds. jakości i komunikacji w IT",
+  title = defaultTitle,
+  description = defaultDescription,
+  image = defaultImage,
+  type = "website",
 } = Astro.props as LayoutProps;
+
+const canonicalURL = Astro.url.href;
+const imageURL = new URL(image, Astro.site).href;
 ---
 
 <!doctype html>
 <html lang="pl" class="scroll-smooth" data-testid="html">
   <head>
     <SEO
-      title="Michalina Graczyk - Specjalistka ds. jakości i komunikacji w IT"
-      description="Liderka QA, Mentorka osób poszukujących swojej drogi w IT. #mentorka #qa #jakość #coaching."
+      title={title}
+      description={description}
+      canonical={canonicalURL}
+      openGraph={{
+        basic: {
+          title: title,
+          type: type,
+          image: imageURL,
+          url: canonicalURL,
+        },
+        optional: {
+          description: description,
+          locale: "pl_PL",
+          siteName: "Michalina Graczyk",
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        site: "@MichalinQA",
+        creator: "@MichalinQA",
+        title: title,
+        description: description,
+        image: imageURL,
+      }}
     />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -36,7 +73,6 @@ const {
       rel="stylesheet"
     />
 
-    <title>{title}</title>
     <script src="/mixpanel.js" type="text/javascript"></script>
     <script
       src="https://assets.calendly.com/assets/external/widget.js"
