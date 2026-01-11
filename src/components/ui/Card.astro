@@ -47,9 +47,9 @@ const image = imageMap[title];
         <Image
           src={image}
           alt={alt}
-          widths={[200, 300, 400, 600]}
-          sizes="(min-width: 1024px) 400px, calc(100vw - 56px)"
-          loading="eager"
+          layout="constrained"
+          width={400}
+          priority
         />
       </div>
       <div class="mt-1 p-2">

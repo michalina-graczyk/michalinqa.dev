@@ -16,8 +16,8 @@ import { Image } from "astro:assets";
     <Image
       src={profilePhotoImage}
       alt="Zdjęcie profilowe"
-      widths={[150, 200, 300, 400]}
-      sizes="(min-width: 768px) 300px, 200px"
+      layout="constrained"
+      width={300}
     />
   </div>
 
