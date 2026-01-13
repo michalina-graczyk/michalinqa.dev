@@ -11,7 +11,6 @@ const formatSocialName = (name: string): string => {
   const nameMap: Record<string, string> = {
     github: "GitHub",
     linkedin: "LinkedIn",
-    instagram: "Instagram",
     x: "X (Twitter)",
   };
   return nameMap[name] || name.charAt(0).toUpperCase() + name.slice(1);
