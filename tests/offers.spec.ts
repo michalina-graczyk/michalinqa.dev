@@ -43,6 +43,30 @@ test.describe("Offers", () => {
 
       await expect(page).toHaveURL(/\/offers\/.+/);
     });
+
+    test("offer cards have equal heights on desktop", async ({
+      page,
+      baseURL,
+    }) => {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.goto(`${baseURL}/#offers`);
+
+      const cards = page.locator('[data-testid="card"]');
+      const count = await cards.count();
+      expect(count).toBe(3);
+
+      const heights: number[] = [];
+      for (let i = 0; i < count; i++) {
+        const box = await cards.nth(i).boundingBox();
+        expect(box).not.toBeNull();
+        heights.push(box!.height);
+      }
+
+      // All cards should have equal height (within 1px tolerance for rounding)
+      const maxHeight = Math.max(...heights);
+      const minHeight = Math.min(...heights);
+      expect(maxHeight - minHeight).toBeLessThanOrEqual(1);
+    });
   });
 
   test.describe("Offer Pages", () => {
