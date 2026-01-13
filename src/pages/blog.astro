@@ -3,11 +3,9 @@ import BackToTop from "@components/ui/BackToTop.astro";
 import Layout from "@layouts/Layout.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
 import { Icon } from "astro-icon/components";
-import { getCollection } from "astro:content";
+import { getPublishedPosts } from "@lib/blog";
 
-const posts = await getCollection("blog", ({ data }) =>
-  import.meta.env.PROD ? data.draft !== true : true
-);
+const posts = await getPublishedPosts();
 
 const sortedPosts = posts.sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()

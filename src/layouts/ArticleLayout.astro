@@ -7,11 +7,12 @@ export interface Props {
   title: string;
   date: Date;
   excerpt: string;
+  readingTime: number;
   tags?: string[];
   devtoUrl?: string;
 }
 
-const { title, date, excerpt, tags, devtoUrl } = Astro.props;
+const { title, date, excerpt, readingTime, tags, devtoUrl } = Astro.props;
 
 const devtoUrlWithUtm = devtoUrl
   ? `${devtoUrl}?utm_source=michalinqa.dev&utm_medium=blog&utm_campaign=cross-post`
@@ -51,7 +52,7 @@ const formattedDate = date.toLocaleDateString("pl-PL", {
           <span class="text-orange" aria-hidden="true">|</span>
           <div class="flex items-center gap-1.5">
             <Icon name="mdi:clock-outline" class="h-4 w-4 text-orange" />
-            <span class="reading-time"></span>
+            <span>{readingTime} min czytania</span>
           </div>
         </div>
 
@@ -117,10 +118,7 @@ const formattedDate = date.toLocaleDateString("pl-PL", {
 
 <style>
   .prose :global(h2) {
-    @apply mt-10 mb-4 text-2xl font-bold text-black dark:text-white;
-    position: relative;
-    padding-left: 1rem;
-    border-left: 3px solid theme("colors.orange");
+    @apply mt-10 mb-4 border-l-[3px] border-orange pl-4 text-2xl font-bold text-black dark:text-white;
   }
 
   .prose :global(h3) {
@@ -188,21 +186,3 @@ const formattedDate = date.toLocaleDateString("pl-PL", {
   }
 </style>
 
-<script>
-  function calculateReadingTime() {
-    const article = document.querySelector("article");
-    if (!article) return;
-
-    const text = article.textContent || "";
-    const wordsPerMinute = 200;
-    const words = text.trim().split(/\s+/).length;
-    const minutes = Math.ceil(words / wordsPerMinute);
-
-    const readingTimeEl = document.querySelector(".reading-time");
-    if (readingTimeEl) {
-      readingTimeEl.textContent = `${minutes} min czytania`;
-    }
-  }
-
-  calculateReadingTime();
-</script>

@@ -1,11 +1,9 @@
 ---
-import { getCollection } from "astro:content";
 import ArticleLayout from "@layouts/ArticleLayout.astro";
+import { getPublishedPosts, calculateReadingTime } from "@lib/blog";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) =>
-    import.meta.env.PROD ? data.draft !== true : true
-  );
+  const posts = await getPublishedPosts();
 
   return posts.map((post) => ({
     params: { slug: post.slug },
@@ -15,12 +13,14 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+const readingTime = calculateReadingTime(post.body);
 ---
 
 <ArticleLayout
   title={post.data.title}
   date={post.data.date}
   excerpt={post.data.excerpt}
+  readingTime={readingTime}
   tags={post.data.tags}
   devtoUrl={post.data.devtoUrl}
 >
