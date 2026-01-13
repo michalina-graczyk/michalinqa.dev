@@ -16,7 +16,7 @@ const offers = await getCollection("offers");
     {
       offers.map((offer) => (
         <Card
-          url={offer.data.link}
+          url={`/offers/${offer.slug}`}
           title={offer.data.title}
           description={offer.data.description}
           alt={offer.data.img_alt}

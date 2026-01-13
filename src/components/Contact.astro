@@ -2,10 +2,7 @@
 import Button from "@components/ui/Button.astro";
 import Social from "@components/ui/Social.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
-
-const calendlyURL =
-  "https://calendly.com/michalina_graczyk/konsultacje?background_color=1a1a1a&text_color=ffffff&primary_color=d16a3e";
-const emailAddress = "mailto:michalina@graczyk.dev";
+import { calendlyURL, emailAddress } from "@config/contact";
 
 const onMeetingClick = `Calendly.initPopupWidget({url: '${calendlyURL}'}); window.mixpanel.track('Contact by Calendly button clicked'); return false;`;
 const onEmailClick = "window.mixpanel.track('Contact by mail button clicked');";

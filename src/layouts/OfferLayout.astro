@@ -3,6 +3,7 @@ import Layout from "./Layout.astro";
 import BackToTop from "@components/ui/BackToTop.astro";
 import Button from "@components/ui/Button.astro";
 import { Icon } from "astro-icon/components";
+import { calendlyURL, emailAddress } from "@config/contact";
 
 export interface Props {
   title: string;
@@ -11,10 +12,6 @@ export interface Props {
 }
 
 const { title, description, tags } = Astro.props;
-
-const calendlyURL =
-  "https://calendly.com/michalina_graczyk/konsultacje?background_color=1a1a1a&text_color=ffffff&primary_color=d16a3e";
-const emailAddress = "mailto:michalina@graczyk.dev";
 
 const onMeetingClick = `Calendly.initPopupWidget({url: '${calendlyURL}'}); window.mixpanel.track('Offer booking clicked'); return false;`;
 const onEmailClick = "window.mixpanel.track('Offer email clicked');";
