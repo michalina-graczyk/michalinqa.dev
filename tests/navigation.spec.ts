@@ -127,16 +127,16 @@ test.describe("Page Navigation", () => {
   });
 
   test.describe("Active Page States", () => {
-    test("Homepage shows hash nav items as active", async ({
+    test("Homepage does not highlight hash nav items", async ({
       page,
       isMobile,
     }) => {
       if (!isMobile) {
-        // On homepage, hash links should have aria-current="page"
+        // Hash links are sections, not pages - should not be highlighted
         const hashNavItems = ["O mnie", "Oferta", "Kontakt"];
         for (const item of hashNavItems) {
           const navLink = page.locator(`nav a:has-text("${item}")`);
-          await expect(navLink).toHaveAttribute("aria-current", "page");
+          await expect(navLink).not.toHaveAttribute("aria-current", "page");
         }
       }
     });

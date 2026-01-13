@@ -28,9 +28,9 @@ const menuitems = [
 ];
 
 function isActive(itemPath: string): boolean {
-  // Hash links (e.g., /#about) are active when on homepage
+  // Hash links are in-page sections, not separate pages - don't highlight
   if (itemPath.startsWith("/#")) {
-    return currentPath === "/";
+    return false;
   }
   // Exact match for homepage
   if (itemPath === "/") {
