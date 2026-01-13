@@ -127,14 +127,18 @@ test.describe("Page Navigation", () => {
   });
 
   test.describe("Active Page States", () => {
-    test("Homepage does not highlight hash nav items", async ({
+    test("Homepage highlights only 'O mnie' as default section", async ({
       page,
       isMobile,
     }) => {
       if (!isMobile) {
-        // Hash links are sections, not pages - should not be highlighted
-        const hashNavItems = ["O mnie", "Oferta", "Kontakt"];
-        for (const item of hashNavItems) {
+        // Only "O mnie" should be highlighted as the default homepage section
+        const oMnieLink = page.locator('nav a:has-text("O mnie")');
+        await expect(oMnieLink).toHaveAttribute("aria-current", "page");
+
+        // Other hash links should not be highlighted
+        const otherHashItems = ["Oferta", "Kontakt"];
+        for (const item of otherHashItems) {
           const navLink = page.locator(`nav a:has-text("${item}")`);
           await expect(navLink).not.toHaveAttribute("aria-current", "page");
         }
