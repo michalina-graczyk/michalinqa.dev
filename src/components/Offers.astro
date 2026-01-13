@@ -12,7 +12,7 @@ const offers = await getCollection("offers");
   class="mb-10 flex flex-col items-center justify-center lg:mb-0 lg:h-screen"
 >
   <SectionTitle>Oferta</SectionTitle>
-  <div class="mb-10 flex w-full flex-col flex-wrap items-center md:flex-row">
+  <div class="mb-10 flex w-full flex-col flex-wrap items-stretch md:flex-row">
     {
       offers.map((offer) => (
         <Card
