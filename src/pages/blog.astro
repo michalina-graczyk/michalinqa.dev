@@ -1,6 +1,15 @@
 ---
 import BackToTop from "@components/ui/BackToTop.astro";
 import Layout from "@layouts/Layout.astro";
+import SectionTitle from "@components/ui/SectionTitle.astro";
+import { Icon } from "astro-icon/components";
+import { getPublishedPosts } from "@lib/blog";
+
+const posts = await getPublishedPosts();
+
+const sortedPosts = posts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
 ---
 
 <Layout
@@ -8,94 +17,87 @@ import Layout from "@layouts/Layout.astro";
   description="Artykuły o testowaniu, jakości oprogramowania i karierze w IT."
   type="website"
 >
-  <main id="main-content">
-    <article class="container mx-auto px-4 py-8">
-      <div
-        class="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden max-w-4xl mx-auto border border-gray-200 dark:border-gray-700"
-      >
-        <!-- Article Header -->
-        <div class="p-8 border-b border-gray-200 dark:border-gray-700">
-          <h1 class="text-4xl font-bold mb-4 text-black dark:text-white">
-            From Cypress to Playwright - Saleor's Voyage
-          </h1>
-          <div
-            class="flex items-center text-gray-600 dark:text-gray-400 text-sm"
-          >
-            <span>Published on DEV.to</span>
-          </div>
-        </div>
+  <main id="main-content" class="mb-20">
+    <div class="mx-auto max-w-3xl px-4 py-8">
+      <SectionTitle>Blog</SectionTitle>
 
-        <!-- Article Content -->
-        <div class="p-8">
-          <div class="text-black dark:text-white space-y-6">
-            <p class="text-xl">
-              This is the story of Saleor's path from our early days of
-              automated testing, to adapting to new tools, and finally to where
-              we stand today with a more robust and efficient testing framework.
-            </p>
-
-            <p>
-              Saleor recently migrated our end-to-end test suite from Cypress to
-              Playwright. In this article we share our journey, the challenges
-              we encountered, and how the transition unfolded.
-            </p>
-
-            <h2 class="text-2xl font-bold mt-8">How it started</h2>
-            <p>
-              Let's take a trip back to 2020. It's the beginning of the pandemic
-              and I'm diving into adding the first storefront end-to-end tests
-              written in Cypress. Back then, we didn't have a CI/CD setup -
-              GitHub history shows that our deployment workflow was established
-              in 2021.
-            </p>
-
-            <div
-              class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700"
-            >
-              <a
-                href="https://dev.to/saleor/from-cypress-to-playwright-saleors-voyage-5d8f"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center text-orange-600 dark:text-orange hover:underline"
-              >
-                Read the full article on DEV.to
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 ml-1"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                    clip-rule="evenodd"></path>
-                </svg>
-              </a>
+      {
+        sortedPosts.length === 0 ? (
+          <div class="mt-12 text-center">
+            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-orange/10">
+              <Icon name="mdi:pencil-outline" class="h-8 w-8 text-orange" />
             </div>
+            <p class="text-lg text-gray-600 dark:text-gray-400">
+              Wkrótce pojawią się nowe artykuły. Zapraszam wkrótce!
+            </p>
           </div>
-        </div>
-      </div>
-    </article>
+        ) : (
+          <div class="mt-10 space-y-6">
+            {sortedPosts.map((post) => {
+              const formattedDate = post.data.date.toLocaleDateString("pl-PL", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              });
+
+              return (
+                <article class="group">
+                  <a
+                    href={`/blog/${post.slug}`}
+                    class="block overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:border-orange hover:shadow-lg hover:shadow-orange/10 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-orange dark:hover:shadow-orange/20"
+                  >
+                    <div class="flex">
+                      <div class="w-1.5 bg-orange opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                      <div class="flex-1 p-6">
+                        <div class="mb-3 flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
+                          <div class="flex items-center gap-1.5">
+                            <Icon
+                              name="mdi:calendar"
+                              class="h-4 w-4 text-orange"
+                            />
+                            <time datetime={post.data.date.toISOString()}>
+                              {formattedDate}
+                            </time>
+                          </div>
+                        </div>
+
+                        <h2 class="mb-3 text-xl font-bold text-black transition-colors group-hover:text-orange dark:text-white lg:text-2xl">
+                          {post.data.title}
+                        </h2>
+
+                        <p class="mb-4 text-gray-600 dark:text-gray-400">
+                          {post.data.excerpt}
+                        </p>
+
+                        <div class="flex flex-wrap items-center justify-between gap-4">
+                          {post.data.tags && post.data.tags.length > 0 && (
+                            <div class="flex flex-wrap gap-2">
+                              {post.data.tags.map((tag) => (
+                                <span class="rounded-full border border-orange/30 bg-orange/10 px-2.5 py-0.5 text-xs font-medium text-orange">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+
+                          <span class="inline-flex items-center gap-1 text-sm font-medium text-orange">
+                            Czytaj więcej
+                            <Icon
+                              name="mdi:arrow-right"
+                              class="h-4 w-4 transition-transform group-hover:translate-x-1"
+                            />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </article>
+              );
+            })}
+          </div>
+        )
+      }
+    </div>
     <BackToTop />
   </main>
 </Layout>
-
-<style>
-  .lead-paragraph {
-    font-weight: 500;
-    color: #4a5568;
-  }
-
-  :global(.dark) .lead-paragraph {
-    color: #e2e8f0;
-  }
-
-  .prose {
-    max-width: none;
-  }
-
-  .prose h1,
-  .prose h2 {
-    color: inherit;
-  }
-</style>
