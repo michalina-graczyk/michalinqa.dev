@@ -2,6 +2,8 @@
 import ToggleTheme from "@components/ui/ToggleTheme.astro";
 import { Astronav, MenuIcon, MenuItems } from "astro-navbar";
 
+const currentPath = Astro.url.pathname;
+
 const menuitems = [
   {
     title: "O mnie",
@@ -24,6 +26,19 @@ const menuitems = [
     path: "/blog",
   },
 ];
+
+function isActive(itemPath: string): boolean {
+  // Hash links (e.g., /#about) are active when on homepage
+  if (itemPath.startsWith("/#")) {
+    return currentPath === "/";
+  }
+  // Exact match for homepage
+  if (itemPath === "/") {
+    return currentPath === "/";
+  }
+  // Section matching for nested routes (e.g., /blog/post-slug highlights Blog)
+  return currentPath.startsWith(itemPath);
+}
 ---
 
 <header
@@ -32,26 +47,39 @@ const menuitems = [
 >
   <Astronav>
     <div class="flex w-full items-center justify-between lg:w-auto">
-      <div class="block lg:hidden">
-        <MenuIcon class="h-4 w-4 text-black dark:text-white" />
+      <a
+        href="/"
+        class="whitespace-nowrap font-mono text-lg font-bold text-black hover:text-orange dark:text-white dark:hover:text-orange"
+        onclick="window.mixpanel.track('Menu item clicked', { 'Item': 'Brand' })"
+      >
+        <span class="text-orange">Michalina</span> Graczyk
+      </a>
+      <div class="ml-2 block lg:hidden">
+        <MenuIcon class="min-h-[44px] min-w-[44px] p-2 text-black dark:text-white" />
       </div>
     </div>
     <MenuItems class="mt-2 hidden w-full lg:mt-0 lg:flex lg:w-auto">
       <ul class="flex flex-col lg:flex-row lg:gap-3">
         {
-          menuitems.map((item) => (
-            <>
+          menuitems.map((item) => {
+            const active = isActive(item.path);
+            return (
               <li>
                 <a
                   href={item.path}
-                  class="flex py-2 text-black hover:text-orange dark:text-white dark:hover:text-orange lg:px-3"
+                  aria-current={active ? "page" : undefined}
+                  class:list={[
+                    "flex min-h-[44px] items-center py-2 lg:min-h-0 lg:px-3",
+                    "text-black hover:text-orange dark:text-white dark:hover:text-orange",
+                    active && "border-b-2 border-orange text-orange",
+                  ]}
                   onclick={`window.mixpanel.track("Menu item clicked", { "Item": "${item.title}" })`}
                 >
                   {item.title}
                 </a>
               </li>
-            </>
-          ))
+            );
+          })
         }
         <li><ToggleTheme /></li>
       </ul>
