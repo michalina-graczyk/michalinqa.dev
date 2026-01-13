@@ -1,0 +1,153 @@
+---
+import Layout from "./Layout.astro";
+import BackToTop from "@components/ui/BackToTop.astro";
+import Button from "@components/ui/Button.astro";
+import { Icon } from "astro-icon/components";
+import { calendlyURL, emailAddress } from "@config/contact";
+
+export interface Props {
+  title: string;
+  description: string;
+  tags?: string[];
+}
+
+const { title, description, tags } = Astro.props;
+
+const onMeetingClick = `Calendly.initPopupWidget({url: '${calendlyURL}'}); window.mixpanel.track('Offer booking clicked'); return false;`;
+const onEmailClick = "window.mixpanel.track('Offer email clicked');";
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: title,
+  description: description,
+  provider: {
+    "@type": "Person",
+    name: "Michalina Graczyk",
+    jobTitle: "Engineering Manager",
+  },
+};
+---
+
+<Layout title={`${title} | Michalina Graczyk`} description={description} type="website">
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+  <main id="main-content" class="mb-20">
+    <article class="mx-auto max-w-3xl px-4 py-8">
+      <header class="mb-10">
+        <div class="mb-6">
+          <a
+            href="/#offers"
+            class="inline-flex items-center gap-2 text-sm text-gray-600 transition-colors hover:text-orange dark:text-gray-400 dark:hover:text-orange"
+          >
+            <Icon name="mdi:arrow-left" class="h-4 w-4" />
+            Wróć do oferty
+          </a>
+        </div>
+
+        <h1 class="mb-3 text-3xl font-bold text-black dark:text-white lg:text-4xl">
+          {title}
+        </h1>
+        <div class="mb-4 h-1 w-16 bg-orange"></div>
+
+        {
+          tags && tags.length > 0 && (
+            <div class="mt-5 flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <span class="rounded-full border border-orange/30 bg-orange/10 px-3 py-1 text-xs font-medium text-orange">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )
+        }
+      </header>
+
+      <div class="prose prose-lg dark:prose-invert max-w-none text-black dark:text-white">
+        <slot />
+      </div>
+
+      <div class="mt-12 rounded-xl border border-orange/30 bg-orange/5 p-6 dark:bg-orange/10">
+        <h2 class="mb-4 text-xl font-bold text-black dark:text-white">
+          Zainteresowany/a?
+        </h2>
+        <p class="mb-6 text-gray-600 dark:text-gray-400">
+          Umów bezpłatną 15-minutową rozmowę, podczas której omówimy Twoje potrzeby.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <Button
+            size="lg"
+            style="primary"
+            name="Meeting"
+            onclick={onMeetingClick}
+          >
+            Umów spotkanie
+          </Button>
+          <Button
+            size="lg"
+            style="secondary"
+            name="E-mail"
+            href={emailAddress}
+            onclick={onEmailClick}
+          >
+            Napisz maila
+          </Button>
+        </div>
+      </div>
+
+      <footer class="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
+        <a
+          href="/#offers"
+          class="inline-flex items-center gap-2 font-medium text-orange transition-colors hover:underline"
+        >
+          <Icon name="mdi:arrow-left" class="h-5 w-5" />
+          Zobacz wszystkie usługi
+        </a>
+      </footer>
+    </article>
+    <BackToTop />
+  </main>
+</Layout>
+
+<style>
+  .prose :global(h2) {
+    @apply mt-10 mb-4 border-l-[3px] border-orange pl-4 text-2xl font-bold text-black dark:text-white;
+  }
+
+  .prose :global(h3) {
+    @apply mt-8 mb-3 text-xl font-bold text-orange;
+  }
+
+  .prose :global(p) {
+    @apply mb-5 leading-relaxed;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    @apply mb-5 ml-6 space-y-2;
+  }
+
+  .prose :global(ul) {
+    @apply list-disc;
+  }
+
+  .prose :global(ul li::marker) {
+    color: theme("colors.orange");
+  }
+
+  .prose :global(ol) {
+    @apply list-decimal;
+  }
+
+  .prose :global(ol li::marker) {
+    color: theme("colors.orange");
+    font-weight: 600;
+  }
+
+  .prose :global(li) {
+    @apply leading-relaxed;
+  }
+
+  .prose :global(strong) {
+    @apply font-bold text-orange;
+  }
+</style>
