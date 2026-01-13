@@ -6,7 +6,7 @@ import { getCollection } from "astro:content";
  */
 export async function getPublishedPosts(): Promise<CollectionEntry<"blog">[]> {
   return getCollection("blog", ({ data }) =>
-    import.meta.env.PROD ? data.draft !== true : true
+    import.meta.env.PROD ? data.draft !== true : true,
   );
 }
 

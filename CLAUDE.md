@@ -5,6 +5,8 @@
 ```bash
 npm run dev          # Dev server at localhost:4321
 npm run build        # Production build
+npm run lint         # Check formatting
+npm run lint:fix     # Auto-fix formatting
 ```
 
 ## Testing

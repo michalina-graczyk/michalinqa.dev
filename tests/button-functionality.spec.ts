@@ -11,7 +11,7 @@ test.describe("Button Functionality", () => {
 
   test("Back-to-top button functionality", async ({ page }) => {
     const documentHeight = await page.evaluate(
-      () => document.documentElement.scrollHeight
+      () => document.documentElement.scrollHeight,
     );
     const viewportHeight = await page.evaluate(() => window.innerHeight);
 
@@ -21,7 +21,7 @@ test.describe("Button Functionality", () => {
 
     await page.waitForFunction(
       (height) => Math.abs(window.scrollY - height) <= 5,
-      documentHeight - viewportHeight
+      documentHeight - viewportHeight,
     );
 
     const backToTopButton = page.locator('[data-testid="back-to-top-button"]');
@@ -62,7 +62,7 @@ test.describe("Button Functionality", () => {
     const mixpanelEventsTracked = await getTrackedEvents(page);
     expectLastEventToBeTracked(
       mixpanelEventsTracked,
-      "Contact by mail button clicked"
+      "Contact by mail button clicked",
     );
   });
 
@@ -77,14 +77,14 @@ test.describe("Button Functionality", () => {
     const dataUrl = await calendlyPopup.getAttribute("data-url");
     expect(dataUrl).toEqual(
       expect.stringContaining(
-        "https://calendly.com/michalina_graczyk/konsultacje"
-      )
+        "https://calendly.com/michalina_graczyk/konsultacje",
+      ),
     );
 
     const mixpanelEventsTracked = await getTrackedEvents(page);
     expectLastEventToBeTracked(
       mixpanelEventsTracked,
-      "Contact by Calendly button clicked"
+      "Contact by Calendly button clicked",
     );
   });
 
@@ -98,7 +98,7 @@ test.describe("Button Functionality", () => {
     const mixpanelEventsTracked = await getTrackedEvents(page);
     expectLastEventToBeTracked(
       mixpanelEventsTracked,
-      "Learn more button clicked"
+      "Learn more button clicked",
     );
   });
 
@@ -119,7 +119,7 @@ test.describe("Button Functionality", () => {
       expectLastEventToBeTracked(
         mixpanelEventsTracked,
         "Social media button clicked",
-        { Name: name }
+        { Name: name },
       );
     }
   });

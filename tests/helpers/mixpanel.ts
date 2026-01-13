@@ -9,7 +9,7 @@ export async function getTrackedEvents(page: Page) {
 export function expectLastEventToBeTracked(
   events: typeof window.mixpanel.eventsTracked,
   eventName: string,
-  eventProperties?: Dict
+  eventProperties?: Dict,
 ) {
   const lastEvent = events[events.length - 1];
   expect(lastEvent).toEqual({ eventName, eventProperties });
