@@ -5,9 +5,22 @@ import Hero from "@components/Hero.astro";
 import Offers from "@components/Offers.astro";
 import BackToTop from "@components/ui/BackToTop.astro";
 import Layout from "@layouts/Layout.astro";
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Michalina Graczyk",
+  jobTitle: "Engineering Manager",
+  url: Astro.site,
+  sameAs: [
+    "https://www.linkedin.com/in/michalina-graczyk/",
+    "https://github.com/michalina-graczyk",
+  ],
+};
 ---
 
 <Layout>
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   <main id="main-content">
     <Hero />
     <About />
