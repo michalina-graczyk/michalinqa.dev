@@ -8,9 +8,14 @@ export interface Props {
   date: Date;
   excerpt: string;
   tags?: string[];
+  devtoUrl?: string;
 }
 
-const { title, date, excerpt, tags } = Astro.props;
+const { title, date, excerpt, tags, devtoUrl } = Astro.props;
+
+const devtoUrlWithUtm = devtoUrl
+  ? `${devtoUrl}?utm_source=michalinqa.dev&utm_medium=blog&utm_campaign=cross-post`
+  : null;
 
 const formattedDate = date.toLocaleDateString("pl-PL", {
   year: "numeric",
@@ -66,6 +71,35 @@ const formattedDate = date.toLocaleDateString("pl-PL", {
       <div class="prose prose-lg dark:prose-invert max-w-none text-black dark:text-white">
         <slot />
       </div>
+
+      {
+        devtoUrlWithUtm && (
+          <div class="mt-10 rounded-xl border border-orange/30 bg-orange/5 p-6 dark:bg-orange/10">
+            <div class="flex items-start gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange/20">
+                <Icon name="simple-icons:devdotto" class="h-5 w-5 text-orange" />
+              </div>
+              <div class="flex-1">
+                <p class="mb-2 font-medium text-black dark:text-white">
+                  Ten artykuł został również opublikowany na DEV.to
+                </p>
+                <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+                  Dołącz do dyskusji, zostaw komentarz lub reakcję!
+                </p>
+                <a
+                  href={devtoUrlWithUtm}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 text-sm font-medium text-orange transition-colors hover:underline"
+                >
+                  Czytaj i dyskutuj na DEV.to
+                  <Icon name="mdi:arrow-right" class="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        )
+      }
 
       <footer class="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
         <a
