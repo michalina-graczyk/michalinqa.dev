@@ -14,3 +14,5 @@ Start the dev server first, then run tests in a separate terminal:
 ```bash
 npm run test:local
 ```
+
+When making changes, add or update tests in `tests/` to cover your changes.
