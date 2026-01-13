@@ -10,10 +10,10 @@ export interface Props {
   readingTime: number;
   tags?: string[];
   devtoUrl?: string;
-  canonical_url?: string;
+  canonicalUrl?: string;
 }
 
-const { title, date, excerpt, readingTime, tags, devtoUrl, canonical_url } = Astro.props;
+const { title, date, excerpt, readingTime, tags, devtoUrl, canonicalUrl } = Astro.props;
 
 const devtoUrlWithUtm = devtoUrl
   ? `${devtoUrl}?utm_source=michalinqa.dev&utm_medium=blog&utm_campaign=cross-post`
@@ -26,7 +26,7 @@ const formattedDate = date.toLocaleDateString("pl-PL", {
 });
 ---
 
-<Layout title={`${title} | Blog`} description={excerpt} type="article" canonical={canonical_url}>
+<Layout title={`${title} | Blog`} description={excerpt} type="article" canonical={canonicalUrl}>
   <main id="main-content" class="mb-20">
     <article class="mx-auto max-w-3xl px-4 py-8">
       <header class="mb-10">

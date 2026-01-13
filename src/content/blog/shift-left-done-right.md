@@ -5,6 +5,7 @@ excerpt: "Shifting left is about building quality from the ground up - during pl
 tags: ["shift-left", "quality-assurance", "testing", "software-engineering"]
 draft: false
 devtoUrl: "https://dev.to/michalina_graczyk/shift-left-done-right-qa-in-the-modern-sdlc-5c24"
+canonicalUrl: "https://dev.to/michalina_graczyk/shift-left-done-right-qa-in-the-modern-sdlc-5c24"
 ---
 
 Shifting left is a proactive quality assurance strategy that integrates testing throughout development rather than at the end. The approach aims to build quality from the ground up - during planning, design, and development phases.

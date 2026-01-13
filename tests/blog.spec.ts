@@ -68,6 +68,24 @@ test.describe("Blog", () => {
       }
     });
 
+    test("canonical URL points to original source when specified", async ({
+      page,
+      baseURL,
+    }) => {
+      await page.goto(`${baseURL}/blog/shift-left-done-right`);
+
+      const expectedCanonical =
+        "https://dev.to/michalina_graczyk/shift-left-done-right-qa-in-the-modern-sdlc-5c24";
+
+      // Verify canonical link points to the original DEV.to source
+      const canonicalLink = page.locator('link[rel="canonical"]');
+      await expect(canonicalLink).toHaveAttribute("href", expectedCanonical);
+
+      // Verify og:url matches canonical
+      const ogUrl = page.locator('meta[property="og:url"]');
+      await expect(ogUrl).toHaveAttribute("content", expectedCanonical);
+    });
+
     test("images load successfully", async ({ page, baseURL }) => {
       // Track failed image requests
       const failedImages: string[] = [];
