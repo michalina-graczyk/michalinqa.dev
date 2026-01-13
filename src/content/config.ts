@@ -10,6 +10,17 @@ const offersCollection = defineCollection({
   }),
 });
 
+const blogCollection = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    date: z.date(),
+    excerpt: z.string(),
+    draft: z.boolean().default(false),
+    tags: z.array(z.string()).optional(),
+  }),
+});
+
 export const collections = {
   offers: offersCollection,
+  blog: blogCollection,
 };
