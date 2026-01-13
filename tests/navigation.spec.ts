@@ -17,9 +17,8 @@ test.describe("Page Navigation", () => {
       if (isMobile) {
         const menuIcon = page.locator("#astronav-menu");
         await expect(menuIcon).toBeVisible();
-        const menuItems = page.locator(
-          "nav li a[aria-label='navigation link']"
-        );
+        // Navigation links no longer have generic aria-label - use nav li a selector
+        const menuItems = page.locator("nav ul li a");
         await expect(menuItems).toHaveCount(5);
       }
     });

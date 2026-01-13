@@ -82,6 +82,7 @@ const imageURL = new URL(image, Astro.site).href;
   <body
     class="mx-auto max-w-screen-xl bg-white px-5 font-sans text-white dark:bg-black xs:text-[16px] md:text-[18px]"
   >
+    <a href="#main-content" class="skip-link">Przejdź do głównej treści</a>
     <Navbar />
     <slot />
     <Footer />
@@ -90,6 +91,25 @@ const imageURL = new URL(image, Astro.site).href;
       /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
       img {
         content-visibility: auto;
+      }
+
+      /* Skip link for keyboard accessibility */
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        color: #000;
+        text-decoration: underline;
+      }
+      .skip-link:focus {
+        left: 0;
+        top: 0;
+        z-index: 9999;
+        background: #fff;
+        padding: 0.5rem 1rem;
+      }
+      .dark .skip-link:focus {
+        background: #000;
+        color: #fff;
       }
     </style>
   </body>
