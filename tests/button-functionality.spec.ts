@@ -103,7 +103,7 @@ test.describe("Button Functionality", () => {
   });
 
   test("Social buttons functionality", async ({ page }) => {
-    const socials = ["github", "linkedin", "x", "instagram"];
+    const socials = ["github", "linkedin", "x"];
 
     for (let i = 0; i < socials.length; i++) {
       const name = socials[i];

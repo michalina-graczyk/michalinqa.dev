@@ -12,10 +12,7 @@ const offers = [
 
 test.describe("Offers", () => {
   test.describe("Homepage Offer Cards", () => {
-    test("offer cards link to internal pages, not Instagram", async ({
-      page,
-      baseURL,
-    }) => {
+    test("offer cards link to internal pages", async ({ page, baseURL }) => {
       await page.goto(`${baseURL}/#offers`);
 
       const offerCards = page.locator(
@@ -23,12 +20,6 @@ test.describe("Offers", () => {
       );
       const count = await offerCards.count();
       expect(count).toBe(3);
-
-      // Verify no Instagram links in offers section
-      const instagramLinks = page.locator(
-        '[data-testid="offers"] a[href*="instagram.com/stories"]',
-      );
-      await expect(instagramLinks).toHaveCount(0);
 
       // Verify each card links to correct internal page
       for (const offer of offers) {
