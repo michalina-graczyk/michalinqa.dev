@@ -10,14 +10,12 @@ test.describe("Page Content", () => {
     baseURL,
   }) => {
     await expect(page).toHaveURL(baseURL!);
-    await expect(page).toHaveTitle(
-      "Michalina Graczyk | Engineering Manager"
-    );
+    await expect(page).toHaveTitle("Michalina Graczyk | Engineering Manager");
 
     const descriptionMetaTag = page.locator("meta[name='description']");
     await expect(descriptionMetaTag).toHaveAttribute(
       "content",
-      "Michalina Graczyk - Engineering Manager w InPost | QA & Test Automation Strategy | AI-driven Testing | LLM Evaluation"
+      "Michalina Graczyk - Engineering Manager w InPost | QA & Test Automation Strategy | AI-driven Testing | LLM Evaluation",
     );
 
     const htmlElement = page.locator("html");
@@ -34,7 +32,7 @@ test.describe("Page Content", () => {
       const firstCard = page.locator('[data-testid="card"]').first();
       await firstCard.hover();
       await expect(firstCard).toHaveClass(
-        "rounded-xl bg-white dark:bg-gray-800 p-3 shadow-lg dark:shadow-orange/20 duration-100 hover:scale-105 hover:transform hover:shadow-xl"
+        "rounded-xl bg-white dark:bg-gray-800 p-3 shadow-lg dark:shadow-orange/20 duration-100 hover:scale-105 hover:transform hover:shadow-xl",
       );
     });
   });

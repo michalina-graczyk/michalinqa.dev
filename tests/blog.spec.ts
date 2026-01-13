@@ -106,7 +106,9 @@ test.describe("Blog", () => {
       expect(failedImages).toHaveLength(0);
 
       // Verify content images are present and visible
-      const contentImages = page.locator('main article img[alt*="Cypress"], main article img[alt*="Playwright"]');
+      const contentImages = page.locator(
+        'main article img[alt*="Cypress"], main article img[alt*="Playwright"]',
+      );
       const imageCount = await contentImages.count();
       expect(imageCount).toBeGreaterThan(0);
 

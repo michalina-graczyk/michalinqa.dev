@@ -99,7 +99,7 @@ test.describe("Page Navigation", () => {
           expectLastEventToBeTracked(
             mixpanelEventsTracked,
             "Menu item clicked",
-            { Item: item.name }
+            { Item: item.name },
           );
         }
       }
@@ -118,7 +118,7 @@ test.describe("Page Navigation", () => {
           await navigationHeader.locator(`:text("${item.name}")`).click();
           const expectedUrlPattern = new RegExp(
             `${baseURL}${item.nav}/?$`,
-            "i"
+            "i",
           );
           await expect(page).toHaveURL(expectedUrlPattern);
         }

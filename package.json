@@ -8,6 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write .",
     "test:ci": "npx playwright test",
     "test:local": "BASE_URL=http://localhost:4321 npx playwright test"
   },
