@@ -15,6 +15,7 @@ export interface LayoutProps {
   description?: string;
   image?: string;
   type?: "website" | "article";
+  canonical?: string;
 }
 
 const defaultTitle =
@@ -28,9 +29,10 @@ const {
   description = defaultDescription,
   image = defaultImage,
   type = "website",
+  canonical,
 } = Astro.props as LayoutProps;
 
-const canonicalURL = Astro.url.href;
+const canonicalURL = canonical || Astro.url.href;
 const imageURL = new URL(image, Astro.site).href;
 ---
 
