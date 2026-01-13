@@ -28,7 +28,7 @@
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/simple-icons": "^1.2.30",
     "@playwright/test": "^1.57.0",
-    "@types/mixpanel-browser": "^2.49.0",
+    "@types/mixpanel-browser": "^2.66.0",
     "@types/node": "^22.13.14",
     "dotenv": "^17.2.3",
     "prettier": "^3.2.5",
