@@ -24,9 +24,22 @@ const formattedDate = date.toLocaleDateString("pl-PL", {
   month: "long",
   day: "numeric",
 });
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  datePublished: date.toISOString(),
+  dateModified: date.toISOString(),
+  author: {
+    "@type": "Person",
+    name: "Michalina Graczyk",
+  },
+};
 ---
 
 <Layout title={`${title} | Blog`} description={excerpt} type="article" canonical={canonicalUrl}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
   <main id="main-content" class="mb-20">
     <article class="mx-auto max-w-3xl px-4 py-8">
       <header class="mb-10">

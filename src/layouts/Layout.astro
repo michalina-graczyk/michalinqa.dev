@@ -34,6 +34,13 @@ const {
 
 const canonicalURL = canonical || Astro.url.href;
 const imageURL = new URL(image, Astro.site).href;
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Michalina Graczyk",
+  url: Astro.site,
+};
 ---
 
 <!doctype html>
@@ -70,6 +77,7 @@ const imageURL = new URL(image, Astro.site).href;
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <link
       href="https://assets.calendly.com/assets/external/widget.css"
       rel="stylesheet"
