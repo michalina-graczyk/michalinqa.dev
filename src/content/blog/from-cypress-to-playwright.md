@@ -5,6 +5,7 @@ excerpt: "This is the story of Saleor's path from our early days of automated te
 tags: ["testing", "playwright", "cypress", "automation"]
 draft: false
 devtoUrl: "https://dev.to/saleor/from-cypress-to-playwright-saleors-voyage-5d8f"
+canonicalUrl: "https://dev.to/saleor/from-cypress-to-playwright-saleors-voyage-5d8f"
 ---
 
 This is the story of our path from our early days of automated testing, to adapting to new tools, and finally to where we stand today with a more robust and efficient testing framework.
