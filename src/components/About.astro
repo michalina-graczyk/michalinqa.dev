@@ -17,9 +17,9 @@ import { Image } from "astro:assets";
       src={profilePhotoImage}
       alt="Zdjęcie profilowe"
       layout="constrained"
-      width={300}
-      height={360}
-      class="rounded-full object-cover"
+      width={380}
+      height={460}
+      class="profile-oval object-cover"
     />
   </div>
 
@@ -45,3 +45,9 @@ import { Image } from "astro:assets";
     <p>Zapraszam do kontaktu :)</p>
   </div>
 </section>
+
+<style>
+  .profile-oval {
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  }
+</style>
