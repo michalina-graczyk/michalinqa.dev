@@ -19,7 +19,8 @@
       "@assets/*": ["assets/*"],
       "@pages/*": ["pages/*"],
       "@lib/*": ["lib/*"],
-      "@config/*": ["config/*"]
+      "@config/*": ["config/*"],
+      "@data/*": ["data/*"]
     }
   }
 }
