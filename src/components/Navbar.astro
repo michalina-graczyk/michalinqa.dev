@@ -49,7 +49,7 @@ function isActive(itemPath: string): boolean {
     <div class="flex w-full items-center justify-between lg:w-auto">
       <a
         href="/"
-        class="whitespace-nowrap font-mono text-lg font-bold text-black hover:text-orange dark:text-white dark:hover:text-orange"
+        class="whitespace-nowrap font-mono text-lg font-bold text-black hover:text-orange dark:text-white dark:hover:text-orange transition-colors duration-200 motion-reduce:transition-none"
         onclick="window.mixpanel.track('Menu item clicked', { 'Item': 'Brand' })"
       >
         <span class="text-orange">Michalina</span> Graczyk
@@ -71,6 +71,7 @@ function isActive(itemPath: string): boolean {
                   class:list={[
                     "flex min-h-[44px] items-center py-2 lg:min-h-0 lg:px-3",
                     "text-black hover:text-orange dark:text-white dark:hover:text-orange",
+                    "transition-colors duration-200 motion-reduce:transition-none",
                     active && "border-b-2 border-orange text-orange",
                   ]}
                   onclick={`window.mixpanel.track("Menu item clicked", { "Item": "${item.title}" })`}

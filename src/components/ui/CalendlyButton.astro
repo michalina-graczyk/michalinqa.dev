@@ -1,0 +1,191 @@
+---
+import Button from "./Button.astro";
+
+interface Props {
+  calendlyUrl: string;
+  trackingEvent?: string;
+  size?: "sm" | "md" | "lg";
+}
+
+const { calendlyUrl, trackingEvent = "Calendly button clicked", size = "lg" } = Astro.props;
+---
+
+<div class="calendly-button-wrapper relative inline-block">
+  <Button
+    size={size}
+    style="primary"
+    name="Meeting"
+    class="calendly-trigger"
+    data-calendly-url={calendlyUrl}
+    data-tracking-event={trackingEvent}
+  >
+    <span class="calendly-button-content flex items-center justify-center gap-2">
+      <span class="calendly-spinner hidden" aria-hidden="true">
+        <svg
+          class="h-5 w-5 motion-reduce:hidden"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+        <span class="motion-reduce:inline hidden motion-reduce:block h-5 w-5 rounded-full border-2 border-white/30 border-t-white"></span>
+      </span>
+      <span class="calendly-text"><slot /></span>
+    </span>
+  </Button>
+</div>
+
+<style>
+  .calendly-spinner svg {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .calendly-spinner svg {
+      animation: none;
+    }
+  }
+
+  .calendly-button-wrapper.loading .calendly-spinner {
+    display: inline-flex;
+  }
+
+  .calendly-button-wrapper.loading .calendly-text {
+    opacity: 0.7;
+  }
+</style>
+
+<script>
+  function initCalendlyButtons() {
+    const buttons = document.querySelectorAll(".calendly-trigger");
+
+    buttons.forEach((button) => {
+      if (button.hasAttribute("data-calendly-initialized")) return;
+      button.setAttribute("data-calendly-initialized", "true");
+
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const wrapper = button.closest(".calendly-button-wrapper");
+        const calendlyUrl = button.getAttribute("data-calendly-url");
+        const trackingEvent = button.getAttribute("data-tracking-event");
+
+        if (!wrapper || !calendlyUrl) return;
+
+        // Show loading state
+        wrapper.classList.add("loading");
+
+        // Track the click
+        if (window.mixpanel && trackingEvent) {
+          window.mixpanel.track(trackingEvent);
+        }
+
+        // Open Calendly popup
+        if (window.Calendly) {
+          window.Calendly.initPopupWidget({ url: calendlyUrl });
+        }
+
+        // Set up timeout fallback (3 seconds)
+        const timeoutId = setTimeout(() => {
+          wrapper.classList.remove("loading");
+        }, 3000);
+
+        // Watch for Calendly popup to appear and iframe to load
+        const observer = new MutationObserver((mutations) => {
+          for (const mutation of mutations) {
+            for (const node of mutation.addedNodes) {
+              if (node instanceof HTMLElement) {
+                // Look for Calendly popup
+                const popup =
+                  node.classList?.contains("calendly-overlay") ||
+                  node.querySelector?.(".calendly-overlay");
+                if (popup) {
+                  // Find iframe and wait for load
+                  const checkIframe = () => {
+                    const iframe = document.querySelector(
+                      ".calendly-popup iframe"
+                    );
+                    if (iframe) {
+                      iframe.addEventListener(
+                        "load",
+                        () => {
+                          clearTimeout(timeoutId);
+                          wrapper.classList.remove("loading");
+                        },
+                        { once: true }
+                      );
+                      // Also remove loading after short delay as fallback
+                      setTimeout(() => {
+                        wrapper.classList.remove("loading");
+                      }, 1500);
+                    } else {
+                      // Retry looking for iframe
+                      requestAnimationFrame(checkIframe);
+                    }
+                  };
+                  checkIframe();
+                  observer.disconnect();
+                  return;
+                }
+              }
+            }
+
+            // Also check for removed nodes (popup closed)
+            for (const node of mutation.removedNodes) {
+              if (node instanceof HTMLElement) {
+                if (
+                  node.classList?.contains("calendly-overlay") ||
+                  node.querySelector?.(".calendly-overlay")
+                ) {
+                  clearTimeout(timeoutId);
+                  wrapper.classList.remove("loading");
+                  observer.disconnect();
+                  return;
+                }
+              }
+            }
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        // Safety cleanup after 10 seconds
+        setTimeout(() => {
+          observer.disconnect();
+          wrapper.classList.remove("loading");
+        }, 10000);
+      });
+    });
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCalendlyButtons);
+  } else {
+    initCalendlyButtons();
+  }
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener("astro:page-load", initCalendlyButtons);
+</script>
