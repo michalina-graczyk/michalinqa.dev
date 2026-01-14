@@ -17,7 +17,7 @@
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.1",
-    "@astrojs/tailwind": "^5.1.4",
+    "@astrojs/tailwind": "^6.0.2",
     "@astrojs/ts-plugin": "^1.10.6",
     "@fontsource/inconsolata": "^5.2.8",
     "@fontsource/inter": "^5.2.8",
@@ -25,7 +25,7 @@
     "astro-icon": "^1.1.5",
     "astro-navbar": "^2.4.0",
     "astro-seo": "^1.1.0",
-    "tailwindcss": "^3.4.19"
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.2.3",
