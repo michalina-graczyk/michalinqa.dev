@@ -107,6 +107,8 @@ const serviceSchema = {
 </Layout>
 
 <style>
+  @reference "../styles/global.css";
+
   .prose :global(h2) {
     @apply mt-10 mb-4 border-l-[3px] border-orange pl-4 text-2xl font-bold text-black dark:text-white;
   }
@@ -129,7 +131,7 @@ const serviceSchema = {
   }
 
   .prose :global(ul li::marker) {
-    color: theme("colors.orange");
+    color: var(--color-orange);
   }
 
   .prose :global(ol) {
@@ -137,7 +139,7 @@ const serviceSchema = {
   }
 
   .prose :global(ol li::marker) {
-    color: theme("colors.orange");
+    color: var(--color-orange);
     font-weight: 600;
   }
 

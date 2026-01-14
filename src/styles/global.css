@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/* Class-based dark mode support */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Disable default theme values we don't use */
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --tracking-*: initial;
+  --breakpoint-*: initial;
+
+  /* Custom breakpoints (including xs which is not a Tailwind default) */
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+
+  /* Custom colors - minimal palette */
+  --color-black: #000;
+  --color-white: #fff;
+  --color-orange: #e06330;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Gray scale (Tailwind v3 gray palette) */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-gray-950: #030712;
+
+  /* Font families */
+  --font-sans: "Inter", sans-serif;
+  --font-monospace: "Inconsolata", monospace;
+
+  /* Font sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-tiny: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  /* Letter spacing */
+  --tracking-wide: 0.025em;
+}
+
+/* Base component styles (migrated from Tailwind plugin) */
+@layer base {
+  h2 {
+    letter-spacing: var(--tracking-wide);
+    font-weight: bold;
+  }
+
+  li {
+    letter-spacing: var(--tracking-wide);
+  }
+}
