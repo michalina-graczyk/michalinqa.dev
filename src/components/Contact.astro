@@ -1,10 +1,10 @@
 ---
 import Button from "@components/ui/Button.astro";
+import CalendlyButton from "@components/ui/CalendlyButton.astro";
 import Social from "@components/ui/Social.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
 import { calendlyURL, emailAddress } from "@config/contact";
 
-const onMeetingClick = `Calendly.initPopupWidget({url: '${calendlyURL}'}); window.mixpanel.track('Contact by Calendly button clicked'); return false;`;
 const onEmailClick = "window.mixpanel.track('Contact by mail button clicked');";
 
 const socials = [
@@ -42,12 +42,12 @@ const socials = [
     >
       Napisz maila
     </Button>
-    <Button
-      size={"lg"}
-      style={"primary"}
-      name="Meeting"
-      onclick={onMeetingClick}>Umów spotkanie</Button
+    <CalendlyButton
+      calendlyUrl={calendlyURL}
+      trackingEvent="Contact by Calendly button clicked"
     >
+      Umów spotkanie
+    </CalendlyButton>
   </div>
   <hr class="w-1/2" />
   <Social socials={socials} />

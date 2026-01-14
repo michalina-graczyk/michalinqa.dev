@@ -2,6 +2,7 @@
 import Layout from "./Layout.astro";
 import BackToTop from "@components/ui/BackToTop.astro";
 import Button from "@components/ui/Button.astro";
+import CalendlyButton from "@components/ui/CalendlyButton.astro";
 import { Icon } from "astro-icon/components";
 import { calendlyURL, emailAddress } from "@config/contact";
 
@@ -13,7 +14,6 @@ export interface Props {
 
 const { title, description, tags } = Astro.props;
 
-const onMeetingClick = `Calendly.initPopupWidget({url: '${calendlyURL}'}); window.mixpanel.track('Offer booking clicked'); return false;`;
 const onEmailClick = "window.mixpanel.track('Offer email clicked');";
 
 const serviceSchema = {
@@ -74,14 +74,12 @@ const serviceSchema = {
           Umów bezpłatną 15-minutową rozmowę, podczas której omówimy Twoje potrzeby.
         </p>
         <div class="flex flex-wrap gap-4">
-          <Button
-            size="lg"
-            style="primary"
-            name="Meeting"
-            onclick={onMeetingClick}
+          <CalendlyButton
+            calendlyUrl={calendlyURL}
+            trackingEvent="Offer booking clicked"
           >
             Umów spotkanie
-          </Button>
+          </CalendlyButton>
           <Button
             size="lg"
             style="secondary"
