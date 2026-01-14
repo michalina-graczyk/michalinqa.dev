@@ -15,7 +15,7 @@ test.describe("Page Content", () => {
     const descriptionMetaTag = page.locator("meta[name='description']");
     await expect(descriptionMetaTag).toHaveAttribute(
       "content",
-      "Michalina Graczyk - Engineering Manager w InPost | QA & Test Automation Strategy | AI-driven Testing | LLM Evaluation",
+      "Michalina Graczyk - Engineering Manager w InPost | QA & Test Automation Strategy | AI-driven Testing | LLM Evaluation | Mobile QA",
     );
 
     const htmlElement = page.locator("html");
