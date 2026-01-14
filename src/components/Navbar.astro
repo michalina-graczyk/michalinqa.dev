@@ -58,7 +58,7 @@ function isActive(itemPath: string): boolean {
         <MenuIcon class="min-h-[44px] min-w-[44px] p-2 text-black dark:text-white" />
       </div>
     </div>
-    <MenuItems class="mt-2 hidden w-full lg:mt-0 lg:flex lg:w-auto">
+    <MenuItems class="mobile-menu mt-2 hidden w-full lg:mt-0 lg:flex lg:w-auto">
       <ul class="flex flex-col lg:flex-row lg:gap-3">
         {
           menuitems.map((item) => {
@@ -86,3 +86,28 @@ function isActive(itemPath: string): boolean {
     </MenuItems>
   </Astronav>
 </header>
+
+<style>
+  /* Mobile menu animation */
+  .mobile-menu:not(.hidden) {
+    animation: menu-slide-in 250ms ease-out;
+  }
+
+  @keyframes menu-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu:not(.hidden) {
+      animation: none;
+    }
+  }
+</style>

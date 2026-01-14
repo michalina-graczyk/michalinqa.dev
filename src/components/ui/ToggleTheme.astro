@@ -1,13 +1,13 @@
 <div class="theme-switch-wrapper md:flex md:items-center">
   <label
     data-testid="theme-switch"
-    class="theme-switch relative inline-block h-[34px] w-[60px]"
+    class="theme-switch relative flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center"
     for="checkbox"
     aria-label="Przełącz na tryb ciemny"
   >
     <input type="checkbox" id="checkbox" class="hidden" />
     <div
-      class="slider absolute bottom-0 left-0 right-0 top-0 cursor-pointer rounded-full bg-black before:absolute before:bottom-[4px] before:left-[4px] before:h-[26px] before:w-[26px] before:rounded-full before:bg-orange before:transition-[0.4s] dark:bg-white"
+      class="slider relative h-[34px] w-[60px] rounded-full bg-black before:absolute before:bottom-[4px] before:left-[4px] before:h-[26px] before:w-[26px] before:rounded-full before:bg-orange before:transition-[0.4s] motion-reduce:before:transition-none dark:bg-white"
     >
     </div>
   </label>

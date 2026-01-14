@@ -27,6 +27,7 @@ const formatSocialName = (name: string): string => {
           rel="noopener"
           aria-label={`Odwiedź mój profil na ${formatSocialName(social.name)}`}
           onclick={`window.mixpanel.track('Social media button clicked', { 'Name': '${social.name}' })`}
+          class="inline-flex min-h-[44px] min-w-[44px] items-center justify-center"
         >
           <Icon
             class="h-8 hover:text-orange dark:hover:text-orange md:h-12"
