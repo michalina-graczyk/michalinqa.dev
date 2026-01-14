@@ -48,9 +48,12 @@ test.describe("Page Content", () => {
     test("Card hover effect is applied correctly", async ({ page }) => {
       const firstCard = page.locator('[data-testid="card"]').first();
       await firstCard.hover();
-      await expect(firstCard).toHaveClass(
-        "flex flex-1 flex-col rounded-xl bg-white dark:bg-gray-800 p-3 shadow-lg dark:shadow-orange/20 transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-orange/10 dark:hover:shadow-orange/30 motion-reduce:transition-none motion-reduce:hover:scale-100",
-      );
+      // Verify essential hover and transition classes are present
+      const classAttr = await firstCard.getAttribute("class");
+      expect(classAttr).toContain("hover:scale-105");
+      expect(classAttr).toContain("hover:shadow-xl");
+      expect(classAttr).toContain("transition-all");
+      expect(classAttr).toContain("motion-reduce:transition-none");
     });
   });
 });

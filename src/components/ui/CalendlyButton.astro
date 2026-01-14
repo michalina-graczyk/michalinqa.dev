@@ -40,7 +40,7 @@ const { calendlyUrl, trackingEvent = "Calendly button clicked", size = "lg" } = 
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           ></path>
         </svg>
-        <span class="motion-reduce:inline hidden motion-reduce:block h-5 w-5 rounded-full border-2 border-white/30 border-t-white"></span>
+        <span class="hidden motion-reduce:block h-5 w-5 rounded-full border-2 border-white/30 border-t-white"></span>
       </span>
       <span class="calendly-text"><slot /></span>
     </span>
@@ -135,10 +135,6 @@ const { calendlyUrl, trackingEvent = "Calendly button clicked", size = "lg" } = 
                         },
                         { once: true }
                       );
-                      // Also remove loading after short delay as fallback
-                      setTimeout(() => {
-                        wrapper.classList.remove("loading");
-                      }, 1500);
                     } else {
                       // Retry looking for iframe
                       requestAnimationFrame(checkIframe);
