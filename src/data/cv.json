@@ -1,0 +1,127 @@
+{
+  "header": {
+    "name": "Michalina Graczyk",
+    "title": "Engineering Manager",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/michalina-graczyk/",
+        "icon": "simple-icons:linkedin"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/michalina-graczyk",
+        "icon": "simple-icons:github"
+      }
+    ]
+  },
+  "summary": "Engineering Manager z ponad 10-letnim doświadczeniem w IT. Specjalizuję się w QA & Test Automation Strategy, AI-driven Testing i LLM Evaluation. Pasjonatka efektywnej komunikacji i mentoringu, pomagająca innym w rozwoju kariery w IT.",
+  "experience": [
+    {
+      "title": "Engineering Manager",
+      "company": "InPost",
+      "dateRange": "lip 2025 - obecnie",
+      "responsibilities": [
+        "Tworzenie i wdrażanie strategii jakości (Master Test Strategy) dla zespołów produktowych (web, mobile, API)",
+        "Innowacyjne podejścia do testowania – strategia LLM-as-a-judge, Promptfoo, ocena odpowiedzi modeli AI",
+        "Współpraca z zespołami SRE i produktowymi w celu zapewnienia wysokiej jakości usług",
+        "Zarządzanie zespołem QA i rozwój kompetencji w obszarze automatyzacji oraz AI-driven testing"
+      ]
+    },
+    {
+      "title": "Head of Quality Assurance",
+      "company": "Saleor Commerce",
+      "dateRange": "lut 2022 - maj 2025 • 3 lata 4 mies.",
+      "responsibilities": [
+        "Zarządzanie zespołem: rozwój umiejętności zespołu, mentoring i organizacja pracy",
+        "Koordynacja QA Guild: rozwój wewnętrznych praktyk i promowanie kultury jakości",
+        "Projektowanie i optymalizacja procesów zapewniania jakości",
+        "Nadzór nad procesami testowania manualnego i automatycznego",
+        "Zarządzanie procesem rekrutacji w zespole QA"
+      ]
+    },
+    {
+      "title": "Urlop rodzicielski",
+      "company": null,
+      "dateRange": "2021",
+      "responsibilities": null
+    },
+    {
+      "title": "Quality Assurance Specialist",
+      "company": "Saleor Commerce",
+      "dateRange": "mar 2020 - gru 2020 • 10 mies.",
+      "responsibilities": [
+        "Pierwsza osoba w firmie na stanowisku QA",
+        "Wprowadzenie i implementacja testów automatycznych",
+        "Rozwój strategii i procesów testowych",
+        "Budowanie kultury jakości w organizacji"
+      ]
+    },
+    {
+      "title": "QA Engineer",
+      "company": "Kellton Europe (Tivix)",
+      "dateRange": "lis 2018 - lut 2020 • 1 rok 4 mies.",
+      "responsibilities": null
+    },
+    {
+      "title": "Quality Control Engineer",
+      "company": "SoftServe",
+      "dateRange": "maj 2018 - lis 2018 • 7 mies.",
+      "responsibilities": null
+    },
+    {
+      "title": "QA Engineer",
+      "company": "Shiji Group",
+      "dateRange": "wrz 2016 - kwi 2018 • 1 rok 8 mies.",
+      "responsibilities": null
+    },
+    {
+      "title": "QA Engineer",
+      "company": "EUVIC",
+      "dateRange": "lut 2015 - kwi 2018 • 3 lata 3 mies.",
+      "responsibilities": null
+    }
+  ],
+  "education": [
+    {
+      "institution": "Akademia WSB",
+      "degree": "Magister Informatyki",
+      "dateRange": "2016 - 2018"
+    },
+    {
+      "institution": "Politechnika Śląska",
+      "degree": "Inżynier Zarządzania i Inżynierii Produkcji",
+      "dateRange": "2012 - 2016"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Human Leader in Feedback with Impact",
+      "issuer": "Human Leaders",
+      "date": "wrz 2025",
+      "credentialId": null
+    },
+    {
+      "name": "Introduction to Observability",
+      "issuer": "Datadog",
+      "date": "cze 2024",
+      "credentialId": "eukfvuvi0u"
+    },
+    {
+      "name": "ISTQB Foundation Level",
+      "issuer": "Polish Testing Board",
+      "date": "paź 2016",
+      "credentialId": "06281/FLCT/2016"
+    }
+  ],
+  "publications": [
+    {
+      "title": "Shift Left Done Right: QA in the Modern SDLC",
+      "date": "kwi 2025"
+    },
+    {
+      "title": "From Cypress to Playwright - Saleor's Voyage",
+      "date": "lis 2024"
+    }
+  ]
+}

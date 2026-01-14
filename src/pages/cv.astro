@@ -3,6 +3,7 @@ import BackToTop from "@components/ui/BackToTop.astro";
 import Layout from "@layouts/Layout.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
 import { Icon } from "astro-icon/components";
+import cvData from "@data/cv.json";
 ---
 
 <Layout
@@ -15,30 +16,25 @@ import { Icon } from "astro-icon/components";
       <!-- Header -->
       <header class="mb-10 text-center">
         <h1 class="mb-2 font-monospace text-4xl text-orange">
-          Michalina Graczyk
+          {cvData.header.name}
         </h1>
         <p class="text-lg font-bold text-black dark:text-white">
-          Engineering Manager
+          {cvData.header.title}
         </p>
         <div class="flex justify-center gap-4">
-          <a
-            href="https://www.linkedin.com/in/michalina-graczyk/"
-            target="_blank"
-            rel="noopener"
-            class="mt-2 inline-flex items-center text-black hover:text-orange dark:text-white dark:hover:text-orange"
-          >
-            <Icon class="h-5 w-5 mr-1" name="simple-icons:linkedin" />
-            <p>LinkedIn</p>
-          </a>
-          <a
-            href="https://github.com/michalina-graczyk"
-            target="_blank"
-            rel="noopener"
-            class="mt-2 inline-flex items-center text-black hover:text-orange dark:text-white dark:hover:text-orange"
-          >
-            <Icon class="h-5 w-5 mr-1" name="simple-icons:github" />
-            <p>GitHub</p>
-          </a>
+          {
+            cvData.header.links.map((link) => (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener"
+                class="mt-2 inline-flex items-center text-black hover:text-orange dark:text-white dark:hover:text-orange"
+              >
+                <Icon class="h-5 w-5 mr-1" name={link.icon} />
+                <p>{link.label}</p>
+              </a>
+            ))
+          }
         </div>
       </header>
 
@@ -46,10 +42,7 @@ import { Icon } from "astro-icon/components";
       <section class="mb-12">
         <SectionTitle>O mnie</SectionTitle>
         <p class="text-black dark:text-white">
-          Engineering Manager z ponad 10-letnim doświadczeniem w IT. Specjalizuję
-          się w QA & Test Automation Strategy, AI-driven Testing i LLM Evaluation.
-          Pasjonatka efektywnej komunikacji i mentoringu, pomagająca innym w
-          rozwoju kariery w IT.
+          {cvData.summary}
         </p>
       </section>
 
@@ -57,83 +50,24 @@ import { Icon } from "astro-icon/components";
       <section class="mb-12">
         <SectionTitle>Doświadczenie</SectionTitle>
         <div class="space-y-8 text-black dark:text-white">
-          <div>
-            <h3 class="text-xl font-bold">Engineering Manager</h3>
-            <p class="text-orange">InPost • lip 2025 - obecnie</p>
-            <ul class="mt-2 list-disc pl-5 space-y-1">
-              <li>
-                Tworzenie i wdrażanie strategii jakości (Master Test Strategy)
-                dla zespołów produktowych (web, mobile, API)
-              </li>
-              <li>
-                Innowacyjne podejścia do testowania – strategia LLM-as-a-judge,
-                Promptfoo, ocena odpowiedzi modeli AI
-              </li>
-              <li>
-                Współpraca z zespołami SRE i produktowymi w celu zapewnienia
-                wysokiej jakości usług
-              </li>
-              <li>
-                Zarządzanie zespołem QA i rozwój kompetencji w obszarze
-                automatyzacji oraz AI-driven testing
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="text-xl font-bold">Head of Quality Assurance</h3>
-            <p class="text-orange">Saleor Commerce • lut 2022 - maj 2025 • 3 lata 4 mies.</p>
-            <ul class="mt-2 list-disc pl-5 space-y-1">
-              <li>
-                Zarządzanie zespołem: rozwój umiejętności zespołu, mentoring i
-                organizacja pracy
-              </li>
-              <li>
-                Koordynacja QA Guild: rozwój wewnętrznych praktyk i promowanie
-                kultury jakości
-              </li>
-              <li>
-                Projektowanie i optymalizacja procesów zapewniania jakości
-              </li>
-              <li>
-                Nadzór nad procesami testowania manualnego i automatycznego
-              </li>
-              <li>Zarządzanie procesem rekrutacji w zespole QA</li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="text-xl font-bold">Urlop rodzicielski</h3>
-            <p class="text-orange">2021</p>
-          </div>
-          <div>
-            <h3 class="text-xl font-bold">Quality Assurance Specialist</h3>
-            <p class="text-orange">Saleor Commerce • mar 2020 - gru 2020 • 10 mies.</p>
-            <ul class="mt-2 list-disc pl-5 space-y-1">
-              <li>Pierwsza osoba w firmie na stanowisku QA</li>
-              <li>Wprowadzenie i implementacja testów automatycznych</li>
-              <li>Rozwój strategii i procesów testowych</li>
-              <li>Budowanie kultury jakości w organizacji</li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 class="text-xl font-bold">QA Engineer</h3>
-            <p class="text-orange">Kellton Europe (Tivix) • lis 2018 - lut 2020 • 1 rok 4 mies.</p>
-          </div>
-
-          <div>
-            <h3 class="text-xl font-bold">Quality Control Engineer</h3>
-            <p class="text-orange">SoftServe • maj 2018 - lis 2018 • 7 mies.</p>
-          </div>
-
-          <div>
-            <h3 class="text-xl font-bold">QA Engineer</h3>
-            <p class="text-orange">Shiji Group • wrz 2016 - kwi 2018 • 1 rok 8 mies.</p>
-          </div>
-
-          <div>
-            <h3 class="text-xl font-bold">QA Engineer</h3>
-            <p class="text-orange">EUVIC • lut 2015 - kwi 2018 • 3 lata 3 mies.</p>
-          </div>
+          {
+            cvData.experience.map((job) => (
+              <div>
+                <h3 class="text-xl font-bold">{job.title}</h3>
+                <p class="text-orange">
+                  {job.company ? `${job.company} • ` : ""}
+                  {job.dateRange}
+                </p>
+                {job.responsibilities && (
+                  <ul class="mt-2 list-disc pl-5 space-y-1">
+                    {job.responsibilities.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))
+          }
         </div>
       </section>
 
@@ -141,17 +75,16 @@ import { Icon } from "astro-icon/components";
       <section class="mb-12">
         <SectionTitle>Edukacja</SectionTitle>
         <div class="space-y-4 text-black dark:text-white">
-          <div>
-            <h3 class="text-xl font-bold">Akademia WSB</h3>
-            <p class="text-orange">Magister Informatyki • 2016 - 2018</p>
-          </div>
-
-          <div>
-            <h3 class="text-xl font-bold">Politechnika Śląska</h3>
-            <p class="text-orange">
-              Inżynier Zarządzania i Inżynierii Produkcji • 2012 - 2016
-            </p>
-          </div>
+          {
+            cvData.education.map((edu) => (
+              <div>
+                <h3 class="text-xl font-bold">{edu.institution}</h3>
+                <p class="text-orange">
+                  {edu.degree} • {edu.dateRange}
+                </p>
+              </div>
+            ))
+          }
         </div>
       </section>
 
@@ -159,22 +92,17 @@ import { Icon } from "astro-icon/components";
       <section class="mb-12">
         <SectionTitle>Certyfikaty</SectionTitle>
         <div class="space-y-4 text-black dark:text-white">
-          <div>
-            <h3 class="text-xl font-bold">Human Leader in Feedback with Impact</h3>
-            <p class="text-orange">Human Leaders • wrz 2025</p>
-          </div>
-
-          <div>
-            <h3 class="text-xl font-bold">Introduction to Observability</h3>
-            <p class="text-orange">Datadog • cze 2024</p>
-            <p class="text-sm">ID: eukfvuvi0u</p>
-          </div>
-
-          <div>
-            <h3 class="text-xl font-bold">ISTQB Foundation Level</h3>
-            <p class="text-orange">Polish Testing Board • paź 2016</p>
-            <p class="text-sm">ID: 06281/FLCT/2016</p>
-          </div>
+          {
+            cvData.certifications.map((cert) => (
+              <div>
+                <h3 class="text-xl font-bold">{cert.name}</h3>
+                <p class="text-orange">
+                  {cert.issuer} • {cert.date}
+                </p>
+                {cert.credentialId && <p class="text-sm">ID: {cert.credentialId}</p>}
+              </div>
+            ))
+          }
         </div>
       </section>
 
@@ -182,15 +110,14 @@ import { Icon } from "astro-icon/components";
       <section class="mb-12">
         <SectionTitle>Publikacje</SectionTitle>
         <div class="space-y-4 text-black dark:text-white">
-          <div>
-            <h3 class="text-xl font-bold">Shift Left Done Right: QA in the Modern SDLC</h3>
-            <p class="text-orange">kwi 2025</p>
-          </div>
-
-          <div>
-            <h3 class="text-xl font-bold">From Cypress to Playwright - Saleor's Voyage</h3>
-            <p class="text-orange">lis 2024</p>
-          </div>
+          {
+            cvData.publications.map((pub) => (
+              <div>
+                <h3 class="text-xl font-bold">{pub.title}</h3>
+                <p class="text-orange">{pub.date}</p>
+              </div>
+            ))
+          }
         </div>
       </section>
     </div>
