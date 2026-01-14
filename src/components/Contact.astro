@@ -2,9 +2,11 @@
 import Button from "@components/ui/Button.astro";
 import Social from "@components/ui/Social.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
-import { calendlyURL, emailAddress } from "@config/contact";
+import { emailAddress } from "@config/contact";
 
-const onMeetingClick = `Calendly.initPopupWidget({url: '${calendlyURL}'}); window.mixpanel.track('Contact by Calendly button clicked'); return false;`;
+const linkedinURL = "https://www.linkedin.com/in/michalina-graczyk/";
+const onLinkedInClick =
+  "window.mixpanel.track('Contact by LinkedIn button clicked');";
 const onEmailClick = "window.mixpanel.track('Contact by mail button clicked');";
 
 const socials = [
@@ -35,6 +37,17 @@ const socials = [
   <div class="flex gap-4">
     <Button
       size={"lg"}
+      style={"primary"}
+      name="LinkedIn"
+      href={linkedinURL}
+      target="_blank"
+      rel="noopener noreferrer"
+      onclick={onLinkedInClick}
+    >
+      Połączmy się
+    </Button>
+    <Button
+      size={"lg"}
       style={"secondary"}
       name="E-mail"
       href={emailAddress}
@@ -42,12 +55,6 @@ const socials = [
     >
       Napisz maila
     </Button>
-    <Button
-      size={"lg"}
-      style={"primary"}
-      name="Meeting"
-      onclick={onMeetingClick}>Umów spotkanie</Button
-    >
   </div>
   <hr class="w-1/2" />
   <Social socials={socials} />

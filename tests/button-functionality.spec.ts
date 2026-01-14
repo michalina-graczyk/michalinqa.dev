@@ -66,25 +66,23 @@ test.describe("Button Functionality", () => {
     );
   });
 
-  test("Meeting button functionality", async ({ page }) => {
-    const buttonLocator = "text=Umów spotkanie";
+  test("LinkedIn button functionality", async ({ page }) => {
+    const buttonLocator = "text=Połączmy się";
+    const href = await page.getAttribute(buttonLocator, "href");
+    expect(href).toBe("https://www.linkedin.com/in/michalina-graczyk/");
+
+    const target = await page.getAttribute(buttonLocator, "target");
+    expect(target).toBe("_blank");
+
+    const rel = await page.getAttribute(buttonLocator, "rel");
+    expect(rel).toBe("noopener noreferrer");
 
     await page.click(buttonLocator);
-
-    const calendlyPopup = await page.waitForSelector(".calendly-popup-content");
-    expect(calendlyPopup).toBeTruthy();
-
-    const dataUrl = await calendlyPopup.getAttribute("data-url");
-    expect(dataUrl).toEqual(
-      expect.stringContaining(
-        "https://calendly.com/michalina_graczyk/konsultacje",
-      ),
-    );
 
     const mixpanelEventsTracked = await getTrackedEvents(page);
     expectLastEventToBeTracked(
       mixpanelEventsTracked,
-      "Contact by Calendly button clicked",
+      "Contact by LinkedIn button clicked",
     );
   });
 
