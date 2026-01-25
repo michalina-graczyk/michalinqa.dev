@@ -64,4 +64,4 @@ Niedeterministyczność to nie wada — to cecha. Zadaniem QA jest zrozumieć j�
 - Output oceniamy jakościowo, nie 1:1.
 - Niedeterministyczność nie jest błędem — błędem jest jej ignorowanie.
 
-W kolejnych wpisach chcę przedstawić: czym są evals, golden set, guardrails i inne LLM-owe techniki.
+W kolejnych wpisach chcę przedstawić: czym są evals, golden set, guardrails i inne LLM-owe smaczki ;)
