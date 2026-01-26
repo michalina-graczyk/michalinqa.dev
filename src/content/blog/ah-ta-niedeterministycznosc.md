@@ -9,9 +9,9 @@ draft: false
 
 ## Jak testować LLM-y
 
-### Wpis #1 — Ach, ta niedeterministyczność
+### Ach, ta niedeterministyczność
 
-Modele językowe (LLM-y) mają jedną cechę, która wywraca klasyczne podejście QA do góry nogami: są niedeterministyczne. Oznacza to, że nawet jeśli kilka razy zadamy ten sam prompt, w tym samym kontekście, model może wygenerować różne odpowiedzi. I to nie dlatego, że działa źle tylko dlatego, że tak jest zaprojektowany.
+Modele językowe (LLM-y) mają jedną cechę, która wywraca klasyczne podejście QA do góry nogami: są niedeterministyczne. Oznacza to, że nawet jeśli kilka razy zadamy ten sam prompt, w tym samym kontekście, model może wygenerować różne odpowiedzi. I to nie dlatego, że działa źle, tylko dlatego, że tak jest zaprojektowany.
 
 Brzmi niewinnie, jednak dla testera to jak sprawdzanie produktu, który za każdym razem może zachować się inaczej, nieprzewidywalnie. W tradycyjnych testach opieramy się na zasadzie: input → expected output. Prosto, przewidywalnie, z określonym rezultatem.
 W świecie LLMów ta zasada przestaje istnieć. Zamiast jednego „expected”, mamy zakres możliwych odpowiedzi, które mogą być poprawne… albo nie.
@@ -19,7 +19,7 @@ I tu zaczynają się schody.
 
 ### Dlaczego niedeterministyczność psuje klasyczne testy?
 
-Klasyczne testy zakładają deterministyczność,wiemy jakiej odpowiedzi moemy się spodziewać. LLM-y juz nie, bo nagle:
+Klasyczne testy zakładają deterministyczność, wiemy jakiej odpowiedzi możemy się spodziewać. LLM-y już nie, bo nagle:
 
 • „działa/nie działa” przestaje mieć sens,
 • regresja nie polega na porównaniu dwóch stringów,
@@ -33,28 +33,28 @@ Model może odpowiedzieć poprawnie dziś, a jutro „prawie poprawnie”, a poj
 • temperatury i parametrów generacji,
 • a nawet zmian w samym modelu po stronie dostawcy.
 
-Dlatego testowanie LLM ów nie polega już na szukaniu jednego idealnego outputu, ale na ocenie jakości odpowiedzi w ramach ustalonych kryteriów.
+Dlatego testowanie LLM-ów nie polega już na szukaniu jednego idealnego outputu, ale na ocenie jakości odpowiedzi w ramach ustalonych kryteriów.
 
 ### Co sprawdzać, skoro „expected output” nie istnieje?
 
-Przy testowaniu modeli językowych nie wystarczy kliknąć i sprawdzić, czy „coś wyskoczyło”. To wciąż AI jego odpowiedzi muszą być:
+Przy testowaniu modeli językowych nie wystarczy kliknąć i sprawdzić, czy „coś wyskoczyło”. To wciąż AI, jego odpowiedzi muszą być:
 • poprawne (bez halucynacji),
 • spójne (bez skakania po tematach),
 • zgodne z instrukcją (model ma robić to, o co prosisz),
-• w odpowiednim formacie (nie chcemy każdej odpowiedzi w innym formacie)
+• w odpowiednim formacie (nie chcemy każdej odpowiedzi w innym formacie),
 • bezpieczne (bez generowania treści toksycznych lub danych wrażliwych).
 
 Praca QA nie polega na sprawdzaniu, czy model odpowiedział, tylko jak odpowiedział.
 
 ### Niedeterministyczność nie jest problemem - jest wyzwaniem
 
-W praktyce LLM y można testować skutecznie, ale trzeba podejść do tego inaczej niż dotychczas:
+W praktyce LLM-y można testować skutecznie, ale trzeba podejść do tego inaczej niż dotychczas:
 • Stosować evals zamiast klasycznych asercji.
 • Budować golden set zamiast jednego expected outputu.
 • Sprawdzać kategoriami (accuracy, safety, compliance), a nie pojedynczym wynikiem.
 • Pamiętać, że model może zmienić zachowanie z wersji na wersję.
 • Stosować ocenę jakości zamiast oceny binarnej.
-Niedeterministyczność to nie wada to właściwość. A zadaniem QA jest zrozumieć, jak poprawnie przetestować.
+Niedeterministyczność to nie wada a właściwość. A zadaniem QA jest zrozumieć, jak poprawnie przetestować LLM-y.
 
 ### Mini podsumowanie: jak o tym myśleć w codziennej pracy QA
 
