@@ -3,6 +3,7 @@ title: "Shift Left Done Right: QA in the Modern SDLC"
 date: 2025-04-11
 excerpt: "Shifting left is about building quality from the ground up - during planning, design, and development phases. Learn how to introduce it in your organization."
 tags: ["shift-left", "quality-assurance", "testing", "software-engineering"]
+lang: en
 draft: false
 devtoUrl: "https://dev.to/michalina_graczyk/shift-left-done-right-qa-in-the-modern-sdlc-5c24"
 canonicalUrl: "https://dev.to/michalina_graczyk/shift-left-done-right-qa-in-the-modern-sdlc-5c24"

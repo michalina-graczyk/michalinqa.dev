@@ -3,7 +3,7 @@ import BackToTop from "@components/ui/BackToTop.astro";
 import Layout from "@layouts/Layout.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
 import { Icon } from "astro-icon/components";
-import { getPublishedPosts } from "@lib/blog";
+import { getPublishedPosts, getLanguageFlag } from "@lib/blog";
 
 const posts = await getPublishedPosts();
 
@@ -59,6 +59,9 @@ const sortedPosts = posts.sort(
                               {formattedDate}
                             </time>
                           </div>
+                          <span class="text-base" title={post.data.lang === "pl" ? "Polski" : "English"}>
+                            {getLanguageFlag(post.data.lang)}
+                          </span>
                         </div>
 
                         <h2 class="mb-3 text-xl font-bold text-black transition-colors group-hover:text-orange dark:text-white lg:text-2xl">

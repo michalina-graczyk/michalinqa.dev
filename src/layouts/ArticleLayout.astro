@@ -2,18 +2,20 @@
 import Layout from "./Layout.astro";
 import BackToTop from "@components/ui/BackToTop.astro";
 import { Icon } from "astro-icon/components";
+import { getLanguageFlag } from "@lib/blog";
 
 export interface Props {
   title: string;
   date: Date;
   excerpt: string;
   readingTime: number;
+  lang: "pl" | "en";
   tags?: string[];
   devtoUrl?: string;
   canonicalUrl?: string;
 }
 
-const { title, date, excerpt, readingTime, tags, devtoUrl, canonicalUrl } = Astro.props;
+const { title, date, excerpt, readingTime, lang, tags, devtoUrl, canonicalUrl } = Astro.props;
 
 const devtoUrlWithUtm = devtoUrl
   ? `${devtoUrl}?utm_source=michalinqa.dev&utm_medium=blog&utm_campaign=cross-post`
@@ -68,6 +70,10 @@ const articleSchema = {
             <Icon name="mdi:clock-outline" class="h-4 w-4 text-orange" />
             <span>{readingTime} min czytania</span>
           </div>
+          <span class="text-orange" aria-hidden="true">|</span>
+          <span class="text-base" title={lang === "pl" ? "Polski" : "English"}>
+            {getLanguageFlag(lang)}
+          </span>
         </div>
 
         {

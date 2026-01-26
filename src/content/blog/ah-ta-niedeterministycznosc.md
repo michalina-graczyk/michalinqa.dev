@@ -3,7 +3,8 @@ title: "Jak testować LLM-y: Ah, ta niedeterministyczność"
 date: 2026-01-25
 excerpt: "Modele językowe są niedeterministyczne - nawet przy identycznym promptcie mogą generować różne odpowiedzi. Jak to zmienia podejście QA do testowania?"
 tags: ["llm", "testing", "quality-assurance", "ai"]
-draft: true
+lang: pl
+draft: false
 ---
 
 Modele językowe (LLM-y) mają jedną cechę, która wywraca klasyczne podejście QA do góry nogami: są niedeterministyczne. Nawet przy identycznym promptcie i kontekście model może wygenerować różne odpowiedzi — to nie błąd, tylko efekt projektowy.
