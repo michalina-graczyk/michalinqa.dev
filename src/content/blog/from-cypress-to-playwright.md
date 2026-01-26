@@ -3,6 +3,7 @@ title: "From Cypress to Playwright - Saleor's Voyage"
 date: 2024-11-29
 excerpt: "This is the story of Saleor's path from our early days of automated testing, to adapting to new tools, and finally to where we stand today with a more robust and efficient testing framework."
 tags: ["testing", "playwright", "cypress", "automation"]
+lang: en
 draft: false
 devtoUrl: "https://dev.to/saleor/from-cypress-to-playwright-saleors-voyage-5d8f"
 canonicalUrl: "https://dev.to/saleor/from-cypress-to-playwright-saleors-voyage-5d8f"

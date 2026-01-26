@@ -20,3 +20,10 @@ export function calculateReadingTime(body: string): number {
   const words = body.trim().split(/\s+/).length;
   return Math.ceil(words / wordsPerMinute);
 }
+
+/**
+ * Get flag emoji for language code
+ */
+export function getLanguageFlag(lang: "pl" | "en"): string {
+  return lang === "pl" ? "🇵🇱" : "🇬🇧";
+}
