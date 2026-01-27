@@ -1,13 +1,7 @@
 import mixpanel from "mixpanel-browser";
-
-const MIXPANEL_TOKEN = import.meta.env.PUBLIC_MIXPANEL_TOKEN;
+import { PUBLIC_MIXPANEL_TOKEN } from "astro:env/client";
 
 export function initAnalytics() {
-  if (!MIXPANEL_TOKEN) {
-    console.warn("[Analytics] No Mixpanel token configured");
-    return;
-  }
-
   const isProduction = window.location.hostname === "michalinqa.dev";
 
   // Expose to window immediately for inline onclick handlers
@@ -36,7 +30,7 @@ export function initAnalytics() {
     };
   }
 
-  mixpanel.init(MIXPANEL_TOKEN, {
+  mixpanel.init(PUBLIC_MIXPANEL_TOKEN, {
     debug: import.meta.env.DEV,
     track_pageview: isProduction,
     persistence: "localStorage",
