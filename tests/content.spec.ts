@@ -21,7 +21,14 @@ test.describe("Page Content", () => {
     const htmlElement = page.locator("html");
     await expect(htmlElement).toHaveClass("scroll-smooth");
 
-    const sections = ["hero", "about", "offers", "contact", "footer"];
+    const sections = [
+      "hero",
+      "about",
+      "offers",
+      "testimonials",
+      "contact",
+      "footer",
+    ];
     for (const section of sections) {
       await expect(page.locator(`[data-testid="${section}"]`)).toBeVisible();
     }
@@ -48,6 +55,31 @@ test.describe("Page Content", () => {
       expect(classAttr).toContain("hover:shadow-xl");
       expect(classAttr).toContain("transition-all");
       expect(classAttr).toContain("motion-reduce:transition-none");
+    });
+  });
+
+  test.describe("Testimonials Section", () => {
+    test("Testimonials are displayed with correct content", async ({
+      page,
+    }) => {
+      const testimonials = page.locator('[data-testid="testimonials"]');
+      await expect(testimonials).toBeVisible();
+
+      // Check section title
+      await expect(testimonials.locator("h2")).toHaveText("Co mówią inni");
+
+      // Check testimonial cards
+      const testimonialCards = testimonials.locator("article");
+      await expect(testimonialCards).toHaveCount(2);
+
+      // Verify LinkedIn links are present and open in new tab
+      const linkedInLinks = testimonials.locator('a[href*="linkedin.com"]');
+      await expect(linkedInLinks).toHaveCount(2);
+
+      for (const link of await linkedInLinks.all()) {
+        await expect(link).toHaveAttribute("target", "_blank");
+        await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+      }
     });
   });
 });
