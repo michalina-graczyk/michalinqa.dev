@@ -21,6 +21,7 @@ export interface LayoutProps {
   canonical?: string;
   noindex?: boolean;
   nofollow?: boolean;
+  lang?: "pl" | "en";
 }
 
 const defaultTitle =
@@ -37,6 +38,7 @@ const {
   canonical,
   noindex = false,
   nofollow = false,
+  lang = "pl",
 } = Astro.props as LayoutProps;
 
 const canonicalURL = canonical || Astro.url.href;
@@ -68,7 +70,7 @@ const websiteSchema = {
         },
         optional: {
           description: description,
-          locale: "pl_PL",
+          locale: lang === "pl" ? "pl_PL" : "en_US",
           siteName: "Michalina Graczyk",
         },
       }}
@@ -85,7 +87,6 @@ const websiteSchema = {
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="keywords" content="QA, Engineering Manager, LLM Evaluation, AI Testing, Mobile QA" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link
       rel="alternate"

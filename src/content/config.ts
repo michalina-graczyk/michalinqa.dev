@@ -15,6 +15,7 @@ const blogCollection = defineCollection({
     date: z.date(),
     excerpt: z.string(),
     draft: z.boolean().default(false),
+    lang: z.enum(["pl", "en"]).default("en"),
     tags: z.array(z.string()).optional(),
     devtoUrl: z.string().url().optional(),
     canonicalUrl: z.string().url().optional(),
