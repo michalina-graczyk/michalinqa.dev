@@ -89,7 +89,7 @@ test.describe("Button Functionality", () => {
   });
 
   test("Learn more button functionality", async ({ page }) => {
-    const buttonLocator = "text=Dowiedz się więcej";
+    const buttonLocator = "text=Sprawdź, jak mogę pomóc";
     const href = await page.getAttribute(buttonLocator, "href");
     expect(href).toBe("#about");
 
