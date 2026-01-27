@@ -1,4 +1,4 @@
-import type { Mixpanel } from "mixpanel-browser";
+import type { OverridedMixpanel } from "mixpanel-browser";
 
 interface CalendlyWidget {
   initPopupWidget: (options: { url: string }) => void;
@@ -11,7 +11,7 @@ interface TrackedEvent {
 
 declare global {
   interface Window {
-    mixpanel: Mixpanel & {
+    mixpanel: OverridedMixpanel & {
       eventsTracked: TrackedEvent[];
     };
     Calendly: CalendlyWidget;

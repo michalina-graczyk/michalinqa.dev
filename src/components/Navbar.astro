@@ -50,7 +50,7 @@ function isActive(itemPath: string): boolean {
       <a
         href="/"
         class="whitespace-nowrap font-mono text-lg font-bold text-black hover:text-orange dark:text-white dark:hover:text-orange transition-colors duration-200 motion-reduce:transition-none"
-        onclick="window.mixpanel.track('Menu item clicked', { 'Item': 'Brand' })"
+        onclick="window.mixpanel?.track('Menu item clicked', { 'Item': 'Brand' })"
       >
         <span class="text-orange">Michalina</span> Graczyk
       </a>
@@ -74,7 +74,7 @@ function isActive(itemPath: string): boolean {
                     "transition-colors duration-200 motion-reduce:transition-none",
                     active && "border-b-2 border-orange text-orange",
                   ]}
-                  onclick={`window.mixpanel.track("Menu item clicked", { "Item": "${item.title}" })`}
+                  onclick={`window.mixpanel?.track("Menu item clicked", { "Item": "${item.title}" })`}
                 >
                   {item.title}
                 </a>

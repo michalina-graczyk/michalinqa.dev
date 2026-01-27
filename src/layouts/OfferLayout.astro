@@ -14,7 +14,7 @@ export interface Props {
 
 const { title, description, tags } = Astro.props;
 
-const onEmailClick = "window.mixpanel.track('Offer email clicked');";
+const onEmailClick = "window.mixpanel?.track('Offer email clicked');";
 
 const serviceSchema = {
   "@context": "https://schema.org",

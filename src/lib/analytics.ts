@@ -11,12 +11,12 @@ export function initAnalytics() {
   const isProduction = window.location.hostname === "michalinqa.dev";
 
   // Expose to window immediately for inline onclick handlers
-  window.mixpanel = mixpanel;
+  // Type assertion needed because we extend with eventsTracked below
+  window.mixpanel = mixpanel as typeof window.mixpanel;
+  window.mixpanel.eventsTracked = [];
 
-  // In development/test: set up event tracking mock before init
-  // This ensures eventsTracked is available before any track() calls
+  // In development/test: set up event tracking mock
   if (!isProduction) {
-    window.mixpanel.eventsTracked = [];
     const originalTrack = mixpanel.track.bind(mixpanel);
     mixpanel.track = function (
       eventName: string,
@@ -51,5 +51,3 @@ export function initAnalytics() {
     },
   });
 }
-
-export { mixpanel };
