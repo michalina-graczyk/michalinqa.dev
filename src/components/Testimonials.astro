@@ -1,0 +1,54 @@
+---
+import SectionTitle from "@components/ui/SectionTitle.astro";
+
+const testimonials = [
+  {
+    name: "Patryk Andrzejewski",
+    role: "Product Engineer",
+    company: "Saleor Commerce",
+    linkedIn: "https://www.linkedin.com/in/patryk-andrzejewski/",
+    quote:
+      "She took ownership of our end-to-end software quality in a way that made everyone feel more confident about what we were shipping. She's professional, experienced, and honestly just great to work with.",
+  },
+  {
+    name: "Gabriela Salamon",
+    role: "People & Culture",
+    company: "Saleor Commerce",
+    linkedIn: "https://www.linkedin.com/in/gabrielasalamon/",
+    quote:
+      "Michalina has been an incredible support to every team member - always approachable, always encouraging, and deeply committed to everyone's success.",
+  },
+];
+---
+
+<section
+  data-testid="testimonials"
+  id="testimonials"
+  class="mb-10 flex flex-col items-center justify-center lg:mb-0 lg:min-h-[50vh]"
+>
+  <SectionTitle>Co mówią inni</SectionTitle>
+  <div class="flex w-full flex-col gap-6 md:flex-row md:gap-8">
+    {
+      testimonials.map((t) => (
+        <article class="flex-1 rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800 dark:shadow-orange/20">
+          <blockquote class="mb-4 italic text-black dark:text-white">
+            "{t.quote}"
+          </blockquote>
+          <footer class="text-sm">
+            <a
+              href={t.linkedIn}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold text-orange hover:underline"
+            >
+              {t.name}
+            </a>
+            <p class="text-gray-600 dark:text-gray-400">
+              {t.role}, {t.company}
+            </p>
+          </footer>
+        </article>
+      ))
+    }
+  </div>
+</section>
