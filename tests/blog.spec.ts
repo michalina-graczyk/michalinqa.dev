@@ -180,5 +180,18 @@ test.describe("Blog", () => {
       const enLocale = page.locator('meta[property="og:locale"]');
       await expect(enLocale).toHaveAttribute("content", "en_US");
     });
+
+    test("HTML lang attribute matches article language", async ({
+      page,
+      baseURL,
+    }) => {
+      // Polish article should have lang="pl"
+      await page.goto(`${baseURL}/blog/ach-ta-niedeterministycznosc`);
+      await expect(page.locator("html")).toHaveAttribute("lang", "pl");
+
+      // English article should have lang="en"
+      await page.goto(`${baseURL}/blog/from-cypress-to-playwright`);
+      await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    });
   });
 });
