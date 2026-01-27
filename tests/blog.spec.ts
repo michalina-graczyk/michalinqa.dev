@@ -135,12 +135,21 @@ test.describe("Blog", () => {
     }) => {
       await page.goto(`${baseURL}/blog/ach-ta-niedeterministycznosc`);
 
-      const schemaScript = page.locator(
-        'script[type="application/ld+json"]:has-text("Article")',
-      );
-      const schemaText = await schemaScript.textContent();
-      const schema = JSON.parse(schemaText!);
+      // Get all ld+json scripts and find the Article one
+      const scripts = page.locator('script[type="application/ld+json"]');
+      const count = await scripts.count();
 
+      let schema = null;
+      for (let i = 0; i < count; i++) {
+        const text = await scripts.nth(i).textContent();
+        const parsed = JSON.parse(text!);
+        if (parsed["@type"] === "Article") {
+          schema = parsed;
+          break;
+        }
+      }
+
+      expect(schema).not.toBeNull();
       expect(schema["@type"]).toBe("Article");
       expect(schema.headline).toBeTruthy();
       expect(schema.description).toBeTruthy();

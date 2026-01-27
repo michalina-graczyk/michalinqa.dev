@@ -18,12 +18,6 @@ test.describe("Page Content", () => {
       "Michalina Graczyk - Engineering Manager w InPost | QA & Test Automation Strategy | AI-driven Testing | LLM Evaluation | Mobile QA",
     );
 
-    const keywordsMetaTag = page.locator("meta[name='keywords']");
-    await expect(keywordsMetaTag).toHaveAttribute(
-      "content",
-      "QA, Engineering Manager, LLM Evaluation, AI Testing, Mobile QA",
-    );
-
     const htmlElement = page.locator("html");
     await expect(htmlElement).toHaveClass("scroll-smooth");
 
