@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-You need to have `Node.js` (v20.11.1 or later) installed on your machine.
+You need to have `Node.js` (v22 or later) installed on your machine.
 
 ### Installation
 
@@ -19,6 +19,10 @@ You need to have `Node.js` (v20.11.1 or later) installed on your machine.
 ### Development
 
 To start the development server, run: `npm run dev`
+
+To check code formatting, run: `npm run lint`
+
+To auto-fix formatting issues, run: `npm run lint:fix`
 
 ### Testing
 
@@ -33,12 +37,14 @@ In case of project I'm using [Cloudflare Pages](https://pages.cloudflare.com).
 
 - [Astro](https://astro.build/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Astro MDX](https://github.com/astrojs/mdx)
-- [Astro Tailwind](https://github.com/astrojs/tailwind)
-- [Astro TS Plugin](https://github.com/astrojs/ts-plugin)
-- [Astro Icon](https://github.com/astrojs/astro-icon)
-- [Astro Navbar](https://github.com/astrojs/astro-navbar)
-- [Astro SEO](https://github.com/astrojs/astro-seo)
+- [@astrojs/mdx](https://docs.astro.build/en/guides/integrations-guide/mdx/)
+- [@astrojs/rss](https://docs.astro.build/en/guides/rss/)
+- [@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)
+- [Astro Icon](https://github.com/natemoo-re/astro-icon)
+- [Astro Navbar](https://github.com/surjithctly/astro-navbar)
+- [Astro SEO](https://github.com/jonasmerlin/astro-seo)
+- [Playwright](https://playwright.dev/) - Testing
+- [Prettier](https://prettier.io/) - Code formatting
 
 ## License
 
@@ -47,4 +53,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Credits
 
 Based on [theme](https://github.com/veranikabarel/astro-portfolio) created by [Veranika Kasparevych](https://github.com/veranikabarel)
-Assets designed by (Freepik)[www.freepik.com].
+Assets designed by [Freepik](https://www.freepik.com).
