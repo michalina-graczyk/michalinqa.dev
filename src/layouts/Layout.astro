@@ -95,14 +95,16 @@ const websiteSchema = {
       href="/rss.xml"
     />
     <link rel="preconnect" href="https://assets.calendly.com" />
-    <link rel="preconnect" href="https://cdn.mxpnl.com" />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <link
       href="https://assets.calendly.com/assets/external/widget.css"
       rel="stylesheet"
     />
 
-    <script src="/mixpanel.js" type="text/javascript" defer></script>
+    <script>
+      import { initAnalytics } from "@lib/analytics";
+      initAnalytics();
+    </script>
     <script
       src="https://assets.calendly.com/assets/external/widget.js"
       type="text/javascript"

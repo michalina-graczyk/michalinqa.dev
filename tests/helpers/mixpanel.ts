@@ -1,6 +1,5 @@
 import { expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
-import type { Dict } from "mixpanel-browser";
 
 export async function getTrackedEvents(page: Page) {
   return await page.evaluate(() => window.mixpanel.eventsTracked);
@@ -9,7 +8,7 @@ export async function getTrackedEvents(page: Page) {
 export function expectLastEventToBeTracked(
   events: typeof window.mixpanel.eventsTracked,
   eventName: string,
-  eventProperties?: Dict,
+  eventProperties?: Record<string, unknown>,
 ) {
   const lastEvent = events[events.length - 1];
   expect(lastEvent).toEqual({ eventName, eventProperties });
