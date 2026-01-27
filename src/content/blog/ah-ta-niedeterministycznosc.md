@@ -14,7 +14,7 @@ draft: false
 Modele językowe (LLM-y) mają jedną cechę, która wywraca klasyczne podejście QA do góry nogami: są niedeterministyczne. Oznacza to, że nawet jeśli kilka razy zadamy ten sam prompt, w tym samym kontekście, model może wygenerować różne odpowiedzi. I to nie dlatego, że działa źle, tylko dlatego, że tak jest zaprojektowany.
 
 Brzmi niewinnie, jednak dla testera to jak sprawdzanie produktu, który za każdym razem może zachować się inaczej, nieprzewidywalnie. W tradycyjnych testach opieramy się na zasadzie: input → expected output. Prosto, przewidywalnie, z określonym rezultatem.
-W świecie LLMów ta zasada przestaje istnieć. Zamiast jednego „expected”, mamy zakres możliwych odpowiedzi, które mogą być poprawne… albo nie.
+W świecie LLM-ów ta zasada przestaje istnieć. Zamiast jednego „expected”, mamy zakres możliwych odpowiedzi, które mogą być poprawne… albo nie.
 I tu zaczynają się schody.
 
 ### Dlaczego niedeterministyczność psuje klasyczne testy?
@@ -54,7 +54,7 @@ W praktyce LLM-y można testować skutecznie, ale trzeba podejść do tego inacz
 • Sprawdzać kategoriami (accuracy, safety, compliance), a nie pojedynczym wynikiem.
 • Pamiętać, że model może zmienić zachowanie z wersji na wersję.
 • Stosować ocenę jakości zamiast oceny binarnej.
-Niedeterministyczność to nie wada a właściwość. A zadaniem QA jest zrozumieć, jak poprawnie przetestować LLM-y.
+Niedeterministyczność to nie wada, a właściwość. A zadaniem QA jest zrozumieć, jak poprawnie przetestować LLM-y.
 
 ### Mini podsumowanie: jak o tym myśleć w codziennej pracy QA
 
@@ -71,4 +71,4 @@ Niedeterministyczność to nie wada a właściwość. A zadaniem QA jest zrozumi
 • Output oceniamy jakościowo, a nie porównaniem 1:1.
 • Niedeterministyczność nie jest błędem, błędem jest ignorowanie jej w procesie testowym.
 
-W kolejnych częściach wyjaśnię, czym są evals, golden set, guardrails i inne LLM’owe smaczki ;)
+W kolejnych częściach wyjaśnię, czym są evals, golden set, guardrails i inne LLM-owe smaczki ;)
