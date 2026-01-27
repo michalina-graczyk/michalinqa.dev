@@ -116,5 +116,60 @@ test.describe("Blog", () => {
         await expect(contentImages.nth(i)).toBeVisible();
       }
     });
+
+    test("displays language flag for article", async ({ page, baseURL }) => {
+      // Polish article
+      await page.goto(`${baseURL}/blog/ach-ta-niedeterministycznosc`);
+      await expect(page.getByTitle("Polski")).toBeVisible();
+
+      // English article
+      await page.goto(`${baseURL}/blog/from-cypress-to-playwright`);
+      await expect(page.getByTitle("English")).toBeVisible();
+    });
+  });
+
+  test.describe("SEO", () => {
+    test("Article schema contains required fields", async ({
+      page,
+      baseURL,
+    }) => {
+      await page.goto(`${baseURL}/blog/ach-ta-niedeterministycznosc`);
+
+      const schemaScript = page.locator(
+        'script[type="application/ld+json"]:has-text("Article")',
+      );
+      const schemaText = await schemaScript.textContent();
+      const schema = JSON.parse(schemaText!);
+
+      expect(schema["@type"]).toBe("Article");
+      expect(schema.headline).toBeTruthy();
+      expect(schema.description).toBeTruthy();
+      expect(schema.datePublished).toBeTruthy();
+      expect(schema.dateModified).toBeTruthy();
+      expect(schema.author).toMatchObject({
+        "@type": "Person",
+        name: "Michalina Graczyk",
+      });
+      expect(schema.publisher).toMatchObject({
+        "@type": "Person",
+        name: "Michalina Graczyk",
+      });
+      expect(schema.mainEntityOfPage).toMatchObject({
+        "@type": "WebPage",
+      });
+      expect(schema.inLanguage).toBeTruthy();
+    });
+
+    test("og:locale matches article language", async ({ page, baseURL }) => {
+      // Polish article should have pl_PL locale
+      await page.goto(`${baseURL}/blog/ach-ta-niedeterministycznosc`);
+      const plLocale = page.locator('meta[property="og:locale"]');
+      await expect(plLocale).toHaveAttribute("content", "pl_PL");
+
+      // English article should have en_US locale
+      await page.goto(`${baseURL}/blog/from-cypress-to-playwright`);
+      const enLocale = page.locator('meta[property="og:locale"]');
+      await expect(enLocale).toHaveAttribute("content", "en_US");
+    });
   });
 });
