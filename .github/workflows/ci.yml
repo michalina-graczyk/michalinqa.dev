@@ -23,9 +23,13 @@ jobs:
 
       - name: Type check
         run: npx astro check
+        env:
+          PUBLIC_MIXPANEL_TOKEN: ${{ vars.PUBLIC_MIXPANEL_TOKEN }}
 
       - name: Build
         run: npm run build
+        env:
+          PUBLIC_MIXPANEL_TOKEN: ${{ vars.PUBLIC_MIXPANEL_TOKEN }}
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
