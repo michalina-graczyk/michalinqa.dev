@@ -44,6 +44,6 @@ const formatSocialName = (name: string): string => {
   import { trackClick, TrackingEvents } from "@lib/tracking";
 
   trackClick(".social-link[data-social-name]", TrackingEvents.SOCIAL_LINK_CLICKED, (el) => ({
-    Name: el.getAttribute("data-social-name") || "[unknown]",
+    Name: el.getAttribute("data-social-name") || `[unknown:${el.getAttribute("href") || "social"}]`,
   }));
 </script>

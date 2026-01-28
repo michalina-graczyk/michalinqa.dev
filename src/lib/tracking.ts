@@ -18,7 +18,9 @@ export const TrackingEvents = {
 
 export type EventName = (typeof TrackingEvents)[keyof typeof TrackingEvents];
 
-const validEventNames = new Set<string>(Object.values(TrackingEvents));
+const validEventNames: ReadonlySet<string> = new Set(
+  Object.values(TrackingEvents),
+);
 
 /**
  * Check if a string is a valid EventName at runtime.
@@ -41,30 +43,14 @@ export function track(
   }
 }
 
-// Single shared handler for all onReady callbacks to prevent listener accumulation
-const pendingInitializers: Array<() => void> = [];
-let pageLoadHandlerRegistered = false;
-
-function runAllInitializers() {
-  pendingInitializers.forEach((init) => init());
-}
-
 /**
  * Register a callback to run when DOM is ready and on Astro page transitions.
- * Uses a single shared page-load listener to prevent memory leaks.
- * The callback should use data-tracking-initialized attributes on elements
+ * Each callback is registered directly without accumulation to prevent memory leaks.
+ * Callbacks should use data-tracking-initialized attributes on elements
  * to prevent duplicate event listener registration.
  */
 export function onReady(fn: () => void): void {
   if (typeof window === "undefined") return;
-
-  pendingInitializers.push(fn);
-
-  // Register single shared handler for page transitions
-  if (!pageLoadHandlerRegistered) {
-    pageLoadHandlerRegistered = true;
-    document.addEventListener("astro:page-load", runAllInitializers);
-  }
 
   // Run immediately if DOM is ready, otherwise wait for DOMContentLoaded
   if (document.readyState !== "loading") {
@@ -72,6 +58,9 @@ export function onReady(fn: () => void): void {
   } else {
     document.addEventListener("DOMContentLoaded", fn, { once: true });
   }
+
+  // Re-run on Astro page transitions
+  document.addEventListener("astro:page-load", fn);
 }
 
 /**

@@ -42,7 +42,7 @@ const { calendlyUrl, trackingEvent = TrackingEvents.CALENDLY_BOOKING_OPENED, siz
 
         if (isValidEventName(trackingEvent)) {
           track(trackingEvent);
-        } else if (import.meta.env.DEV && trackingEvent) {
+        } else if (trackingEvent) {
           console.warn(`[Tracking] Invalid event name: "${trackingEvent}"`);
         }
 
