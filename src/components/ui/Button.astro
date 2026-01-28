@@ -5,7 +5,6 @@ interface Props {
   style?: "primary" | "secondary";
   class?: string;
   href?: string;
-  onclick?: string;
   [x: string]: any;
 }
 
@@ -15,7 +14,6 @@ const {
   block,
   class: className,
   href,
-  onclick,
   ...rest
 } = Astro.props;
 
@@ -35,7 +33,6 @@ const styles = {
   href ? (
     <a
       href={href}
-      onclick={onclick}
       {...rest}
       class:list={[
         "rounded-xl text-center transition-colors duration-200 focus-visible:ring-2 ring-offset-2 ring-orange motion-reduce:transition-none",
@@ -49,7 +46,6 @@ const styles = {
     </a>
   ) : (
     <button
-      onclick={onclick}
       {...rest}
       class:list={[
         "rounded-xl text-center transition-colors duration-200 focus-visible:ring-2 ring-offset-2 ring-orange motion-reduce:transition-none",

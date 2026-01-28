@@ -113,30 +113,12 @@ function isActive(itemPath: string): boolean {
 </style>
 
 <script>
-  import { track, TrackingEvents, onReady } from "@lib/tracking";
+  import { trackClick, TrackingEvents } from "@lib/tracking";
 
-  onReady(() => {
-    // Track brand link clicks
-    const brandLink = document.querySelector(".nav-brand");
-    if (brandLink && !brandLink.hasAttribute("data-tracking-initialized")) {
-      brandLink.setAttribute("data-tracking-initialized", "true");
-      brandLink.addEventListener("click", () => {
-        track(TrackingEvents.NAVIGATION_ITEM_CLICKED, { Item: "Brand" });
-      });
-    }
-
-    // Track navigation item clicks
-    const navItems = document.querySelectorAll(".nav-item[data-nav-item]");
-    navItems.forEach((item) => {
-      if (!item.hasAttribute("data-tracking-initialized")) {
-        item.setAttribute("data-tracking-initialized", "true");
-        item.addEventListener("click", () => {
-          const itemName = item.getAttribute("data-nav-item");
-          if (itemName) {
-            track(TrackingEvents.NAVIGATION_ITEM_CLICKED, { Item: itemName });
-          }
-        });
-      }
-    });
+  trackClick(".nav-brand", TrackingEvents.NAVIGATION_ITEM_CLICKED, {
+    Item: "Brand",
   });
+  trackClick(".nav-item[data-nav-item]", TrackingEvents.NAVIGATION_ITEM_CLICKED, (el) => ({
+    Item: el.getAttribute("data-nav-item") || "",
+  }));
 </script>

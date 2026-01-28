@@ -53,15 +53,7 @@ const socials = [
 </section>
 
 <script>
-  import { track, TrackingEvents, onReady } from "@lib/tracking";
+  import { trackClick, TrackingEvents } from "@lib/tracking";
 
-  onReady(() => {
-    const emailBtn = document.querySelector(".contact-email-btn");
-    if (emailBtn && !emailBtn.hasAttribute("data-tracking-initialized")) {
-      emailBtn.setAttribute("data-tracking-initialized", "true");
-      emailBtn.addEventListener("click", () => {
-        track(TrackingEvents.EMAIL_CONTACT_CLICKED);
-      });
-    }
-  });
+  trackClick(".contact-email-btn", TrackingEvents.EMAIL_CONTACT_CLICKED);
 </script>

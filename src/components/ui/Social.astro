@@ -41,20 +41,9 @@ const formatSocialName = (name: string): string => {
 }
 
 <script>
-  import { track, TrackingEvents, onReady } from "@lib/tracking";
+  import { trackClick, TrackingEvents } from "@lib/tracking";
 
-  onReady(() => {
-    const socialLinks = document.querySelectorAll(".social-link[data-social-name]");
-    socialLinks.forEach((link) => {
-      if (!link.hasAttribute("data-tracking-initialized")) {
-        link.setAttribute("data-tracking-initialized", "true");
-        link.addEventListener("click", () => {
-          const name = link.getAttribute("data-social-name");
-          if (name) {
-            track(TrackingEvents.SOCIAL_LINK_CLICKED, { Name: name });
-          }
-        });
-      }
-    });
-  });
+  trackClick(".social-link[data-social-name]", TrackingEvents.SOCIAL_LINK_CLICKED, (el) => ({
+    Name: el.getAttribute("data-social-name") || "",
+  }));
 </script>

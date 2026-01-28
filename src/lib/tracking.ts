@@ -28,19 +28,13 @@ export function track(
   }
 }
 
-// Track registered callbacks to prevent duplicate listener registration
-const registeredCallbacks = new WeakSet<() => void>();
-
 /**
  * Register a callback to run when DOM is ready and on Astro page transitions.
- * Consolidates the common initialization pattern for tracking event listeners.
- * Uses WeakSet to prevent duplicate registrations during View Transitions.
+ * The callback should use data-tracking-initialized attributes on elements
+ * to prevent duplicate event listener registration.
  */
 export function onReady(fn: () => void): void {
   if (typeof window === "undefined") return;
-
-  if (registeredCallbacks.has(fn)) return;
-  registeredCallbacks.add(fn);
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", fn);
@@ -49,4 +43,29 @@ export function onReady(fn: () => void): void {
   }
 
   document.addEventListener("astro:page-load", fn);
+}
+
+/**
+ * Helper to attach click tracking to elements matching a selector.
+ * Handles deduplication via data-tracking-initialized attribute.
+ * Use for elements with static event names.
+ */
+export function trackClick(
+  selector: string,
+  event: EventName,
+  properties?:
+    | Record<string, string | number | boolean>
+    | ((el: Element) => Record<string, string | number | boolean>),
+): void {
+  onReady(() => {
+    document.querySelectorAll(selector).forEach((el) => {
+      if (el.hasAttribute("data-tracking-initialized")) return;
+      el.setAttribute("data-tracking-initialized", "true");
+      el.addEventListener("click", () => {
+        const props =
+          typeof properties === "function" ? properties(el) : properties;
+        track(event, props);
+      });
+    });
+  });
 }

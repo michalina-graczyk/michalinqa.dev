@@ -45,15 +45,7 @@ import Button from "@components/ui/Button.astro";
 </section>
 
 <script>
-  import { track, TrackingEvents, onReady } from "@lib/tracking";
+  import { trackClick, TrackingEvents } from "@lib/tracking";
 
-  onReady(() => {
-    const button = document.querySelector(".hero-cta");
-    if (button && !button.hasAttribute("data-tracking-initialized")) {
-      button.setAttribute("data-tracking-initialized", "true");
-      button.addEventListener("click", () => {
-        track(TrackingEvents.HERO_CTA_CLICKED);
-      });
-    }
-  });
+  trackClick(".hero-cta", TrackingEvents.HERO_CTA_CLICKED);
 </script>

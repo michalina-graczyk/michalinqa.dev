@@ -4,7 +4,7 @@ import { PUBLIC_MIXPANEL_TOKEN } from "astro:env/client";
 export function initAnalytics() {
   const isProduction = window.location.hostname === "michalinqa.dev";
 
-  // Expose to window immediately for inline onclick handlers
+  // Expose to window for tracking utility and test harness
   // Type assertion needed because we extend with eventsTracked below
   window.mixpanel = mixpanel as typeof window.mixpanel;
   window.mixpanel.eventsTracked = [];

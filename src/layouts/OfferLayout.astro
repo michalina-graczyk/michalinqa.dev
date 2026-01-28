@@ -152,15 +152,7 @@ const serviceSchema = {
 </style>
 
 <script>
-  import { track, TrackingEvents, onReady } from "@lib/tracking";
+  import { trackClick, TrackingEvents } from "@lib/tracking";
 
-  onReady(() => {
-    const emailBtn = document.querySelector(".offer-email-btn");
-    if (emailBtn && !emailBtn.hasAttribute("data-tracking-initialized")) {
-      emailBtn.setAttribute("data-tracking-initialized", "true");
-      emailBtn.addEventListener("click", () => {
-        track(TrackingEvents.OFFER_EMAIL_CLICKED);
-      });
-    }
-  });
+  trackClick(".offer-email-btn", TrackingEvents.OFFER_EMAIL_CLICKED);
 </script>
