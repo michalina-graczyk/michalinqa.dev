@@ -43,7 +43,11 @@ const formatSocialName = (name: string): string => {
 <script>
   import { trackClick, TrackingEvents } from "@lib/tracking";
 
-  trackClick(".social-link[data-social-name]", TrackingEvents.SOCIAL_LINK_CLICKED, (el) => ({
-    Name: el.getAttribute("data-social-name") ?? "Unknown",
-  }));
+  trackClick(".social-link[data-social-name]", TrackingEvents.SOCIAL_LINK_CLICKED, (el) => {
+    const name = el.getAttribute("data-social-name");
+    if (!name && import.meta.env.DEV) {
+      console.warn("[Tracking] Social link missing data-social-name attribute:", el);
+    }
+    return { Name: name ?? "Unknown" };
+  });
 </script>

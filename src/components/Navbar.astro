@@ -118,7 +118,11 @@ function isActive(itemPath: string): boolean {
   trackClick(".nav-brand", TrackingEvents.NAVIGATION_ITEM_CLICKED, {
     Item: "Brand",
   });
-  trackClick(".nav-item[data-nav-item]", TrackingEvents.NAVIGATION_ITEM_CLICKED, (el) => ({
-    Item: el.getAttribute("data-nav-item") ?? "Unknown",
-  }));
+  trackClick(".nav-item[data-nav-item]", TrackingEvents.NAVIGATION_ITEM_CLICKED, (el) => {
+    const item = el.getAttribute("data-nav-item");
+    if (!item && import.meta.env.DEV) {
+      console.warn("[Tracking] Navigation item missing data-nav-item attribute:", el);
+    }
+    return { Item: item ?? "Unknown" };
+  });
 </script>

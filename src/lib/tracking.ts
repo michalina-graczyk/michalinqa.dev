@@ -24,6 +24,22 @@ export type EventName = (typeof TrackingEvents)[keyof typeof TrackingEvents];
 
 type EventProperties = Record<string, unknown>;
 
+const validEventNames = new Set(Object.values(TrackingEvents));
+
+/**
+ * Check if a string is a valid event name.
+ */
+export function isValidEventName(value: string): value is EventName {
+  return validEventNames.has(value as EventName);
+}
+
+/**
+ * SSR-safe browser environment check.
+ */
+function isBrowser(): boolean {
+  return typeof window !== "undefined";
+}
+
 // Queue for events tracked before mixpanel is ready
 const eventQueue: Array<{ event: EventName; properties?: EventProperties }> =
   [];
@@ -32,7 +48,7 @@ const eventQueue: Array<{ event: EventName; properties?: EventProperties }> =
  * Flush queued events to mixpanel.
  */
 function flushEventQueue(): void {
-  if (typeof window === "undefined" || !window.mixpanel) return;
+  if (!isBrowser() || !window.mixpanel) return;
 
   while (eventQueue.length > 0) {
     const { event, properties } = eventQueue.shift()!;
@@ -41,8 +57,12 @@ function flushEventQueue(): void {
 }
 
 // Set up listener for mixpanel ready event (fired by analytics.ts)
-if (typeof window !== "undefined") {
+// Also flush immediately if mixpanel is already initialized (handles race condition)
+if (isBrowser()) {
   window.addEventListener("mixpanel:ready", flushEventQueue);
+  if (window.mixpanel) {
+    flushEventQueue();
+  }
 }
 
 /**
@@ -50,7 +70,7 @@ if (typeof window !== "undefined") {
  * Safely handles SSR (no-op) and queues events if mixpanel isn't ready yet.
  */
 export function track(event: EventName, properties?: EventProperties): void {
-  if (typeof window === "undefined") return;
+  if (!isBrowser()) return;
 
   if (window.mixpanel) {
     // Flush any queued events first to maintain order
@@ -63,16 +83,25 @@ export function track(event: EventName, properties?: EventProperties): void {
 }
 
 // Track which selectors have been registered for astro:page-load
-// This prevents listener accumulation during View Transitions
+// This prevents listener accumulation during View Transitions.
+// Note: Listeners are never removed. This is acceptable because:
+// 1. Only one listener per unique selector
+// 2. If elements don't exist after navigation, querySelectorAll returns empty (no-op)
 const registeredSelectors = new Set<string>();
+
+// Track callback IDs for onReady to prevent duplicate astro:page-load listeners
+const registeredCallbackIds = new Set<string>();
 
 /**
  * Register a callback to run when DOM is ready and on Astro page transitions.
  * Use data-tracking-initialized attributes on elements to prevent
  * duplicate event listener registration.
+ *
+ * @param fn - Callback to execute
+ * @param id - Optional unique identifier to prevent duplicate listeners across page transitions
  */
-export function onReady(fn: () => void): void {
-  if (typeof window === "undefined") return;
+export function onReady(fn: () => void, id?: string): void {
+  if (!isBrowser()) return;
 
   // Run immediately if DOM is ready, otherwise wait for DOMContentLoaded
   if (document.readyState !== "loading") {
@@ -81,9 +110,16 @@ export function onReady(fn: () => void): void {
     document.addEventListener("DOMContentLoaded", fn, { once: true });
   }
 
-  // For View Transitions: use a unique key to prevent duplicate listeners
-  // Since fn is a new closure each time, we use a simple flag
-  document.addEventListener("astro:page-load", fn);
+  // For View Transitions: register astro:page-load listener only once per id
+  if (id) {
+    if (!registeredCallbackIds.has(id)) {
+      registeredCallbackIds.add(id);
+      document.addEventListener("astro:page-load", fn);
+    }
+  } else {
+    // Without an id, always add the listener (caller accepts potential duplicates)
+    document.addEventListener("astro:page-load", fn);
+  }
 }
 
 /**
@@ -97,7 +133,7 @@ export function trackClick(
   event: EventName,
   properties?: EventProperties | ((el: Element) => EventProperties),
 ): void {
-  if (typeof window === "undefined") return;
+  if (!isBrowser()) return;
 
   const attach = () => {
     document.querySelectorAll(selector).forEach((el) => {
