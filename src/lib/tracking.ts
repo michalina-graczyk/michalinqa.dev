@@ -48,7 +48,7 @@ const eventQueue: Array<{ event: EventName; properties?: EventProperties }> =
  * Flush queued events to mixpanel.
  */
 function flushEventQueue(): void {
-  if (!isBrowser() || !window.mixpanel) return;
+  if (!isBrowser() || !window.mixpanelReady) return;
 
   while (eventQueue.length > 0) {
     const { event, properties } = eventQueue.shift()!;
@@ -60,7 +60,7 @@ function flushEventQueue(): void {
 // Also flush immediately if mixpanel is already initialized (handles race condition)
 if (isBrowser()) {
   window.addEventListener("mixpanel:ready", flushEventQueue);
-  if (window.mixpanel) {
+  if (window.mixpanelReady) {
     flushEventQueue();
   }
 }
@@ -72,7 +72,7 @@ if (isBrowser()) {
 export function track(event: EventName, properties?: EventProperties): void {
   if (!isBrowser()) return;
 
-  if (window.mixpanel) {
+  if (window.mixpanelReady) {
     // Flush any queued events first to maintain order
     flushEventQueue();
     window.mixpanel.track(event, properties);
@@ -82,11 +82,12 @@ export function track(event: EventName, properties?: EventProperties): void {
   }
 }
 
-// Track which selectors have been registered for astro:page-load
-// This prevents listener accumulation during View Transitions.
-// Note: Listeners are never removed. This is acceptable because:
-// 1. Only one listener per unique selector
-// 2. If elements don't exist after navigation, querySelectorAll returns empty (no-op)
+// Track which selectors have been registered for astro:page-load.
+// This prevents listener accumulation if/when Astro View Transitions are enabled.
+// Note: View Transitions are not currently used, but this forward-compatible
+// implementation avoids refactoring when they are added.
+// Listeners attached to DOM elements are cleaned up when elements are removed.
+// Global event listeners persist but are idempotent (one per selector).
 const registeredSelectors = new Set<string>();
 
 // Track callback IDs for onReady to prevent duplicate astro:page-load listeners

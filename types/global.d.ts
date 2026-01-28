@@ -14,6 +14,8 @@ declare global {
     mixpanel: OverridedMixpanel & {
       eventsTracked: TrackedEvent[];
     };
+    /** Set to true once Mixpanel SDK is fully initialized (loaded callback fired) */
+    mixpanelReady?: boolean;
     Calendly: CalendlyWidget;
   }
 }

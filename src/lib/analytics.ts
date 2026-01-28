@@ -43,7 +43,8 @@ export function initAnalytics() {
         mixpanel.opt_out_tracking();
       }
 
-      // Notify tracking utility that mixpanel is ready
+      // Mark SDK as fully ready and notify tracking utility
+      window.mixpanelReady = true;
       window.dispatchEvent(new CustomEvent("mixpanel:ready"));
     },
   });
