@@ -32,7 +32,7 @@ export function initAnalytics() {
 
   mixpanel.init(PUBLIC_MIXPANEL_TOKEN, {
     debug: import.meta.env.DEV,
-    track_pageview: isProduction,
+    track_pageview: isProduction ? "url-with-path" : false,
     persistence: "localStorage",
     ignore_dnt: !isProduction,
     loaded: () => {
