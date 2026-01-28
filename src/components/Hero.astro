@@ -45,9 +45,9 @@ import Button from "@components/ui/Button.astro";
 </section>
 
 <script>
-  import { track, TrackingEvents } from "@lib/tracking";
+  import { track, TrackingEvents, onReady } from "@lib/tracking";
 
-  function initHeroTracking() {
+  onReady(() => {
     const button = document.querySelector(".hero-cta");
     if (button && !button.hasAttribute("data-tracking-initialized")) {
       button.setAttribute("data-tracking-initialized", "true");
@@ -55,13 +55,5 @@ import Button from "@components/ui/Button.astro";
         track(TrackingEvents.HERO_CTA_CLICKED);
       });
     }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initHeroTracking);
-  } else {
-    initHeroTracking();
-  }
-
-  document.addEventListener("astro:page-load", initHeroTracking);
+  });
 </script>

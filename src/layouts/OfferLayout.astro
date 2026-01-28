@@ -151,9 +151,9 @@ const serviceSchema = {
 </style>
 
 <script>
-  import { track, TrackingEvents } from "@lib/tracking";
+  import { track, TrackingEvents, onReady } from "@lib/tracking";
 
-  function initOfferTracking() {
+  onReady(() => {
     const emailBtn = document.querySelector(".offer-email-btn");
     if (emailBtn && !emailBtn.hasAttribute("data-tracking-initialized")) {
       emailBtn.setAttribute("data-tracking-initialized", "true");
@@ -161,13 +161,5 @@ const serviceSchema = {
         track(TrackingEvents.OFFER_EMAIL_CLICKED);
       });
     }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initOfferTracking);
-  } else {
-    initOfferTracking();
-  }
-
-  document.addEventListener("astro:page-load", initOfferTracking);
+  });
 </script>

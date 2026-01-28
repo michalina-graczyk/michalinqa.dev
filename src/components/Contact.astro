@@ -52,9 +52,9 @@ const socials = [
 </section>
 
 <script>
-  import { track, TrackingEvents } from "@lib/tracking";
+  import { track, TrackingEvents, onReady } from "@lib/tracking";
 
-  function initContactTracking() {
+  onReady(() => {
     const emailBtn = document.querySelector(".contact-email-btn");
     if (emailBtn && !emailBtn.hasAttribute("data-tracking-initialized")) {
       emailBtn.setAttribute("data-tracking-initialized", "true");
@@ -62,13 +62,5 @@ const socials = [
         track(TrackingEvents.EMAIL_CONTACT_CLICKED);
       });
     }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initContactTracking);
-  } else {
-    initContactTracking();
-  }
-
-  document.addEventListener("astro:page-load", initContactTracking);
+  });
 </script>

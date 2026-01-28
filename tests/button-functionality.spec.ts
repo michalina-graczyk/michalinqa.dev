@@ -120,7 +120,7 @@ test.describe("Button Functionality", () => {
       expectLastEventToBeTracked(
         mixpanelEventsTracked,
         TrackingEvents.SOCIAL_LINK_CLICKED,
-        { Name: name },
+        { name },
       );
     }
   });

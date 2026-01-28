@@ -27,3 +27,19 @@ export function track(
     window.mixpanel.track(event, properties);
   }
 }
+
+/**
+ * Register a callback to run when DOM is ready and on Astro page transitions.
+ * Consolidates the common initialization pattern for tracking event listeners.
+ */
+export function onReady(fn: () => void): void {
+  if (typeof window === "undefined") return;
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", fn);
+  } else {
+    fn();
+  }
+
+  document.addEventListener("astro:page-load", fn);
+}

@@ -41,9 +41,9 @@ const formatSocialName = (name: string): string => {
 }
 
 <script>
-  import { track, TrackingEvents } from "@lib/tracking";
+  import { track, TrackingEvents, onReady } from "@lib/tracking";
 
-  function initSocialTracking() {
+  onReady(() => {
     const socialLinks = document.querySelectorAll(".social-link[data-social-name]");
     socialLinks.forEach((link) => {
       if (!link.hasAttribute("data-tracking-initialized")) {
@@ -51,18 +51,10 @@ const formatSocialName = (name: string): string => {
         link.addEventListener("click", () => {
           const name = link.getAttribute("data-social-name");
           if (name) {
-            track(TrackingEvents.SOCIAL_LINK_CLICKED, { Name: name });
+            track(TrackingEvents.SOCIAL_LINK_CLICKED, { name });
           }
         });
       }
     });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initSocialTracking);
-  } else {
-    initSocialTracking();
-  }
-
-  document.addEventListener("astro:page-load", initSocialTracking);
+  });
 </script>
