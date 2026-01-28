@@ -21,10 +21,9 @@ import Button from "@components/ui/Button.astro";
       <Button
         style={"secondary"}
         size={"lg"}
-        class={"flex"}
+        class={"flex hero-cta"}
         name="see how I can help"
         href="#about"
-        onclick="window.mixpanel?.track('Learn more button clicked')"
       >
         Sprawdź, jak mogę pomóc
       </Button>
@@ -44,3 +43,9 @@ import Button from "@components/ui/Button.astro";
     />
   </div>
 </section>
+
+<script>
+  import { trackClick, TrackingEvents } from "@lib/tracking";
+
+  trackClick(".hero-cta", TrackingEvents.HERO_CTA_CLICKED);
+</script>

@@ -1,13 +1,14 @@
 ---
 import Button from "./Button.astro";
+import { TrackingEvents, type EventName } from "@lib/tracking";
 
 interface Props {
   calendlyUrl: string;
-  trackingEvent?: string;
+  trackingEvent?: EventName;
   size?: "sm" | "md" | "lg";
 }
 
-const { calendlyUrl, trackingEvent = "Calendly button clicked", size = "lg" } = Astro.props;
+const { calendlyUrl, trackingEvent = TrackingEvents.CALENDLY_BOOKING_OPENED, size = "lg" } = Astro.props;
 ---
 
 <Button
@@ -22,12 +23,14 @@ const { calendlyUrl, trackingEvent = "Calendly button clicked", size = "lg" } = 
 </Button>
 
 <script>
+  import { track, onReady, isValidEventName } from "@lib/tracking";
+
   function initCalendlyButtons() {
     const buttons = document.querySelectorAll(".calendly-trigger");
 
     buttons.forEach((button) => {
-      if (button.hasAttribute("data-calendly-initialized")) return;
-      button.setAttribute("data-calendly-initialized", "true");
+      if (button.hasAttribute("data-tracking-initialized")) return;
+      button.setAttribute("data-tracking-initialized", "true");
 
       button.addEventListener("click", (e) => {
         e.preventDefault();
@@ -37,26 +40,19 @@ const { calendlyUrl, trackingEvent = "Calendly button clicked", size = "lg" } = 
 
         if (!calendlyUrl) return;
 
-        // Track the click
-        if (window.mixpanel && trackingEvent) {
-          window.mixpanel.track(trackingEvent);
+        if (trackingEvent && isValidEventName(trackingEvent)) {
+          track(trackingEvent);
         }
 
-        // Open Calendly popup
         if (window.Calendly) {
           window.Calendly.initPopupWidget({ url: calendlyUrl });
+        } else {
+          // Fallback if Calendly script failed to load
+          window.open(calendlyUrl, "_blank", "noopener,noreferrer");
         }
       });
     });
   }
 
-  // Initialize on DOM ready
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initCalendlyButtons);
-  } else {
-    initCalendlyButtons();
-  }
-
-  // Re-initialize on Astro page transitions
-  document.addEventListener("astro:page-load", initCalendlyButtons);
+  onReady(initCalendlyButtons, "calendly-buttons");
 </script>

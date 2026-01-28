@@ -26,8 +26,8 @@ const formatSocialName = (name: string): string => {
           target="_blank"
           rel="noopener"
           aria-label={`Odwiedź mój profil na ${formatSocialName(social.name)}`}
-          onclick={`window.mixpanel?.track('Social media button clicked', { 'Name': '${social.name}' })`}
-          class="inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-all duration-150 active:scale-95 motion-reduce:transition-none motion-reduce:active:scale-100"
+          data-social-name={social.name}
+          class="social-link inline-flex min-h-[44px] min-w-[44px] items-center justify-center transition-all duration-150 active:scale-95 motion-reduce:transition-none motion-reduce:active:scale-100"
         >
           <Icon
             class="h-8 hover:text-orange dark:hover:text-orange md:h-12 transition-colors duration-150 motion-reduce:transition-none"
@@ -39,3 +39,15 @@ const formatSocialName = (name: string): string => {
     </div>
   )
 }
+
+<script>
+  import { trackClick, TrackingEvents } from "@lib/tracking";
+
+  trackClick(".social-link[data-social-name]", TrackingEvents.SOCIAL_LINK_CLICKED, (el) => {
+    const name = el.getAttribute("data-social-name");
+    if (!name && import.meta.env.DEV) {
+      console.warn("[Tracking] Social link missing data-social-name attribute:", el);
+    }
+    return { Name: name ?? "Unknown" };
+  });
+</script>

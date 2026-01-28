@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import {
   expectLastEventToBeTracked,
   getTrackedEvents,
+  TrackingEvents,
 } from "./helpers/mixpanel";
 
 test.describe("Button Functionality", () => {
@@ -62,7 +63,7 @@ test.describe("Button Functionality", () => {
     const mixpanelEventsTracked = await getTrackedEvents(page);
     expectLastEventToBeTracked(
       mixpanelEventsTracked,
-      "Contact by mail button clicked",
+      TrackingEvents.EMAIL_CONTACT_CLICKED,
     );
   });
 
@@ -84,7 +85,7 @@ test.describe("Button Functionality", () => {
     const mixpanelEventsTracked = await getTrackedEvents(page);
     expectLastEventToBeTracked(
       mixpanelEventsTracked,
-      "Contact by Calendly button clicked",
+      TrackingEvents.CALENDLY_BOOKING_OPENED,
     );
   });
 
@@ -98,7 +99,7 @@ test.describe("Button Functionality", () => {
     const mixpanelEventsTracked = await getTrackedEvents(page);
     expectLastEventToBeTracked(
       mixpanelEventsTracked,
-      "Learn more button clicked",
+      TrackingEvents.HERO_CTA_CLICKED,
     );
   });
 
@@ -118,7 +119,7 @@ test.describe("Button Functionality", () => {
       const mixpanelEventsTracked = await getTrackedEvents(page);
       expectLastEventToBeTracked(
         mixpanelEventsTracked,
-        "Social media button clicked",
+        TrackingEvents.SOCIAL_LINK_CLICKED,
         { Name: name },
       );
     }

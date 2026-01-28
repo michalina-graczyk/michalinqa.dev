@@ -49,8 +49,7 @@ function isActive(itemPath: string): boolean {
     <div class="flex w-full items-center justify-between lg:w-auto">
       <a
         href="/"
-        class="whitespace-nowrap font-mono text-lg font-bold text-black hover:text-orange dark:text-white dark:hover:text-orange transition-colors duration-200 motion-reduce:transition-none"
-        onclick="window.mixpanel?.track('Menu item clicked', { 'Item': 'Brand' })"
+        class="nav-brand whitespace-nowrap font-mono text-lg font-bold text-black hover:text-orange dark:text-white dark:hover:text-orange transition-colors duration-200 motion-reduce:transition-none"
       >
         <span class="text-orange">Michalina</span> Graczyk
       </a>
@@ -69,12 +68,12 @@ function isActive(itemPath: string): boolean {
                   href={item.path}
                   aria-current={active ? "page" : undefined}
                   class:list={[
-                    "flex min-h-[44px] items-center py-2 lg:min-h-0 lg:px-3",
+                    "nav-item flex min-h-[44px] items-center py-2 lg:min-h-0 lg:px-3",
                     "text-black hover:text-orange dark:text-white dark:hover:text-orange",
                     "transition-colors duration-200 motion-reduce:transition-none",
                     active && "border-b-2 border-orange text-orange",
                   ]}
-                  onclick={`window.mixpanel?.track("Menu item clicked", { "Item": "${item.title}" })`}
+                  data-nav-item={item.title}
                 >
                   {item.title}
                 </a>
@@ -112,3 +111,18 @@ function isActive(itemPath: string): boolean {
     }
   }
 </style>
+
+<script>
+  import { trackClick, TrackingEvents } from "@lib/tracking";
+
+  trackClick(".nav-brand", TrackingEvents.NAVIGATION_ITEM_CLICKED, {
+    Item: "Brand",
+  });
+  trackClick(".nav-item[data-nav-item]", TrackingEvents.NAVIGATION_ITEM_CLICKED, (el) => {
+    const item = el.getAttribute("data-nav-item");
+    if (!item && import.meta.env.DEV) {
+      console.warn("[Tracking] Navigation item missing data-nav-item attribute:", el);
+    }
+    return { Item: item ?? "Unknown" };
+  });
+</script>

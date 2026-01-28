@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import {
   expectLastEventToBeTracked,
   getTrackedEvents,
+  TrackingEvents,
 } from "./helpers/mixpanel";
 
 const offers = [
@@ -141,7 +142,7 @@ test.describe("Offers", () => {
       const mixpanelEventsTracked = await getTrackedEvents(page);
       expectLastEventToBeTracked(
         mixpanelEventsTracked,
-        "Offer booking clicked",
+        TrackingEvents.OFFER_BOOKING_CLICKED,
       );
     });
 
@@ -158,7 +159,10 @@ test.describe("Offers", () => {
       await emailButton.click();
 
       const mixpanelEventsTracked = await getTrackedEvents(page);
-      expectLastEventToBeTracked(mixpanelEventsTracked, "Offer email clicked");
+      expectLastEventToBeTracked(
+        mixpanelEventsTracked,
+        TrackingEvents.OFFER_EMAIL_CLICKED,
+      );
     });
 
     test("JSON-LD structured data is present", async ({ page, baseURL }) => {

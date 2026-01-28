@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import {
   expectLastEventToBeTracked,
   getTrackedEvents,
+  TrackingEvents,
 } from "./helpers/mixpanel";
 
 test.describe("Page Navigation", () => {
@@ -42,9 +43,13 @@ test.describe("Page Navigation", () => {
       await brandLink.click();
 
       const mixpanelEventsTracked = await getTrackedEvents(page);
-      expectLastEventToBeTracked(mixpanelEventsTracked, "Menu item clicked", {
-        Item: "Brand",
-      });
+      expectLastEventToBeTracked(
+        mixpanelEventsTracked,
+        TrackingEvents.NAVIGATION_ITEM_CLICKED,
+        {
+          Item: "Brand",
+        },
+      );
     });
   });
 
@@ -98,7 +103,7 @@ test.describe("Page Navigation", () => {
           const mixpanelEventsTracked = await getTrackedEvents(page);
           expectLastEventToBeTracked(
             mixpanelEventsTracked,
-            "Menu item clicked",
+            TrackingEvents.NAVIGATION_ITEM_CLICKED,
             { Item: item.name },
           );
         }
