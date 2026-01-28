@@ -41,31 +41,37 @@ export function track(
   }
 }
 
-// Track registered callbacks to prevent duplicate astro:page-load listeners
-const registeredCallbacks = new Set<() => void>();
+// Single shared handler for all onReady callbacks to prevent listener accumulation
+const pendingInitializers: Array<() => void> = [];
+let pageLoadHandlerRegistered = false;
+
+function runAllInitializers() {
+  pendingInitializers.forEach((init) => init());
+}
 
 /**
  * Register a callback to run when DOM is ready and on Astro page transitions.
+ * Uses a single shared page-load listener to prevent memory leaks.
  * The callback should use data-tracking-initialized attributes on elements
  * to prevent duplicate event listener registration.
  */
 export function onReady(fn: () => void): void {
   if (typeof window === "undefined") return;
 
-  // Prevent registering the same callback multiple times
-  if (registeredCallbacks.has(fn)) {
-    fn();
-    return;
-  }
-  registeredCallbacks.add(fn);
+  pendingInitializers.push(fn);
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", fn);
+  // Register single shared handler for page transitions
+  if (!pageLoadHandlerRegistered) {
+    pageLoadHandlerRegistered = true;
+    document.addEventListener("astro:page-load", runAllInitializers);
+  }
+
+  // Run immediately if DOM is ready, otherwise wait for DOMContentLoaded
+  if (document.readyState !== "loading") {
+    fn();
   } else {
-    fn();
+    document.addEventListener("DOMContentLoaded", fn, { once: true });
   }
-
-  document.addEventListener("astro:page-load", fn);
 }
 
 /**
