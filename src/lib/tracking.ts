@@ -1,6 +1,9 @@
 /**
  * Centralized Mixpanel event tracking utility.
  * Provides type-safe event names and a safe tracking function.
+ *
+ * Event properties use PascalCase (e.g., Item, Name) for backwards
+ * compatibility with existing Mixpanel data.
  */
 
 export const TrackingEvents = {
@@ -15,6 +18,16 @@ export const TrackingEvents = {
 
 export type EventName = (typeof TrackingEvents)[keyof typeof TrackingEvents];
 
+const validEventNames = new Set<string>(Object.values(TrackingEvents));
+
+/**
+ * Check if a string is a valid EventName at runtime.
+ * Use this when event names come from DOM attributes or other untyped sources.
+ */
+export function isValidEventName(value: string | null): value is EventName {
+  return value !== null && validEventNames.has(value);
+}
+
 /**
  * Track an event with Mixpanel.
  * Safely handles SSR (no-op when window/mixpanel not available).
@@ -28,6 +41,9 @@ export function track(
   }
 }
 
+// Track registered callbacks to prevent duplicate astro:page-load listeners
+const registeredCallbacks = new Set<() => void>();
+
 /**
  * Register a callback to run when DOM is ready and on Astro page transitions.
  * The callback should use data-tracking-initialized attributes on elements
@@ -35,6 +51,13 @@ export function track(
  */
 export function onReady(fn: () => void): void {
   if (typeof window === "undefined") return;
+
+  // Prevent registering the same callback multiple times
+  if (registeredCallbacks.has(fn)) {
+    fn();
+    return;
+  }
+  registeredCallbacks.add(fn);
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", fn);
