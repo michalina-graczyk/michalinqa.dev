@@ -4,6 +4,10 @@
  *
  * Event properties use PascalCase (e.g., Item, Name) for backwards
  * compatibility with existing Mixpanel data.
+ *
+ * Note: This module depends on analytics.ts being initialized first.
+ * Events tracked before mixpanel is ready are queued and flushed
+ * once mixpanel becomes available.
  */
 
 export const TrackingEvents = {
@@ -18,39 +22,80 @@ export const TrackingEvents = {
 
 export type EventName = (typeof TrackingEvents)[keyof typeof TrackingEvents];
 
-const validEventNames: ReadonlySet<string> = new Set(
-  Object.values(TrackingEvents),
-);
+type EventProperties = Record<string, unknown>;
+
+// Queue for events tracked before mixpanel is ready
+const eventQueue: Array<{ event: EventName; properties?: EventProperties }> =
+  [];
+let queueFlushed = false;
 
 /**
- * Check if a string is a valid EventName at runtime.
- * Use this when event names come from DOM attributes or other untyped sources.
+ * Flush queued events to mixpanel.
+ * Called automatically when mixpanel becomes available.
  */
-export function isValidEventName(value: string | null): value is EventName {
-  return value !== null && validEventNames.has(value);
-}
+function flushEventQueue(): void {
+  if (queueFlushed || typeof window === "undefined" || !window.mixpanel) return;
+  queueFlushed = true;
 
-/**
- * Track an event with Mixpanel.
- * Safely handles SSR (no-op when window/mixpanel not available).
- */
-export function track(
-  event: EventName,
-  properties?: Record<string, string | number | boolean>,
-): void {
-  if (typeof window !== "undefined" && window.mixpanel) {
+  while (eventQueue.length > 0) {
+    const { event, properties } = eventQueue.shift()!;
     window.mixpanel.track(event, properties);
   }
 }
 
 /**
+ * Track an event with Mixpanel.
+ * Safely handles SSR (no-op) and queues events if mixpanel isn't ready yet.
+ */
+export function track(event: EventName, properties?: EventProperties): void {
+  if (typeof window === "undefined") return;
+
+  if (window.mixpanel) {
+    // Flush any queued events first to maintain order
+    flushEventQueue();
+    window.mixpanel.track(event, properties);
+  } else {
+    // Queue event for when mixpanel becomes available
+    eventQueue.push({ event, properties });
+    // Set up a check for when mixpanel becomes available
+    scheduleQueueFlush();
+  }
+}
+
+let flushScheduled = false;
+
+function scheduleQueueFlush(): void {
+  if (flushScheduled) return;
+  flushScheduled = true;
+
+  // Check periodically until mixpanel is available (max ~5 seconds)
+  let attempts = 0;
+  const maxAttempts = 50;
+  const interval = setInterval(() => {
+    attempts++;
+    if (window.mixpanel || attempts >= maxAttempts) {
+      clearInterval(interval);
+      flushScheduled = false;
+      if (window.mixpanel) {
+        flushEventQueue();
+      }
+    }
+  }, 100);
+}
+
+// Callbacks registered via onReady, stored to run on page transitions
+const pageLoadCallbacks = new Set<() => void>();
+let pageLoadListenerAdded = false;
+
+/**
  * Register a callback to run when DOM is ready and on Astro page transitions.
- * Each callback is registered directly without accumulation to prevent memory leaks.
  * Callbacks should use data-tracking-initialized attributes on elements
  * to prevent duplicate event listener registration.
  */
 export function onReady(fn: () => void): void {
   if (typeof window === "undefined") return;
+
+  pageLoadCallbacks.add(fn);
 
   // Run immediately if DOM is ready, otherwise wait for DOMContentLoaded
   if (document.readyState !== "loading") {
@@ -59,21 +104,23 @@ export function onReady(fn: () => void): void {
     document.addEventListener("DOMContentLoaded", fn, { once: true });
   }
 
-  // Re-run on Astro page transitions
-  document.addEventListener("astro:page-load", fn);
+  // Add astro:page-load listener only once
+  if (!pageLoadListenerAdded) {
+    pageLoadListenerAdded = true;
+    document.addEventListener("astro:page-load", () => {
+      pageLoadCallbacks.forEach((cb) => cb());
+    });
+  }
 }
 
 /**
  * Helper to attach click tracking to elements matching a selector.
  * Handles deduplication via data-tracking-initialized attribute.
- * Use for elements with static event names.
  */
 export function trackClick(
   selector: string,
   event: EventName,
-  properties?:
-    | Record<string, string | number | boolean>
-    | ((el: Element) => Record<string, string | number | boolean>),
+  properties?: EventProperties | ((el: Element) => EventProperties),
 ): void {
   onReady(() => {
     document.querySelectorAll(selector).forEach((el) => {

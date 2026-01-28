@@ -119,6 +119,6 @@ function isActive(itemPath: string): boolean {
     Item: "Brand",
   });
   trackClick(".nav-item[data-nav-item]", TrackingEvents.NAVIGATION_ITEM_CLICKED, (el) => ({
-    Item: el.getAttribute("data-nav-item") || `[unknown:${el.textContent?.trim() || "nav"}]`,
+    Item: el.getAttribute("data-nav-item")!,
   }));
 </script>

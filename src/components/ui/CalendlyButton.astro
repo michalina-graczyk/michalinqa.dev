@@ -23,7 +23,9 @@ const { calendlyUrl, trackingEvent = TrackingEvents.CALENDLY_BOOKING_OPENED, siz
 </Button>
 
 <script>
-  import { track, onReady, isValidEventName } from "@lib/tracking";
+  import { track, onReady, TrackingEvents, type EventName } from "@lib/tracking";
+
+  const validEvents = new Set<string>(Object.values(TrackingEvents));
 
   function initCalendlyButtons() {
     const buttons = document.querySelectorAll(".calendly-trigger");
@@ -40,10 +42,8 @@ const { calendlyUrl, trackingEvent = TrackingEvents.CALENDLY_BOOKING_OPENED, siz
 
         if (!calendlyUrl) return;
 
-        if (isValidEventName(trackingEvent)) {
-          track(trackingEvent);
-        } else if (trackingEvent) {
-          console.warn(`[Tracking] Invalid event name: "${trackingEvent}"`);
+        if (trackingEvent && validEvents.has(trackingEvent)) {
+          track(trackingEvent as EventName);
         }
 
         if (window.Calendly) {
