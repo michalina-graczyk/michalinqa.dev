@@ -46,6 +46,9 @@ const { calendlyUrl, trackingEvent = TrackingEvents.CALENDLY_BOOKING_OPENED, siz
 
         if (window.Calendly) {
           window.Calendly.initPopupWidget({ url: calendlyUrl });
+        } else {
+          // Fallback if Calendly script failed to load
+          window.open(calendlyUrl, "_blank", "noopener,noreferrer");
         }
       });
     });

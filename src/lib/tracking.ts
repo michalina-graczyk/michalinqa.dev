@@ -41,6 +41,7 @@ function isBrowser(): boolean {
 }
 
 // Queue for events tracked before mixpanel is ready
+const MAX_QUEUE_SIZE = 100;
 const eventQueue: Array<{ event: EventName; properties?: EventProperties }> =
   [];
 
@@ -57,11 +58,12 @@ function flushEventQueue(): void {
 }
 
 // Set up listener for mixpanel ready event (fired by analytics.ts)
-// Also flush immediately if mixpanel is already initialized (handles race condition)
+// Flush immediately if already initialized, otherwise listen once for the event
 if (isBrowser()) {
-  window.addEventListener("mixpanel:ready", flushEventQueue);
   if (window.mixpanelReady) {
     flushEventQueue();
+  } else {
+    window.addEventListener("mixpanel:ready", flushEventQueue, { once: true });
   }
 }
 
@@ -73,12 +75,11 @@ export function track(event: EventName, properties?: EventProperties): void {
   if (!isBrowser()) return;
 
   if (window.mixpanelReady) {
-    // Flush any queued events first to maintain order
-    flushEventQueue();
     window.mixpanel.track(event, properties);
-  } else {
-    // Queue event for when mixpanel becomes available
+  } else if (eventQueue.length < MAX_QUEUE_SIZE) {
     eventQueue.push({ event, properties });
+  } else if (import.meta.env.DEV) {
+    console.warn("[Tracking] Event queue full, dropping event:", event);
   }
 }
 
