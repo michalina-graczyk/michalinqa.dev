@@ -42,6 +42,9 @@ export function initAnalytics() {
       if (!isProduction) {
         mixpanel.opt_out_tracking();
       }
+
+      // Notify tracking utility that mixpanel is ready
+      window.dispatchEvent(new CustomEvent("mixpanel:ready"));
     },
   });
 }

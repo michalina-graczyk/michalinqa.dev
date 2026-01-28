@@ -23,9 +23,7 @@ const { calendlyUrl, trackingEvent = TrackingEvents.CALENDLY_BOOKING_OPENED, siz
 </Button>
 
 <script>
-  import { track, onReady, TrackingEvents, type EventName } from "@lib/tracking";
-
-  const validEvents = new Set<string>(Object.values(TrackingEvents));
+  import { track, onReady, type EventName } from "@lib/tracking";
 
   function initCalendlyButtons() {
     const buttons = document.querySelectorAll(".calendly-trigger");
@@ -42,7 +40,8 @@ const { calendlyUrl, trackingEvent = TrackingEvents.CALENDLY_BOOKING_OPENED, siz
 
         if (!calendlyUrl) return;
 
-        if (trackingEvent && validEvents.has(trackingEvent)) {
+        // trackingEvent is type-safe via the EventName prop, so we can cast safely
+        if (trackingEvent) {
           track(trackingEvent as EventName);
         }
 

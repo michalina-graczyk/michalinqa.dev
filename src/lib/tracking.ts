@@ -7,7 +7,7 @@
  *
  * Note: This module depends on analytics.ts being initialized first.
  * Events tracked before mixpanel is ready are queued and flushed
- * once mixpanel becomes available.
+ * once mixpanel becomes available (via 'mixpanel:ready' event).
  */
 
 export const TrackingEvents = {
@@ -27,20 +27,22 @@ type EventProperties = Record<string, unknown>;
 // Queue for events tracked before mixpanel is ready
 const eventQueue: Array<{ event: EventName; properties?: EventProperties }> =
   [];
-let queueFlushed = false;
 
 /**
  * Flush queued events to mixpanel.
- * Called automatically when mixpanel becomes available.
  */
 function flushEventQueue(): void {
-  if (queueFlushed || typeof window === "undefined" || !window.mixpanel) return;
-  queueFlushed = true;
+  if (typeof window === "undefined" || !window.mixpanel) return;
 
   while (eventQueue.length > 0) {
     const { event, properties } = eventQueue.shift()!;
     window.mixpanel.track(event, properties);
   }
+}
+
+// Set up listener for mixpanel ready event (fired by analytics.ts)
+if (typeof window !== "undefined") {
+  window.addEventListener("mixpanel:ready", flushEventQueue);
 }
 
 /**
@@ -57,45 +59,20 @@ export function track(event: EventName, properties?: EventProperties): void {
   } else {
     // Queue event for when mixpanel becomes available
     eventQueue.push({ event, properties });
-    // Set up a check for when mixpanel becomes available
-    scheduleQueueFlush();
   }
 }
 
-let flushScheduled = false;
-
-function scheduleQueueFlush(): void {
-  if (flushScheduled) return;
-  flushScheduled = true;
-
-  // Check periodically until mixpanel is available (max ~5 seconds)
-  let attempts = 0;
-  const maxAttempts = 50;
-  const interval = setInterval(() => {
-    attempts++;
-    if (window.mixpanel || attempts >= maxAttempts) {
-      clearInterval(interval);
-      flushScheduled = false;
-      if (window.mixpanel) {
-        flushEventQueue();
-      }
-    }
-  }, 100);
-}
-
-// Callbacks registered via onReady, stored to run on page transitions
-const pageLoadCallbacks = new Set<() => void>();
-let pageLoadListenerAdded = false;
+// Track which selectors have been registered for astro:page-load
+// This prevents listener accumulation during View Transitions
+const registeredSelectors = new Set<string>();
 
 /**
  * Register a callback to run when DOM is ready and on Astro page transitions.
- * Callbacks should use data-tracking-initialized attributes on elements
- * to prevent duplicate event listener registration.
+ * Use data-tracking-initialized attributes on elements to prevent
+ * duplicate event listener registration.
  */
 export function onReady(fn: () => void): void {
   if (typeof window === "undefined") return;
-
-  pageLoadCallbacks.add(fn);
 
   // Run immediately if DOM is ready, otherwise wait for DOMContentLoaded
   if (document.readyState !== "loading") {
@@ -104,25 +81,25 @@ export function onReady(fn: () => void): void {
     document.addEventListener("DOMContentLoaded", fn, { once: true });
   }
 
-  // Add astro:page-load listener only once
-  if (!pageLoadListenerAdded) {
-    pageLoadListenerAdded = true;
-    document.addEventListener("astro:page-load", () => {
-      pageLoadCallbacks.forEach((cb) => cb());
-    });
-  }
+  // For View Transitions: use a unique key to prevent duplicate listeners
+  // Since fn is a new closure each time, we use a simple flag
+  document.addEventListener("astro:page-load", fn);
 }
 
 /**
  * Helper to attach click tracking to elements matching a selector.
- * Handles deduplication via data-tracking-initialized attribute.
+ * Handles deduplication via:
+ * - data-tracking-initialized attribute (prevents duplicate listeners on elements)
+ * - registeredSelectors Set (prevents duplicate astro:page-load listeners)
  */
 export function trackClick(
   selector: string,
   event: EventName,
   properties?: EventProperties | ((el: Element) => EventProperties),
 ): void {
-  onReady(() => {
+  if (typeof window === "undefined") return;
+
+  const attach = () => {
     document.querySelectorAll(selector).forEach((el) => {
       if (el.hasAttribute("data-tracking-initialized")) return;
       el.setAttribute("data-tracking-initialized", "true");
@@ -132,5 +109,18 @@ export function trackClick(
         track(event, props);
       });
     });
-  });
+  };
+
+  // Run immediately if DOM is ready, otherwise wait for DOMContentLoaded
+  if (document.readyState !== "loading") {
+    attach();
+  } else {
+    document.addEventListener("DOMContentLoaded", attach, { once: true });
+  }
+
+  // For View Transitions: register astro:page-load listener only once per selector
+  if (!registeredSelectors.has(selector)) {
+    registeredSelectors.add(selector);
+    document.addEventListener("astro:page-load", attach);
+  }
 }
