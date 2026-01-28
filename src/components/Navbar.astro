@@ -121,7 +121,7 @@ function isActive(itemPath: string): boolean {
     if (brandLink && !brandLink.hasAttribute("data-tracking-initialized")) {
       brandLink.setAttribute("data-tracking-initialized", "true");
       brandLink.addEventListener("click", () => {
-        track(TrackingEvents.NAVIGATION_ITEM_CLICKED, { item: "Brand" });
+        track(TrackingEvents.NAVIGATION_ITEM_CLICKED, { Item: "Brand" });
       });
     }
 
@@ -133,7 +133,7 @@ function isActive(itemPath: string): boolean {
         item.addEventListener("click", () => {
           const itemName = item.getAttribute("data-nav-item");
           if (itemName) {
-            track(TrackingEvents.NAVIGATION_ITEM_CLICKED, { item: itemName });
+            track(TrackingEvents.NAVIGATION_ITEM_CLICKED, { Item: itemName });
           }
         });
       }

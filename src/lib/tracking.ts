@@ -28,12 +28,19 @@ export function track(
   }
 }
 
+// Track registered callbacks to prevent duplicate listener registration
+const registeredCallbacks = new WeakSet<() => void>();
+
 /**
  * Register a callback to run when DOM is ready and on Astro page transitions.
  * Consolidates the common initialization pattern for tracking event listeners.
+ * Uses WeakSet to prevent duplicate registrations during View Transitions.
  */
 export function onReady(fn: () => void): void {
   if (typeof window === "undefined") return;
+
+  if (registeredCallbacks.has(fn)) return;
+  registeredCallbacks.add(fn);
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", fn);

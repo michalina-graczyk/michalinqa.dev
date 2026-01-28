@@ -47,7 +47,7 @@ test.describe("Page Navigation", () => {
         mixpanelEventsTracked,
         TrackingEvents.NAVIGATION_ITEM_CLICKED,
         {
-          item: "Brand",
+          Item: "Brand",
         },
       );
     });
@@ -104,7 +104,7 @@ test.describe("Page Navigation", () => {
           expectLastEventToBeTracked(
             mixpanelEventsTracked,
             TrackingEvents.NAVIGATION_ITEM_CLICKED,
-            { item: item.name },
+            { Item: item.name },
           );
         }
       }

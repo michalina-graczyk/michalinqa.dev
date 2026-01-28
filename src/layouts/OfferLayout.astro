@@ -5,6 +5,7 @@ import Button from "@components/ui/Button.astro";
 import CalendlyButton from "@components/ui/CalendlyButton.astro";
 import { Icon } from "astro-icon/components";
 import { calendlyURL, emailAddress } from "@config/contact";
+import { TrackingEvents } from "@lib/tracking";
 
 export interface Props {
   title: string;
@@ -74,7 +75,7 @@ const serviceSchema = {
         <div class="flex flex-wrap gap-4">
           <CalendlyButton
             calendlyUrl={calendlyURL}
-            trackingEvent="Offer Booking Clicked"
+            trackingEvent={TrackingEvents.OFFER_BOOKING_CLICKED}
           >
             Umów spotkanie
           </CalendlyButton>

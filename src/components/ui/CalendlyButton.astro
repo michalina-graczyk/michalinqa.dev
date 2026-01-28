@@ -1,13 +1,14 @@
 ---
 import Button from "./Button.astro";
+import { TrackingEvents, type EventName } from "@lib/tracking";
 
 interface Props {
   calendlyUrl: string;
-  trackingEvent?: string;
+  trackingEvent?: EventName;
   size?: "sm" | "md" | "lg";
 }
 
-const { calendlyUrl, trackingEvent = "Calendly Booking Opened", size = "lg" } = Astro.props;
+const { calendlyUrl, trackingEvent = TrackingEvents.CALENDLY_BOOKING_OPENED, size = "lg" } = Astro.props;
 ---
 
 <Button

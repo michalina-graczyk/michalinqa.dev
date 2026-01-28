@@ -4,6 +4,7 @@ import CalendlyButton from "@components/ui/CalendlyButton.astro";
 import Social from "@components/ui/Social.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
 import { calendlyURL, emailAddress } from "@config/contact";
+import { TrackingEvents } from "@lib/tracking";
 
 const socials = [
   {
@@ -42,7 +43,7 @@ const socials = [
     </Button>
     <CalendlyButton
       calendlyUrl={calendlyURL}
-      trackingEvent="Calendly Booking Opened"
+      trackingEvent={TrackingEvents.CALENDLY_BOOKING_OPENED}
     >
       Umów spotkanie
     </CalendlyButton>
