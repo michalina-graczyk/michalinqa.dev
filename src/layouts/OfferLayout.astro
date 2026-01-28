@@ -14,8 +14,6 @@ export interface Props {
 
 const { title, description, tags } = Astro.props;
 
-const onEmailClick = "window.mixpanel?.track('Offer email clicked');";
-
 const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -76,7 +74,7 @@ const serviceSchema = {
         <div class="flex flex-wrap gap-4">
           <CalendlyButton
             calendlyUrl={calendlyURL}
-            trackingEvent="Offer booking clicked"
+            trackingEvent="Offer Booking Clicked"
           >
             Umów spotkanie
           </CalendlyButton>
@@ -85,7 +83,7 @@ const serviceSchema = {
             style="secondary"
             name="E-mail"
             href={emailAddress}
-            onclick={onEmailClick}
+            class="offer-email-btn"
           >
             Napisz maila
           </Button>
@@ -151,3 +149,25 @@ const serviceSchema = {
     @apply font-bold text-orange;
   }
 </style>
+
+<script>
+  import { track, TrackingEvents } from "@lib/tracking";
+
+  function initOfferTracking() {
+    const emailBtn = document.querySelector(".offer-email-btn");
+    if (emailBtn && !emailBtn.hasAttribute("data-tracking-initialized")) {
+      emailBtn.setAttribute("data-tracking-initialized", "true");
+      emailBtn.addEventListener("click", () => {
+        track(TrackingEvents.OFFER_EMAIL_CLICKED);
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initOfferTracking);
+  } else {
+    initOfferTracking();
+  }
+
+  document.addEventListener("astro:page-load", initOfferTracking);
+</script>

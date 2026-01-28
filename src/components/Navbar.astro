@@ -49,8 +49,7 @@ function isActive(itemPath: string): boolean {
     <div class="flex w-full items-center justify-between lg:w-auto">
       <a
         href="/"
-        class="whitespace-nowrap font-mono text-lg font-bold text-black hover:text-orange dark:text-white dark:hover:text-orange transition-colors duration-200 motion-reduce:transition-none"
-        onclick="window.mixpanel?.track('Menu item clicked', { 'Item': 'Brand' })"
+        class="nav-brand whitespace-nowrap font-mono text-lg font-bold text-black hover:text-orange dark:text-white dark:hover:text-orange transition-colors duration-200 motion-reduce:transition-none"
       >
         <span class="text-orange">Michalina</span> Graczyk
       </a>
@@ -65,17 +64,17 @@ function isActive(itemPath: string): boolean {
             const active = isActive(item.path);
             return (
               <li>
-                <a
-                  href={item.path}
-                  aria-current={active ? "page" : undefined}
-                  class:list={[
-                    "flex min-h-[44px] items-center py-2 lg:min-h-0 lg:px-3",
-                    "text-black hover:text-orange dark:text-white dark:hover:text-orange",
-                    "transition-colors duration-200 motion-reduce:transition-none",
-                    active && "border-b-2 border-orange text-orange",
-                  ]}
-                  onclick={`window.mixpanel?.track("Menu item clicked", { "Item": "${item.title}" })`}
-                >
+                  <a
+                    href={item.path}
+                    aria-current={active ? "page" : undefined}
+                    class:list={[
+                      "nav-item flex min-h-[44px] items-center py-2 lg:min-h-0 lg:px-3",
+                      "text-black hover:text-orange dark:text-white dark:hover:text-orange",
+                      "transition-colors duration-200 motion-reduce:transition-none",
+                      active && "border-b-2 border-orange text-orange",
+                    ]}
+                    data-nav-item={item.title}
+                  >
                   {item.title}
                 </a>
               </li>
@@ -112,3 +111,40 @@ function isActive(itemPath: string): boolean {
     }
   }
 </style>
+
+<script>
+  import { track, TrackingEvents } from "@lib/tracking";
+
+  function initNavTracking() {
+    // Track brand link clicks
+    const brandLink = document.querySelector(".nav-brand");
+    if (brandLink && !brandLink.hasAttribute("data-tracking-initialized")) {
+      brandLink.setAttribute("data-tracking-initialized", "true");
+      brandLink.addEventListener("click", () => {
+        track(TrackingEvents.NAVIGATION_ITEM_CLICKED, { Item: "Brand" });
+      });
+    }
+
+    // Track navigation item clicks
+    const navItems = document.querySelectorAll(".nav-item[data-nav-item]");
+    navItems.forEach((item) => {
+      if (!item.hasAttribute("data-tracking-initialized")) {
+        item.setAttribute("data-tracking-initialized", "true");
+        item.addEventListener("click", () => {
+          const itemName = item.getAttribute("data-nav-item");
+          if (itemName) {
+            track(TrackingEvents.NAVIGATION_ITEM_CLICKED, { Item: itemName });
+          }
+        });
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initNavTracking);
+  } else {
+    initNavTracking();
+  }
+
+  document.addEventListener("astro:page-load", initNavTracking);
+</script>

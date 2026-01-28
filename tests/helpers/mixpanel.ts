@@ -1,6 +1,9 @@
 import { expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
+// Re-export TrackingEvents for use in tests
+export { TrackingEvents } from "../../src/lib/tracking";
+
 export async function getTrackedEvents(page: Page) {
   return await page.evaluate(() => window.mixpanel.eventsTracked);
 }

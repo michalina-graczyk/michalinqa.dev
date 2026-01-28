@@ -21,10 +21,9 @@ import Button from "@components/ui/Button.astro";
       <Button
         style={"secondary"}
         size={"lg"}
-        class={"flex"}
+        class={"flex hero-cta"}
         name="see how I can help"
         href="#about"
-        onclick="window.mixpanel?.track('Learn more button clicked')"
       >
         Sprawdź, jak mogę pomóc
       </Button>
@@ -44,3 +43,25 @@ import Button from "@components/ui/Button.astro";
     />
   </div>
 </section>
+
+<script>
+  import { track, TrackingEvents } from "@lib/tracking";
+
+  function initHeroTracking() {
+    const button = document.querySelector(".hero-cta");
+    if (button && !button.hasAttribute("data-tracking-initialized")) {
+      button.setAttribute("data-tracking-initialized", "true");
+      button.addEventListener("click", () => {
+        track(TrackingEvents.HERO_CTA_CLICKED);
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHeroTracking);
+  } else {
+    initHeroTracking();
+  }
+
+  document.addEventListener("astro:page-load", initHeroTracking);
+</script>

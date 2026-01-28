@@ -5,8 +5,6 @@ import Social from "@components/ui/Social.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
 import { calendlyURL, emailAddress } from "@config/contact";
 
-const onEmailClick = "window.mixpanel?.track('Contact by mail button clicked');";
-
 const socials = [
   {
     name: "github",
@@ -38,13 +36,13 @@ const socials = [
       style={"secondary"}
       name="E-mail"
       href={emailAddress}
-      onclick={onEmailClick}
+      class="contact-email-btn"
     >
       Napisz maila
     </Button>
     <CalendlyButton
       calendlyUrl={calendlyURL}
-      trackingEvent="Contact by Calendly button clicked"
+      trackingEvent="Calendly Booking Opened"
     >
       Umów spotkanie
     </CalendlyButton>
@@ -52,3 +50,25 @@ const socials = [
   <hr class="w-1/2" />
   <Social socials={socials} />
 </section>
+
+<script>
+  import { track, TrackingEvents } from "@lib/tracking";
+
+  function initContactTracking() {
+    const emailBtn = document.querySelector(".contact-email-btn");
+    if (emailBtn && !emailBtn.hasAttribute("data-tracking-initialized")) {
+      emailBtn.setAttribute("data-tracking-initialized", "true");
+      emailBtn.addEventListener("click", () => {
+        track(TrackingEvents.EMAIL_CONTACT_CLICKED);
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initContactTracking);
+  } else {
+    initContactTracking();
+  }
+
+  document.addEventListener("astro:page-load", initContactTracking);
+</script>
