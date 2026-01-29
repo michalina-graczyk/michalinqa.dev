@@ -186,18 +186,6 @@ test.describe("GDPR Consent Flow", () => {
     const banner = page.locator('[data-testid="consent-banner"]');
     await expect(banner).toBeVisible();
 
-    // Attempt to track an event BEFORE accepting consent
-    // This simulates what happens when user interacts before giving consent
-    await page.evaluate(() => {
-      // Import and call track directly - simulates a click handler calling track()
-      const { track, TrackingEvents } = window as unknown as {
-        track: (event: string) => void;
-        TrackingEvents: { HERO_CTA_CLICKED: string };
-      };
-      // The track function is not on window, so we need to trigger it via a click
-      // Instead, let's check that mixpanel doesn't exist
-    });
-
     // Verify mixpanel is not initialized before consent
     const mixpanelBefore = await page.evaluate(() => !!window.mixpanel);
     expect(mixpanelBefore).toBe(false);

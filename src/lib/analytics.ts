@@ -13,6 +13,13 @@ type MixpanelWithTracking = OverridedMixpanel & {
 // Do not change the withdrawal flow to SPA navigation without resetting this flag.
 let analyticsInitialized = false;
 
+// Reset initialization flag on HMR to allow re-initialization during development
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => {
+    analyticsInitialized = false;
+  });
+}
+
 export async function initAnalytics(): Promise<void> {
   // SSR guard
   if (typeof window === "undefined") return;

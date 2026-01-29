@@ -51,20 +51,22 @@ export function clearConsent(): void {
 
 /**
  * Withdraw consent and immediately stop all tracking.
- * This ensures no events are tracked between withdrawal and page reload.
+ * Best-effort cleanup before page reload - the reload is what truly resets state.
  * Call this instead of clearConsent() when user actively withdraws consent.
  */
 export function withdrawConsent(): void {
   clearConsent();
   if (typeof window === "undefined") return;
 
-  // Immediately stop tracking - don't wait for reload
+  // Stop the event queue from flushing first
+  window.mixpanelReady = false;
+
+  // Best-effort cleanup of Mixpanel state before reload
+  // Note: Code holding a reference to window.mixpanel could theoretically still track,
+  // but the immediate page reload that follows makes this a non-issue in practice.
   if (window.mixpanel) {
-    // opt_out_tracking() is synchronous and immediately stops all tracking
-    // This prevents any race condition with the page reload
     window.mixpanel.opt_out_tracking();
     window.mixpanel.reset(); // Clears Mixpanel's localStorage data and distinct_id
     window.mixpanel = undefined;
   }
-  window.mixpanelReady = false;
 }
