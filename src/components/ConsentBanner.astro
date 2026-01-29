@@ -8,6 +8,8 @@
 
 <div
   id="consent-banner"
+  role="dialog"
+  aria-label="Zgoda na analitykę"
   class="fixed inset-x-0 bottom-0 z-50 hidden border-t border-gray-800 bg-black/95 p-4 backdrop-blur-sm"
   data-testid="consent-banner"
 >
@@ -46,6 +48,10 @@
     const rejectBtn = document.getElementById("consent-reject");
 
     if (!banner || !acceptBtn || !rejectBtn) return;
+
+    // Prevent duplicate event listeners on View Transitions
+    if (banner.hasAttribute("data-initialized")) return;
+    banner.setAttribute("data-initialized", "true");
 
     const consent = getConsent();
 

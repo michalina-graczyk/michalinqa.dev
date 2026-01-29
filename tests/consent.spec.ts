@@ -1,10 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("GDPR Consent Flow", () => {
-  test.beforeEach(async ({ page, context }) => {
-    // Clear localStorage before each test
-    await context.clearCookies();
-  });
+  // Each test gets a fresh browser context with clean localStorage by default
 
   test("shows consent banner on first visit", async ({ page, baseURL }) => {
     await page.goto(baseURL!);
@@ -26,8 +23,8 @@ test.describe("GDPR Consent Flow", () => {
     const banner = page.locator('[data-testid="consent-banner"]');
     await expect(banner).toBeVisible();
 
-    // Click accept
-    await page.click('[data-testid="consent-accept"]');
+    // Click accept (force to bypass Astro dev toolbar overlay)
+    await page.click('[data-testid="consent-accept"]', { force: true });
 
     // Banner should hide
     await expect(banner).not.toBeVisible();
@@ -52,8 +49,8 @@ test.describe("GDPR Consent Flow", () => {
     const banner = page.locator('[data-testid="consent-banner"]');
     await expect(banner).toBeVisible();
 
-    // Click reject
-    await page.click('[data-testid="consent-reject"]');
+    // Click reject (force to bypass Astro dev toolbar overlay)
+    await page.click('[data-testid="consent-reject"]', { force: true });
 
     // Banner should hide
     await expect(banner).not.toBeVisible();

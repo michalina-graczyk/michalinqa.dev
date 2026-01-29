@@ -70,12 +70,14 @@ if (isBrowser()) {
 /**
  * Track an event with Mixpanel.
  * Safely handles SSR (no-op) and queues events if mixpanel isn't ready yet.
- * If user rejected consent, mixpanel won't exist - silently ignore.
+ *
+ * GDPR: If user hasn't given consent yet or rejected, window.mixpanel won't exist.
+ * Events before consent are intentionally dropped (not queued) for GDPR compliance.
  */
 export function track(event: EventName, properties?: EventProperties): void {
   if (!isBrowser()) return;
 
-  // If consent rejected, mixpanel won't exist - silently ignore
+  // No mixpanel = no consent given (or rejected) - drop event for GDPR compliance
   if (!window.mixpanel) return;
 
   if (window.mixpanelReady) {

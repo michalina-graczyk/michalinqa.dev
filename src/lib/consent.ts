@@ -20,6 +20,8 @@ export function getConsent(): ConsentState {
 
 /**
  * Set the consent state and dispatch an event for listeners.
+ * The 'consent:changed' event can be used by external integrations
+ * or for debugging/monitoring consent state changes.
  */
 export function setConsent(value: "accepted" | "rejected"): void {
   if (typeof window === "undefined") return;
