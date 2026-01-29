@@ -1,13 +1,24 @@
 import mixpanel from "mixpanel-browser";
+import type { OverridedMixpanel } from "mixpanel-browser";
 import { PUBLIC_MIXPANEL_TOKEN } from "astro:env/client";
 
+type MixpanelWithTracking = OverridedMixpanel & {
+  eventsTracked: Array<{
+    eventName: string;
+    eventProperties?: Record<string, unknown>;
+  }>;
+};
+
 export function initAnalytics() {
+  // Idempotency guard - prevent double initialization
+  if (window.mixpanel) return;
+
   const isProduction = window.location.hostname === "michalinqa.dev";
 
   // Expose to window for tracking utility and test harness
-  // Type assertion needed because we extend with eventsTracked below
-  window.mixpanel = mixpanel as NonNullable<typeof window.mixpanel>;
-  window.mixpanel.eventsTracked = [];
+  const mp = mixpanel as MixpanelWithTracking;
+  mp.eventsTracked = [];
+  window.mixpanel = mp;
 
   // In development/test: set up event tracking mock
   if (!isProduction) {

@@ -70,14 +70,11 @@ test.describe("GDPR Consent Flow", () => {
     page,
     baseURL,
   }) => {
-    // Simulate prior consent
+    // Set consent before page loads
+    await page.addInitScript(() => {
+      localStorage.setItem("analytics-consent", "accepted");
+    });
     await page.goto(baseURL!);
-    await page.evaluate(() =>
-      localStorage.setItem("analytics-consent", "accepted"),
-    );
-
-    // Reload page
-    await page.reload();
 
     // Banner should not be visible
     const banner = page.locator('[data-testid="consent-banner"]');
@@ -92,14 +89,11 @@ test.describe("GDPR Consent Flow", () => {
     page,
     baseURL,
   }) => {
-    // Simulate prior rejection
+    // Set rejection before page loads
+    await page.addInitScript(() => {
+      localStorage.setItem("analytics-consent", "rejected");
+    });
     await page.goto(baseURL!);
-    await page.evaluate(() =>
-      localStorage.setItem("analytics-consent", "rejected"),
-    );
-
-    // Reload page
-    await page.reload();
 
     // Banner should not be visible
     const banner = page.locator('[data-testid="consent-banner"]');

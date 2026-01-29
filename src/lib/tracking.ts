@@ -40,7 +40,9 @@ function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
 
-// Queue for events tracked before mixpanel is ready
+// Queue for events tracked after consent but before Mixpanel SDK finishes loading.
+// This handles the small window between initAnalytics() call and the loaded callback.
+// Note: Events before consent are dropped (not queued) for GDPR compliance.
 const MAX_QUEUE_SIZE = 100;
 const eventQueue: Array<{ event: EventName; properties?: EventProperties }> =
   [];
@@ -51,7 +53,7 @@ const eventQueue: Array<{ event: EventName; properties?: EventProperties }> =
 function flushEventQueue(): void {
   if (!isBrowser() || !window.mixpanelReady || !window.mixpanel) return;
 
-  while (eventQueue.length > 0) {
+  while (eventQueue.length > 0 && window.mixpanel) {
     const { event, properties } = eventQueue.shift()!;
     window.mixpanel.track(event, properties);
   }

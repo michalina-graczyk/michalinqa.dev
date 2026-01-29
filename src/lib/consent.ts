@@ -1,6 +1,10 @@
 /**
  * Analytics consent management for GDPR compliance.
  * Stores consent state in localStorage.
+ *
+ * TODO: Add UI to withdraw consent (GDPR Article 7(3) requires this).
+ * Could be a "Cookie settings" link in the footer that clears localStorage
+ * and shows the banner again.
  */
 
 const CONSENT_KEY = "analytics-consent";
@@ -19,12 +23,9 @@ export function getConsent(): ConsentState {
 }
 
 /**
- * Set the consent state and dispatch an event for listeners.
- * The 'consent:changed' event can be used by external integrations
- * or for debugging/monitoring consent state changes.
+ * Set the consent state.
  */
 export function setConsent(value: "accepted" | "rejected"): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(CONSENT_KEY, value);
-  window.dispatchEvent(new CustomEvent("consent:changed", { detail: value }));
 }
