@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import {
+  acceptConsentIfVisible,
   expectLastEventToBeTracked,
   getTrackedEvents,
   TrackingEvents,
@@ -8,6 +9,7 @@ import {
 test.describe("Page Navigation", () => {
   test.beforeEach(async ({ page, baseURL }) => {
     await page.goto(baseURL!);
+    await acceptConsentIfVisible(page);
   });
 
   test.describe("Brand Navigation", () => {
@@ -29,6 +31,7 @@ test.describe("Page Navigation", () => {
     test("Brand click tracks Mixpanel event", async ({ page, baseURL }) => {
       // Navigate to blog page first
       await page.goto(`${baseURL}/blog`);
+      await acceptConsentIfVisible(page);
       const brandLink = page.locator('header a[href="/"]').first();
 
       // Prevent navigation so we can capture the event before page changes
@@ -157,6 +160,7 @@ test.describe("Page Navigation", () => {
     }) => {
       if (!isMobile) {
         await page.goto(`${baseURL}/blog`);
+        await acceptConsentIfVisible(page);
         const blogLink = page.locator('nav a:has-text("Blog")');
         await expect(blogLink).toHaveAttribute("aria-current", "page");
 
@@ -173,6 +177,7 @@ test.describe("Page Navigation", () => {
     }) => {
       if (!isMobile) {
         await page.goto(`${baseURL}/cv`);
+        await acceptConsentIfVisible(page);
         const cvLink = page.locator('nav a:has-text("CV")');
         await expect(cvLink).toHaveAttribute("aria-current", "page");
 
@@ -190,6 +195,7 @@ test.describe("Page Navigation", () => {
       if (!isMobile) {
         // First get a blog post URL from the blog page
         await page.goto(`${baseURL}/blog`);
+        await acceptConsentIfVisible(page);
         const firstBlogPost = page.locator("article a").first();
         const postExists = (await firstBlogPost.count()) > 0;
 
@@ -212,6 +218,7 @@ test.describe("Page Navigation", () => {
     }) => {
       if (!isMobile) {
         await page.goto(`${baseURL}/blog`);
+        await acceptConsentIfVisible(page);
         const blogLink = page.locator('nav a:has-text("Blog")');
         await expect(blogLink).toHaveClass(/border-b-2/);
         await expect(blogLink).toHaveClass(/border-orange/);

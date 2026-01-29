@@ -1,0 +1,89 @@
+---
+/**
+ * GDPR consent banner for analytics.
+ * Shows a minimalist bottom bar on first visit.
+ * Initializes Mixpanel only after user accepts.
+ */
+---
+
+<div
+  id="consent-banner"
+  class="fixed inset-x-0 bottom-0 z-50 hidden border-t border-gray-800 bg-black/95 p-4 backdrop-blur-sm"
+  data-testid="consent-banner"
+>
+  <div
+    class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-4"
+  >
+    <p class="text-sm text-white">
+      Ta strona używa analityki do poprawy jakości.
+    </p>
+    <div class="flex gap-2">
+      <button
+        id="consent-reject"
+        class="cursor-pointer rounded-xl border-2 border-transparent bg-gray-800 px-4 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-gray-700 focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 motion-reduce:transition-none"
+        data-testid="consent-reject"
+      >
+        Odrzuć
+      </button>
+      <button
+        id="consent-accept"
+        class="cursor-pointer rounded-xl border-2 border-transparent bg-orange px-4 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-black focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 motion-reduce:transition-none"
+        data-testid="consent-accept"
+      >
+        Akceptuję
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { getConsent, setConsent } from "@lib/consent";
+  import { initAnalytics } from "@lib/analytics";
+
+  function initConsentBanner() {
+    const banner = document.getElementById("consent-banner");
+    const acceptBtn = document.getElementById("consent-accept");
+    const rejectBtn = document.getElementById("consent-reject");
+
+    if (!banner || !acceptBtn || !rejectBtn) return;
+
+    const consent = getConsent();
+
+    if (consent === "accepted") {
+      // User already accepted - initialize analytics, don't show banner
+      initAnalytics();
+      return;
+    }
+
+    if (consent === "rejected") {
+      // User already rejected - don't show banner, don't initialize
+      return;
+    }
+
+    // No consent yet - show banner
+    banner.classList.remove("hidden");
+
+    acceptBtn.addEventListener("click", () => {
+      setConsent("accepted");
+      banner.classList.add("hidden");
+      initAnalytics();
+    });
+
+    rejectBtn.addEventListener("click", () => {
+      setConsent("rejected");
+      banner.classList.add("hidden");
+    });
+  }
+
+  // Run on initial load
+  if (document.readyState !== "loading") {
+    initConsentBanner();
+  } else {
+    document.addEventListener("DOMContentLoaded", initConsentBanner, {
+      once: true,
+    });
+  }
+
+  // Support Astro View Transitions (future-proofing)
+  document.addEventListener("astro:page-load", initConsentBanner);
+</script>

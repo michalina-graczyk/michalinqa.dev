@@ -6,7 +6,7 @@ export function initAnalytics() {
 
   // Expose to window for tracking utility and test harness
   // Type assertion needed because we extend with eventsTracked below
-  window.mixpanel = mixpanel as typeof window.mixpanel;
+  window.mixpanel = mixpanel as NonNullable<typeof window.mixpanel>;
   window.mixpanel.eventsTracked = [];
 
   // In development/test: set up event tracking mock
@@ -16,7 +16,7 @@ export function initAnalytics() {
       eventName: string,
       properties?: Record<string, unknown>,
     ) {
-      window.mixpanel.eventsTracked.push({
+      window.mixpanel!.eventsTracked.push({
         eventName,
         eventProperties: properties,
       });

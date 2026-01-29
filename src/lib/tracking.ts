@@ -49,7 +49,7 @@ const eventQueue: Array<{ event: EventName; properties?: EventProperties }> =
  * Flush queued events to mixpanel.
  */
 function flushEventQueue(): void {
-  if (!isBrowser() || !window.mixpanelReady) return;
+  if (!isBrowser() || !window.mixpanelReady || !window.mixpanel) return;
 
   while (eventQueue.length > 0) {
     const { event, properties } = eventQueue.shift()!;
@@ -70,9 +70,13 @@ if (isBrowser()) {
 /**
  * Track an event with Mixpanel.
  * Safely handles SSR (no-op) and queues events if mixpanel isn't ready yet.
+ * If user rejected consent, mixpanel won't exist - silently ignore.
  */
 export function track(event: EventName, properties?: EventProperties): void {
   if (!isBrowser()) return;
+
+  // If consent rejected, mixpanel won't exist - silently ignore
+  if (!window.mixpanel) return;
 
   if (window.mixpanelReady) {
     window.mixpanel.track(event, properties);

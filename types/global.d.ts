@@ -11,7 +11,8 @@ interface TrackedEvent {
 
 declare global {
   interface Window {
-    mixpanel: OverridedMixpanel & {
+    /** Mixpanel instance. Only set if user has accepted analytics consent. */
+    mixpanel?: OverridedMixpanel & {
       eventsTracked: TrackedEvent[];
     };
     /** Set to true once Mixpanel SDK is fully initialized (loaded callback fired) */

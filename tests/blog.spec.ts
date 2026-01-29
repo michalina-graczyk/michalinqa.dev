@@ -1,9 +1,11 @@
 import { expect, test } from "@playwright/test";
+import { acceptConsentIfVisible } from "./helpers/mixpanel";
 
 test.describe("Blog", () => {
   test.describe("Blog Listing Page", () => {
     test("displays posts with required elements", async ({ page, baseURL }) => {
       await page.goto(`${baseURL}/blog`);
+      await acceptConsentIfVisible(page);
 
       await expect(page).toHaveTitle(/Blog/);
 
@@ -26,6 +28,7 @@ test.describe("Blog", () => {
       baseURL,
     }) => {
       await page.goto(`${baseURL}/blog`);
+      await acceptConsentIfVisible(page);
 
       // Click first blog post
       const firstArticleLink = page.locator("main article a").first();
@@ -50,6 +53,7 @@ test.describe("Blog", () => {
       baseURL,
     }) => {
       await page.goto(`${baseURL}/blog`);
+      await acceptConsentIfVisible(page);
 
       // Navigate to first post
       await page.locator("main article a").first().click();
@@ -73,6 +77,7 @@ test.describe("Blog", () => {
       baseURL,
     }) => {
       await page.goto(`${baseURL}/blog/shift-left-done-right`);
+      await acceptConsentIfVisible(page);
 
       const expectedCanonical =
         "https://dev.to/michalina_graczyk/shift-left-done-right-qa-in-the-modern-sdlc-5c24";
@@ -100,6 +105,7 @@ test.describe("Blog", () => {
       });
 
       await page.goto(`${baseURL}/blog/from-cypress-to-playwright`);
+      await acceptConsentIfVisible(page);
       await page.waitForLoadState("networkidle");
 
       // Verify no blog images failed to load
@@ -120,10 +126,12 @@ test.describe("Blog", () => {
     test("displays language flag for article", async ({ page, baseURL }) => {
       // Polish article
       await page.goto(`${baseURL}/blog/ach-ta-niedeterministycznosc`);
+      await acceptConsentIfVisible(page);
       await expect(page.getByTitle("Polski")).toBeVisible();
 
       // English article
       await page.goto(`${baseURL}/blog/from-cypress-to-playwright`);
+      await acceptConsentIfVisible(page);
       await expect(page.getByTitle("English")).toBeVisible();
     });
   });
@@ -134,6 +142,7 @@ test.describe("Blog", () => {
       baseURL,
     }) => {
       await page.goto(`${baseURL}/blog/ach-ta-niedeterministycznosc`);
+      await acceptConsentIfVisible(page);
 
       // Get all ld+json scripts and find the Article one
       const scripts = page.locator('script[type="application/ld+json"]');
@@ -172,11 +181,13 @@ test.describe("Blog", () => {
     test("og:locale matches article language", async ({ page, baseURL }) => {
       // Polish article should have pl_PL locale
       await page.goto(`${baseURL}/blog/ach-ta-niedeterministycznosc`);
+      await acceptConsentIfVisible(page);
       const plLocale = page.locator('meta[property="og:locale"]');
       await expect(plLocale).toHaveAttribute("content", "pl_PL");
 
       // English article should have en_US locale
       await page.goto(`${baseURL}/blog/from-cypress-to-playwright`);
+      await acceptConsentIfVisible(page);
       const enLocale = page.locator('meta[property="og:locale"]');
       await expect(enLocale).toHaveAttribute("content", "en_US");
     });
@@ -187,10 +198,12 @@ test.describe("Blog", () => {
     }) => {
       // Polish article should have lang="pl"
       await page.goto(`${baseURL}/blog/ach-ta-niedeterministycznosc`);
+      await acceptConsentIfVisible(page);
       await expect(page.locator("html")).toHaveAttribute("lang", "pl");
 
       // English article should have lang="en"
       await page.goto(`${baseURL}/blog/from-cypress-to-playwright`);
+      await acceptConsentIfVisible(page);
       await expect(page.locator("html")).toHaveAttribute("lang", "en");
     });
   });
