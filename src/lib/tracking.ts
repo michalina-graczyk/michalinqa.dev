@@ -80,7 +80,12 @@ export function track(event: EventName, properties?: EventProperties): void {
   if (!isBrowser()) return;
 
   // No mixpanel = no consent given (or rejected) - drop event for GDPR compliance
-  if (!window.mixpanel) return;
+  if (!window.mixpanel) {
+    if (import.meta.env.DEV) {
+      console.debug("[Tracking] Event dropped (no consent):", event);
+    }
+    return;
+  }
 
   if (window.mixpanelReady) {
     window.mixpanel.track(event, properties);

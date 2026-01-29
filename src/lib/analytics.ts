@@ -8,7 +8,9 @@ type MixpanelWithTracking = OverridedMixpanel & {
   }>;
 };
 
-// Module-level flag prevents double initialization regardless of window.mixpanel state
+// Module-level flag prevents double initialization regardless of window.mixpanel state.
+// INVARIANT: Consent withdrawal MUST trigger a full page reload to reset this flag.
+// Do not change the withdrawal flow to SPA navigation without resetting this flag.
 let analyticsInitialized = false;
 
 export async function initAnalytics(): Promise<void> {

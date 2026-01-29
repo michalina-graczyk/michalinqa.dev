@@ -136,4 +136,43 @@ test.describe("GDPR Consent Flow", () => {
     );
     expect(consent).toBeNull();
   });
+
+  test("handles localStorage errors gracefully", async ({ page, baseURL }) => {
+    // Mock localStorage to throw (simulates private browsing mode)
+    await page.addInitScript(() => {
+      const originalGetItem = localStorage.getItem.bind(localStorage);
+      const originalSetItem = localStorage.setItem.bind(localStorage);
+
+      Object.defineProperty(window, "localStorage", {
+        value: {
+          getItem: () => {
+            throw new Error("SecurityError: localStorage not available");
+          },
+          setItem: () => {
+            throw new Error("SecurityError: localStorage not available");
+          },
+          removeItem: () => {
+            throw new Error("SecurityError: localStorage not available");
+          },
+          // Keep other methods to avoid breaking unrelated code
+          clear: () => {},
+          key: () => null,
+          length: 0,
+        },
+        writable: true,
+      });
+    });
+
+    await page.goto(baseURL!);
+
+    // Banner should still show (graceful degradation)
+    const banner = page.locator('[data-testid="consent-banner"]');
+    await expect(banner).toBeVisible();
+
+    // Page should not crash - we can interact with the banner
+    await page.click('[data-testid="consent-accept"]', { force: true });
+
+    // Banner should hide (even though consent won't persist)
+    await expect(banner).not.toBeVisible();
+  });
 });

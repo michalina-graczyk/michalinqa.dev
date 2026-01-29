@@ -13,9 +13,15 @@ export type ConsentState = "accepted" | "rejected" | null;
  */
 export function getConsent(): ConsentState {
   if (typeof window === "undefined") return null;
-  const value = localStorage.getItem(CONSENT_KEY);
-  if (value === "accepted" || value === "rejected") return value;
-  return null;
+  try {
+    const value = localStorage.getItem(CONSENT_KEY);
+    if (value === "accepted" || value === "rejected") return value;
+    return null;
+  } catch {
+    // localStorage unavailable (private browsing, storage quota, etc.)
+    // Returning null means banner will show - safest GDPR-compliant behavior
+    return null;
+  }
 }
 
 /**
@@ -23,7 +29,11 @@ export function getConsent(): ConsentState {
  */
 export function setConsent(value: "accepted" | "rejected"): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(CONSENT_KEY, value);
+  try {
+    localStorage.setItem(CONSENT_KEY, value);
+  } catch {
+    // Silent fail - consent won't persist, user will see banner again next visit
+  }
 }
 
 /**
@@ -32,5 +42,9 @@ export function setConsent(value: "accepted" | "rejected"): void {
  */
 export function clearConsent(): void {
   if (typeof window === "undefined") return;
-  localStorage.removeItem(CONSENT_KEY);
+  try {
+    localStorage.removeItem(CONSENT_KEY);
+  } catch {
+    // Silent fail - localStorage unavailable
+  }
 }

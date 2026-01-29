@@ -8,8 +8,9 @@
 
 <div
   id="consent-banner"
-  role="dialog"
+  role="region"
   aria-label="Zgoda na analitykę"
+  aria-live="polite"
   class="fixed inset-x-0 bottom-0 z-50 hidden border-t border-gray-800 bg-black/95 p-4 backdrop-blur-sm"
   data-testid="consent-banner"
 >
@@ -95,11 +96,6 @@
     rejectBtn.addEventListener("click", () => {
       setConsent("rejected");
       hideBanner();
-    });
-
-    // Listen for consent withdrawal request (from footer link)
-    window.addEventListener("consent:show-banner", () => {
-      showBanner();
     });
   }
 
