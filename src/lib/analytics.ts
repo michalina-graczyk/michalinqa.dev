@@ -1,4 +1,3 @@
-import mixpanel from "mixpanel-browser";
 import type { OverridedMixpanel } from "mixpanel-browser";
 import { PUBLIC_MIXPANEL_TOKEN } from "astro:env/client";
 
@@ -9,9 +8,19 @@ type MixpanelWithTracking = OverridedMixpanel & {
   }>;
 };
 
-export function initAnalytics() {
+// Module-level flag prevents double initialization regardless of window.mixpanel state
+let analyticsInitialized = false;
+
+export async function initAnalytics(): Promise<void> {
+  // SSR guard
+  if (typeof window === "undefined") return;
+
   // Idempotency guard - prevent double initialization
-  if (window.mixpanel) return;
+  if (analyticsInitialized) return;
+  analyticsInitialized = true;
+
+  // Dynamic import - Mixpanel SDK only loaded when user consents
+  const { default: mixpanel } = await import("mixpanel-browser");
 
   const isProduction = window.location.hostname === "michalinqa.dev";
 

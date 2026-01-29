@@ -9,6 +9,7 @@ export { TrackingEvents, type EventName } from "../../src/lib/tracking";
  * Accept analytics consent if the banner is visible.
  * This initializes Mixpanel so tracking tests can work.
  * Uses force:true to bypass Astro dev toolbar overlay in development.
+ * Waits for Mixpanel to be fully initialized after accepting.
  */
 export async function acceptConsentIfVisible(page: Page) {
   const banner = page.locator('[data-testid="consent-banner"]');
@@ -16,6 +17,10 @@ export async function acceptConsentIfVisible(page: Page) {
     // Force click to bypass Astro dev toolbar which overlays the banner in dev mode
     await page.click('[data-testid="consent-accept"]', { force: true });
     await expect(banner).not.toBeVisible();
+    // Wait for Mixpanel to be fully initialized (async dynamic import)
+    await page.waitForFunction(() => window.mixpanelReady === true, {
+      timeout: 5000,
+    });
   }
 }
 

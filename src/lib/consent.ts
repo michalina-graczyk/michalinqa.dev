@@ -1,13 +1,9 @@
 /**
  * Analytics consent management for GDPR compliance.
  * Stores consent state in localStorage.
- *
- * TODO: Add UI to withdraw consent (GDPR Article 7(3) requires this).
- * Could be a "Cookie settings" link in the footer that clears localStorage
- * and shows the banner again.
  */
 
-const CONSENT_KEY = "analytics-consent";
+const CONSENT_KEY = "michalinqa:analytics-consent";
 
 export type ConsentState = "accepted" | "rejected" | null;
 
@@ -28,4 +24,13 @@ export function getConsent(): ConsentState {
 export function setConsent(value: "accepted" | "rejected"): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(CONSENT_KEY, value);
+}
+
+/**
+ * Clear consent state (for GDPR withdrawal).
+ * After calling this, the consent banner should be shown again.
+ */
+export function clearConsent(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(CONSENT_KEY);
 }

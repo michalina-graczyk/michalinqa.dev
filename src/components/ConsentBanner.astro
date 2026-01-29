@@ -17,7 +17,7 @@
     class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-4"
   >
     <p class="text-sm text-white">
-      Ta strona używa analityki do poprawy jakości.
+      Używamy analityki, aby ulepszać tę stronę.
     </p>
     <div class="flex gap-2">
       <button
@@ -42,6 +42,23 @@
   import { getConsent, setConsent } from "@lib/consent";
   import { initAnalytics } from "@lib/analytics";
 
+  // Module-level flag to prevent duplicate initialization
+  let bannerInitialized = false;
+
+  function showBanner() {
+    const banner = document.getElementById("consent-banner");
+    if (banner) {
+      banner.classList.remove("hidden");
+    }
+  }
+
+  function hideBanner() {
+    const banner = document.getElementById("consent-banner");
+    if (banner) {
+      banner.classList.add("hidden");
+    }
+  }
+
   function initConsentBanner() {
     const banner = document.getElementById("consent-banner");
     const acceptBtn = document.getElementById("consent-accept");
@@ -49,9 +66,9 @@
 
     if (!banner || !acceptBtn || !rejectBtn) return;
 
-    // Prevent duplicate event listeners on View Transitions
-    if (banner.hasAttribute("data-initialized")) return;
-    banner.setAttribute("data-initialized", "true");
+    // Prevent duplicate event listeners
+    if (bannerInitialized) return;
+    bannerInitialized = true;
 
     const consent = getConsent();
 
@@ -67,17 +84,22 @@
     }
 
     // No consent yet - show banner
-    banner.classList.remove("hidden");
+    showBanner();
 
     acceptBtn.addEventListener("click", () => {
       setConsent("accepted");
-      banner.classList.add("hidden");
+      hideBanner();
       initAnalytics();
     });
 
     rejectBtn.addEventListener("click", () => {
       setConsent("rejected");
-      banner.classList.add("hidden");
+      hideBanner();
+    });
+
+    // Listen for consent withdrawal request (from footer link)
+    window.addEventListener("consent:show-banner", () => {
+      showBanner();
     });
   }
 
