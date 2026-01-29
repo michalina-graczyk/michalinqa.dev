@@ -60,6 +60,9 @@ export function withdrawConsent(): void {
 
   // Immediately stop tracking - don't wait for reload
   if (window.mixpanel) {
+    // opt_out_tracking() is synchronous and immediately stops all tracking
+    // This prevents any race condition with the page reload
+    window.mixpanel.opt_out_tracking();
     window.mixpanel.reset(); // Clears Mixpanel's localStorage data and distinct_id
     window.mixpanel = undefined;
   }

@@ -22,7 +22,19 @@ export async function initAnalytics(): Promise<void> {
   analyticsInitialized = true;
 
   // Dynamic import - Mixpanel SDK only loaded when user consents
-  const { default: mixpanel } = await import("mixpanel-browser");
+  let mixpanel;
+  try {
+    const module = await import("mixpanel-browser");
+    mixpanel = module.default;
+  } catch (error) {
+    // Import failed (network error, ad blocker, etc.)
+    // Reset flag to allow retry on next page load
+    analyticsInitialized = false;
+    if (import.meta.env.DEV) {
+      console.warn("[Analytics] Failed to load Mixpanel SDK:", error);
+    }
+    return;
+  }
 
   const isProduction = window.location.hostname === "michalinqa.dev";
 

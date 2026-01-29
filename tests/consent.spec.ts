@@ -176,4 +176,56 @@ test.describe("GDPR Consent Flow", () => {
     // Banner should hide (even though consent won't persist)
     await expect(banner).not.toBeVisible();
   });
+
+  test("events triggered before consent are dropped, not queued", async ({
+    page,
+    baseURL,
+  }) => {
+    await page.goto(baseURL!);
+
+    const banner = page.locator('[data-testid="consent-banner"]');
+    await expect(banner).toBeVisible();
+
+    // Attempt to track an event BEFORE accepting consent
+    // This simulates what happens when user interacts before giving consent
+    await page.evaluate(() => {
+      // Import and call track directly - simulates a click handler calling track()
+      const { track, TrackingEvents } = window as unknown as {
+        track: (event: string) => void;
+        TrackingEvents: { HERO_CTA_CLICKED: string };
+      };
+      // The track function is not on window, so we need to trigger it via a click
+      // Instead, let's check that mixpanel doesn't exist
+    });
+
+    // Verify mixpanel is not initialized before consent
+    const mixpanelBefore = await page.evaluate(() => !!window.mixpanel);
+    expect(mixpanelBefore).toBe(false);
+
+    // Trigger an event that would normally track - use navigation which is always present
+    await page.click('header a[href="/"]', { force: true });
+
+    // Wait for any navigation and go back to homepage
+    await page.waitForURL(baseURL!);
+
+    // Now accept consent
+    await expect(banner).toBeVisible();
+    await page.click('[data-testid="consent-accept"]', { force: true });
+    await expect(banner).not.toBeVisible();
+
+    // Wait for Mixpanel to be fully initialized
+    await page.waitForFunction(() => window.mixpanelReady === true, {
+      timeout: 5000,
+    });
+
+    // Verify the pre-consent nav click was dropped (not queued and replayed)
+    // Only page view should be tracked (if any), not the navigation click before consent
+    const events = await page.evaluate(
+      () => window.mixpanel?.eventsTracked ?? [],
+    );
+    const navEvents = events.filter(
+      (e) => e.eventName === "Navigation Item Clicked",
+    );
+    expect(navEvents).toHaveLength(0);
+  });
 });

@@ -44,15 +44,13 @@
   import { getConsent, setConsent } from "@lib/consent";
   import { initAnalytics } from "@lib/analytics";
 
-  // Module-level flag to prevent duplicate initialization
-  let bannerInitialized = false;
-
   function showBanner() {
     const banner = document.getElementById("consent-banner");
+    const acceptBtn = document.getElementById("consent-accept");
     if (banner) {
       banner.classList.remove("hidden");
-      // Move focus to banner for accessibility
-      banner.focus();
+      // Focus the accept button for accessibility - allows immediate keyboard interaction
+      acceptBtn?.focus();
     }
   }
 
@@ -70,9 +68,9 @@
 
     if (!banner || !acceptBtn || !rejectBtn) return;
 
-    // Prevent duplicate event listeners
-    if (bannerInitialized) return;
-    bannerInitialized = true;
+    // Prevent duplicate event listeners using DOM attribute (resilient to HMR)
+    if (banner.hasAttribute("data-initialized")) return;
+    banner.setAttribute("data-initialized", "true");
 
     const consent = getConsent();
 
