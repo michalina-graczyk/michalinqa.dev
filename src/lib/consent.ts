@@ -3,7 +3,7 @@
  * Stores consent state in localStorage.
  */
 
-const CONSENT_KEY = "michalinqa:analytics-consent";
+export const CONSENT_KEY = "michalinqa:analytics-consent";
 
 export type ConsentState = "accepted" | "rejected" | null;
 
@@ -47,4 +47,21 @@ export function clearConsent(): void {
   } catch {
     // Silent fail - localStorage unavailable
   }
+}
+
+/**
+ * Withdraw consent and immediately stop all tracking.
+ * This ensures no events are tracked between withdrawal and page reload.
+ * Call this instead of clearConsent() when user actively withdraws consent.
+ */
+export function withdrawConsent(): void {
+  clearConsent();
+  if (typeof window === "undefined") return;
+
+  // Immediately stop tracking - don't wait for reload
+  if (window.mixpanel) {
+    window.mixpanel.reset(); // Clears Mixpanel's localStorage data and distinct_id
+    window.mixpanel = undefined;
+  }
+  window.mixpanelReady = false;
 }

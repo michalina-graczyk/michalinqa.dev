@@ -33,7 +33,7 @@
   <p class="mt-2">
     <button
       id="cookie-settings"
-      class="cursor-pointer text-gray-500 underline hover:text-orange"
+      class="min-h-[44px] cursor-pointer text-gray-500 underline hover:text-orange"
       data-testid="cookie-settings"
     >
       Ustawienia cookies
@@ -42,7 +42,7 @@
 </footer>
 
 <script>
-  import { clearConsent } from "@lib/consent";
+  import { withdrawConsent } from "@lib/consent";
 
   function initCookieSettings() {
     const button = document.getElementById("cookie-settings");
@@ -50,7 +50,7 @@
     button.setAttribute("data-initialized", "true");
 
     button.addEventListener("click", () => {
-      clearConsent();
+      withdrawConsent();
       // Reload the page to reset analytics state and show banner
       window.location.reload();
     });

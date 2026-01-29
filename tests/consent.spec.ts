@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { CONSENT_KEY } from "../src/lib/consent";
 
 test.describe("GDPR Consent Flow", () => {
   // Each test gets a fresh browser context with clean localStorage by default
@@ -35,8 +36,9 @@ test.describe("GDPR Consent Flow", () => {
     });
 
     // Consent should be stored
-    const consent = await page.evaluate(() =>
-      localStorage.getItem("michalinqa:analytics-consent"),
+    const consent = await page.evaluate(
+      (key) => localStorage.getItem(key),
+      CONSENT_KEY,
     );
     expect(consent).toBe("accepted");
   });
@@ -61,8 +63,9 @@ test.describe("GDPR Consent Flow", () => {
     expect(mixpanelExists).toBe(false);
 
     // Consent should be stored
-    const consent = await page.evaluate(() =>
-      localStorage.getItem("michalinqa:analytics-consent"),
+    const consent = await page.evaluate(
+      (key) => localStorage.getItem(key),
+      CONSENT_KEY,
     );
     expect(consent).toBe("rejected");
   });
@@ -72,9 +75,9 @@ test.describe("GDPR Consent Flow", () => {
     baseURL,
   }) => {
     // Set consent before page loads
-    await page.addInitScript(() => {
-      localStorage.setItem("michalinqa:analytics-consent", "accepted");
-    });
+    await page.addInitScript((key) => {
+      localStorage.setItem(key, "accepted");
+    }, CONSENT_KEY);
     await page.goto(baseURL!);
 
     // Banner should not be visible
@@ -92,9 +95,9 @@ test.describe("GDPR Consent Flow", () => {
     baseURL,
   }) => {
     // Set rejection before page loads
-    await page.addInitScript(() => {
-      localStorage.setItem("michalinqa:analytics-consent", "rejected");
-    });
+    await page.addInitScript((key) => {
+      localStorage.setItem(key, "rejected");
+    }, CONSENT_KEY);
     await page.goto(baseURL!);
 
     // Banner should not be visible
@@ -131,8 +134,9 @@ test.describe("GDPR Consent Flow", () => {
     await expect(banner).toBeVisible();
 
     // Consent should be cleared
-    const consent = await page.evaluate(() =>
-      localStorage.getItem("michalinqa:analytics-consent"),
+    const consent = await page.evaluate(
+      (key) => localStorage.getItem(key),
+      CONSENT_KEY,
     );
     expect(consent).toBeNull();
   });
@@ -140,9 +144,6 @@ test.describe("GDPR Consent Flow", () => {
   test("handles localStorage errors gracefully", async ({ page, baseURL }) => {
     // Mock localStorage to throw (simulates private browsing mode)
     await page.addInitScript(() => {
-      const originalGetItem = localStorage.getItem.bind(localStorage);
-      const originalSetItem = localStorage.setItem.bind(localStorage);
-
       Object.defineProperty(window, "localStorage", {
         value: {
           getItem: () => {
