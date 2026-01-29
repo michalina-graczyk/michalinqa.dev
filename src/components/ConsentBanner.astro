@@ -11,7 +11,6 @@
   role="region"
   aria-label="Zgoda na analitykę"
   aria-live="polite"
-  tabindex="-1"
   class="fixed inset-x-0 bottom-0 z-50 hidden border-t border-gray-800 bg-black/95 p-4 backdrop-blur-sm"
   data-testid="consent-banner"
 >
@@ -46,11 +45,8 @@
 
   function showBanner() {
     const banner = document.getElementById("consent-banner");
-    const acceptBtn = document.getElementById("consent-accept");
     if (banner) {
       banner.classList.remove("hidden");
-      // Focus the accept button for accessibility - allows immediate keyboard interaction
-      acceptBtn?.focus();
     }
   }
 

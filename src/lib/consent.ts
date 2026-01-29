@@ -31,8 +31,11 @@ export function setConsent(value: "accepted" | "rejected"): void {
   if (typeof window === "undefined") return;
   try {
     localStorage.setItem(CONSENT_KEY, value);
-  } catch {
+  } catch (error) {
     // Silent fail - consent won't persist, user will see banner again next visit
+    if (import.meta.env.DEV) {
+      console.warn("[Consent] Failed to save consent:", error);
+    }
   }
 }
 
@@ -44,8 +47,11 @@ export function clearConsent(): void {
   if (typeof window === "undefined") return;
   try {
     localStorage.removeItem(CONSENT_KEY);
-  } catch {
+  } catch (error) {
     // Silent fail - localStorage unavailable
+    if (import.meta.env.DEV) {
+      console.warn("[Consent] Failed to clear consent:", error);
+    }
   }
 }
 

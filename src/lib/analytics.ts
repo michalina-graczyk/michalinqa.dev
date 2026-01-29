@@ -8,26 +8,34 @@ type MixpanelWithTracking = OverridedMixpanel & {
   }>;
 };
 
-// Module-level flag prevents double initialization regardless of window.mixpanel state.
-// INVARIANT: Consent withdrawal MUST trigger a full page reload to reset this flag.
-// Do not change the withdrawal flow to SPA navigation without resetting this flag.
-let analyticsInitialized = false;
+// Promise-based initialization guard.
+// Using a promise instead of a boolean ensures concurrent calls wait for the same init.
+// INVARIANT: Consent withdrawal MUST trigger a full page reload to reset this.
+let initPromise: Promise<void> | null = null;
 
-// Reset initialization flag on HMR to allow re-initialization during development
+// Reset initialization promise on HMR to allow re-initialization during development
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
-    analyticsInitialized = false;
+    initPromise = null;
   });
 }
 
-export async function initAnalytics(): Promise<void> {
+/**
+ * Initialize Mixpanel analytics.
+ * Safe to call multiple times - concurrent calls share the same promise.
+ */
+export function initAnalytics(): Promise<void> {
   // SSR guard
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined") return Promise.resolve();
 
-  // Idempotency guard - prevent double initialization
-  if (analyticsInitialized) return;
-  analyticsInitialized = true;
+  // Return existing promise if initialization in progress or complete
+  if (initPromise) return initPromise;
 
+  initPromise = doInitAnalytics();
+  return initPromise;
+}
+
+async function doInitAnalytics(): Promise<void> {
   // Dynamic import - Mixpanel SDK only loaded when user consents
   let mixpanel;
   try {
@@ -35,8 +43,8 @@ export async function initAnalytics(): Promise<void> {
     mixpanel = module.default;
   } catch (error) {
     // Import failed (network error, ad blocker, etc.)
-    // Reset flag to allow retry on next page load
-    analyticsInitialized = false;
+    // Reset promise to allow retry on next call
+    initPromise = null;
     if (import.meta.env.DEV) {
       console.warn("[Analytics] Failed to load Mixpanel SDK:", error);
     }
