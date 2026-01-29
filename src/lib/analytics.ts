@@ -94,6 +94,7 @@ async function doInitAnalytics(): Promise<void> {
 
       // Mark SDK as fully ready and notify tracking utility
       window.mixpanelReady = true;
+      window.analyticsConsentPending = false;
       window.dispatchEvent(new CustomEvent("mixpanel:ready"));
     },
   });

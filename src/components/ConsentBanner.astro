@@ -23,14 +23,14 @@
     <div class="flex gap-2">
       <button
         id="consent-reject"
-        class="cursor-pointer rounded-xl border-2 border-transparent bg-gray-800 px-4 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-gray-700 focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 motion-reduce:transition-none"
+        class="cursor-pointer rounded-xl border-2 border-white bg-transparent px-4 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-white hover:text-black focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 motion-reduce:transition-none"
         data-testid="consent-reject"
       >
         Odrzuć
       </button>
       <button
         id="consent-accept"
-        class="cursor-pointer rounded-xl border-2 border-transparent bg-orange px-4 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-black focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 motion-reduce:transition-none"
+        class="cursor-pointer rounded-xl border-2 border-orange bg-orange px-4 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-transparent hover:text-orange focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 motion-reduce:transition-none"
         data-testid="consent-accept"
       >
         Akceptuję
@@ -87,6 +87,8 @@
     acceptBtn.addEventListener("click", () => {
       setConsent("accepted");
       hideBanner();
+      // Mark consent pending so events queue during SDK load
+      window.analyticsConsentPending = true;
       initAnalytics();
     });
 

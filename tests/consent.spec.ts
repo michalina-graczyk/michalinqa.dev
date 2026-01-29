@@ -216,4 +216,48 @@ test.describe("GDPR Consent Flow", () => {
     );
     expect(navEvents).toHaveLength(0);
   });
+
+  test("consent pending flag is set during SDK loading", async ({
+    page,
+    baseURL,
+  }) => {
+    await page.goto(baseURL!);
+
+    const banner = page.locator('[data-testid="consent-banner"]');
+    await expect(banner).toBeVisible();
+
+    // Flag should not be set before consent
+    const pendingBefore = await page.evaluate(
+      () => window.analyticsConsentPending,
+    );
+    expect(pendingBefore).toBeFalsy();
+
+    // Slow down the Mixpanel SDK loading to create a window for checking the flag
+    await page.route("**/*mixpanel*", async (route) => {
+      // Add 200ms delay to SDK loading
+      await new Promise((resolve) => setTimeout(resolve, 200));
+      await route.continue();
+    });
+
+    // Accept consent - this starts SDK loading
+    await page.click('[data-testid="consent-accept"]', { force: true });
+    await expect(banner).not.toBeVisible();
+
+    // Consent pending flag should be set immediately after accept
+    const pendingDuring = await page.evaluate(
+      () => window.analyticsConsentPending,
+    );
+    expect(pendingDuring).toBe(true);
+
+    // Wait for Mixpanel to be fully initialized
+    await page.waitForFunction(() => window.mixpanelReady === true, {
+      timeout: 10000,
+    });
+
+    // Consent pending flag should now be false
+    const pendingAfter = await page.evaluate(
+      () => window.analyticsConsentPending,
+    );
+    expect(pendingAfter).toBe(false);
+  });
 });

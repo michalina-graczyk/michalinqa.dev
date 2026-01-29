@@ -17,6 +17,8 @@ declare global {
     };
     /** Set to true once Mixpanel SDK is fully initialized (loaded callback fired) */
     mixpanelReady?: boolean;
+    /** Set to true when consent is given but SDK is still loading. Used to queue events. */
+    analyticsConsentPending?: boolean;
     Calendly: CalendlyWidget;
   }
 }

@@ -75,12 +75,18 @@ if (isBrowser()) {
  *
  * GDPR: If user hasn't given consent yet or rejected, window.mixpanel won't exist.
  * Events before consent are intentionally dropped (not queued) for GDPR compliance.
+ * Events during SDK loading (after consent) are queued via analyticsConsentPending flag.
  */
 export function track(event: EventName, properties?: EventProperties): void {
   if (!isBrowser()) return;
 
-  // No mixpanel = no consent given (or rejected) - drop event for GDPR compliance
+  // No mixpanel and no pending consent = no consent given (or rejected) - drop event
   if (!window.mixpanel) {
+    // If consent is pending (SDK loading), queue the event
+    if (window.analyticsConsentPending && eventQueue.length < MAX_QUEUE_SIZE) {
+      eventQueue.push({ event, properties });
+      return;
+    }
     if (import.meta.env.DEV) {
       console.debug("[Tracking] Event dropped (no consent):", event);
     }
