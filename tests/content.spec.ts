@@ -1,8 +1,10 @@
 import { expect, test } from "@playwright/test";
+import { acceptConsentIfVisible } from "./helpers/mixpanel";
 
 test.describe("Page Content", () => {
   test.beforeEach(async ({ page, baseURL }) => {
     await page.goto(baseURL!);
+    await acceptConsentIfVisible(page);
   });
 
   test("Website elements are correctly displayed", async ({
@@ -36,6 +38,7 @@ test.describe("Page Content", () => {
 
   test("Blog page has correct meta description", async ({ page, baseURL }) => {
     await page.goto(`${baseURL}/blog`);
+    await acceptConsentIfVisible(page);
     await expect(page).toHaveTitle("Blog | Michalina Graczyk");
 
     const descriptionMetaTag = page.locator("meta[name='description']");

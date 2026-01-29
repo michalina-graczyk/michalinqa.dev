@@ -1,6 +1,7 @@
 ---
 import Footer from "@components/Footer.astro";
 import Navbar from "@components/Navbar.astro";
+import ConsentBanner from "@components/ConsentBanner.astro";
 import { SEO } from "astro-seo";
 
 // Tailwind CSS v4 (CSS-first configuration)
@@ -101,10 +102,6 @@ const websiteSchema = {
       rel="stylesheet"
     />
 
-    <script>
-      import { initAnalytics } from "@lib/analytics";
-      initAnalytics();
-    </script>
     <script
       src="https://assets.calendly.com/assets/external/widget.js"
       type="text/javascript"
@@ -117,6 +114,7 @@ const websiteSchema = {
     <Navbar />
     <slot />
     <Footer />
+    <ConsentBanner />
     <style is:global>
       /* Improve Page speed */
       /* https://css-tricks.com/almanac/properties/c/content-visibility/ */

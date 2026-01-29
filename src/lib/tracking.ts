@@ -40,7 +40,9 @@ function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
 
-// Queue for events tracked before mixpanel is ready
+// Queue for events tracked after consent but before Mixpanel SDK finishes loading.
+// This handles the small window between initAnalytics() call and the loaded callback.
+// Note: Events before consent are dropped (not queued) for GDPR compliance.
 const MAX_QUEUE_SIZE = 100;
 const eventQueue: Array<{ event: EventName; properties?: EventProperties }> =
   [];
@@ -49,9 +51,9 @@ const eventQueue: Array<{ event: EventName; properties?: EventProperties }> =
  * Flush queued events to mixpanel.
  */
 function flushEventQueue(): void {
-  if (!isBrowser() || !window.mixpanelReady) return;
+  if (!isBrowser() || !window.mixpanelReady || !window.mixpanel) return;
 
-  while (eventQueue.length > 0) {
+  while (eventQueue.length > 0 && window.mixpanel) {
     const { event, properties } = eventQueue.shift()!;
     window.mixpanel.track(event, properties);
   }
@@ -70,9 +72,26 @@ if (isBrowser()) {
 /**
  * Track an event with Mixpanel.
  * Safely handles SSR (no-op) and queues events if mixpanel isn't ready yet.
+ *
+ * GDPR: If user hasn't given consent yet or rejected, window.mixpanel won't exist.
+ * Events before consent are intentionally dropped (not queued) for GDPR compliance.
+ * Events during SDK loading (after consent) are queued via analyticsConsentPending flag.
  */
 export function track(event: EventName, properties?: EventProperties): void {
   if (!isBrowser()) return;
+
+  // No mixpanel and no pending consent = no consent given (or rejected) - drop event
+  if (!window.mixpanel) {
+    // If consent is pending (SDK loading), queue the event
+    if (window.analyticsConsentPending && eventQueue.length < MAX_QUEUE_SIZE) {
+      eventQueue.push({ event, properties });
+      return;
+    }
+    if (import.meta.env.DEV) {
+      console.debug("[Tracking] Event dropped (no consent):", event);
+    }
+    return;
+  }
 
   if (window.mixpanelReady) {
     window.mixpanel.track(event, properties);

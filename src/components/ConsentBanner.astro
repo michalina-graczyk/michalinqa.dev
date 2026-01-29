@@ -1,0 +1,112 @@
+---
+/**
+ * GDPR consent banner for analytics.
+ * Shows a minimalist bottom bar on first visit.
+ * Initializes Mixpanel only after user accepts.
+ */
+---
+
+<div
+  id="consent-banner"
+  role="region"
+  aria-label="Zgoda na analitykę"
+  aria-live="polite"
+  class="fixed inset-x-0 bottom-0 z-50 hidden border-t border-gray-800 bg-black/95 p-4 backdrop-blur-sm"
+  data-testid="consent-banner"
+>
+  <div
+    class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-4"
+  >
+    <p class="text-sm text-white">
+      Używamy analityki, aby ulepszać tę stronę.
+    </p>
+    <div class="flex gap-2">
+      <button
+        id="consent-reject"
+        class="cursor-pointer rounded-xl border-2 border-white bg-transparent px-4 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-white hover:text-black focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 motion-reduce:transition-none"
+        data-testid="consent-reject"
+      >
+        Odrzuć
+      </button>
+      <button
+        id="consent-accept"
+        class="cursor-pointer rounded-xl border-2 border-orange bg-orange px-4 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-transparent hover:text-orange focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 motion-reduce:transition-none"
+        data-testid="consent-accept"
+      >
+        Akceptuję
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { getConsent, setConsent } from "@lib/consent";
+  import { initAnalytics } from "@lib/analytics";
+
+  function showBanner() {
+    const banner = document.getElementById("consent-banner");
+    if (banner) {
+      banner.classList.remove("hidden");
+    }
+  }
+
+  function hideBanner() {
+    const banner = document.getElementById("consent-banner");
+    if (banner) {
+      banner.classList.add("hidden");
+    }
+  }
+
+  function initConsentBanner() {
+    const banner = document.getElementById("consent-banner");
+    const acceptBtn = document.getElementById("consent-accept");
+    const rejectBtn = document.getElementById("consent-reject");
+
+    if (!banner || !acceptBtn || !rejectBtn) return;
+
+    // Prevent duplicate event listeners using DOM attribute (resilient to HMR)
+    if (banner.hasAttribute("data-initialized")) return;
+    banner.setAttribute("data-initialized", "true");
+
+    const consent = getConsent();
+
+    if (consent === "accepted") {
+      // User already accepted - initialize analytics, don't show banner
+      initAnalytics();
+      return;
+    }
+
+    if (consent === "rejected") {
+      // User already rejected - don't show banner, don't initialize
+      return;
+    }
+
+    // No consent yet - show banner
+    showBanner();
+
+    acceptBtn.addEventListener("click", () => {
+      setConsent("accepted");
+      hideBanner();
+      // Mark consent pending so events queue during SDK load
+      window.analyticsConsentPending = true;
+      initAnalytics();
+    });
+
+    rejectBtn.addEventListener("click", () => {
+      setConsent("rejected");
+      hideBanner();
+    });
+  }
+
+  // Run on initial load
+  if (document.readyState !== "loading") {
+    initConsentBanner();
+  } else {
+    document.addEventListener("DOMContentLoaded", initConsentBanner, {
+      once: true,
+    });
+  }
+
+  // Support Astro View Transitions (future-proofing)
+  document.addEventListener("astro:page-load", initConsentBanner);
+</script>

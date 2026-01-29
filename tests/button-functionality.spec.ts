@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import {
+  acceptConsentIfVisible,
   expectLastEventToBeTracked,
   getTrackedEvents,
   TrackingEvents,
@@ -8,6 +9,7 @@ import {
 test.describe("Button Functionality", () => {
   test.beforeEach(async ({ page, baseURL }) => {
     await page.goto(baseURL!);
+    await acceptConsentIfVisible(page);
   });
 
   test("Back-to-top button functionality", async ({ page }) => {

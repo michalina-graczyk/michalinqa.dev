@@ -30,4 +30,40 @@
       <span class="text-orange">Freepik</span>
     </a>
   </p>
+  <p class="mt-2">
+    <button
+      id="cookie-settings"
+      class="min-h-[44px] cursor-pointer text-gray-500 underline hover:text-orange"
+      data-testid="cookie-settings"
+    >
+      Ustawienia analityki
+    </button>
+  </p>
 </footer>
+
+<script>
+  import { withdrawConsent } from "@lib/consent";
+
+  function initCookieSettings() {
+    const button = document.getElementById("cookie-settings");
+    if (!button || button.hasAttribute("data-initialized")) return;
+    button.setAttribute("data-initialized", "true");
+
+    button.addEventListener("click", () => {
+      withdrawConsent();
+      // Reload the page to reset analytics state and show banner
+      window.location.reload();
+    });
+  }
+
+  if (document.readyState !== "loading") {
+    initCookieSettings();
+  } else {
+    document.addEventListener("DOMContentLoaded", initCookieSettings, {
+      once: true,
+    });
+  }
+
+  // Support Astro View Transitions
+  document.addEventListener("astro:page-load", initCookieSettings);
+</script>

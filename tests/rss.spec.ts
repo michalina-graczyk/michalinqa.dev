@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { acceptConsentIfVisible } from "./helpers/mixpanel";
 
 test.describe("RSS Feed", () => {
   test("RSS endpoint returns valid XML with required elements", async ({
@@ -31,6 +32,7 @@ test.describe("RSS Feed", () => {
     baseURL,
   }) => {
     await page.goto(baseURL!);
+    await acceptConsentIfVisible(page);
 
     const rssLink = page.locator('link[type="application/rss+xml"]');
     await expect(rssLink).toHaveAttribute("rel", "alternate");
@@ -46,6 +48,7 @@ test.describe("RSS Feed", () => {
 
     for (const pagePath of pages) {
       await page.goto(`${baseURL}${pagePath}`);
+      await acceptConsentIfVisible(page);
       const rssLink = page.locator('link[type="application/rss+xml"]');
       await expect(rssLink).toHaveAttribute("href", "/rss.xml");
     }

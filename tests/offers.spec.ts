@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import {
+  acceptConsentIfVisible,
   expectLastEventToBeTracked,
   getTrackedEvents,
   TrackingEvents,
@@ -15,6 +16,7 @@ test.describe("Offers", () => {
   test.describe("Homepage Offer Cards", () => {
     test("offer cards link to internal pages", async ({ page, baseURL }) => {
       await page.goto(`${baseURL}/#offers`);
+      await acceptConsentIfVisible(page);
 
       const offerCards = page.locator(
         '[data-testid="offers"] a[href^="/offers/"]',
@@ -36,6 +38,7 @@ test.describe("Offers", () => {
       baseURL,
     }) => {
       await page.goto(`${baseURL}/#offers`);
+      await acceptConsentIfVisible(page);
 
       const firstCard = page
         .locator('[data-testid="offers"] a[href^="/offers/"]')
@@ -51,6 +54,7 @@ test.describe("Offers", () => {
     }) => {
       await page.setViewportSize({ width: 1280, height: 800 });
       await page.goto(`${baseURL}/#offers`);
+      await acceptConsentIfVisible(page);
 
       const cards = page.locator('[data-testid="card"]');
       const count = await cards.count();
@@ -77,6 +81,7 @@ test.describe("Offers", () => {
         baseURL,
       }) => {
         await page.goto(`${baseURL}/offers/${offer.slug}`);
+        await acceptConsentIfVisible(page);
 
         // Verify page title
         await expect(page).toHaveTitle(new RegExp(offer.title));
@@ -109,6 +114,7 @@ test.describe("Offers", () => {
       baseURL,
     }) => {
       await page.goto(`${baseURL}/offers/konsultacje`);
+      await acceptConsentIfVisible(page);
 
       // Click back link in article (not nav menu)
       const backLink = page.locator('main a[href="/#offers"]').first();
@@ -123,6 +129,7 @@ test.describe("Offers", () => {
       baseURL,
     }) => {
       await page.goto(`${baseURL}/offers/konsultacje`);
+      await acceptConsentIfVisible(page);
 
       const meetingButton = page.getByRole("button", {
         name: "Umów spotkanie",
@@ -151,6 +158,7 @@ test.describe("Offers", () => {
       baseURL,
     }) => {
       await page.goto(`${baseURL}/offers/konsultacje`);
+      await acceptConsentIfVisible(page);
 
       const emailButton = page.getByRole("link", { name: "Napisz maila" });
       const href = await emailButton.getAttribute("href");
@@ -167,6 +175,7 @@ test.describe("Offers", () => {
 
     test("JSON-LD structured data is present", async ({ page, baseURL }) => {
       await page.goto(`${baseURL}/offers/konsultacje`);
+      await acceptConsentIfVisible(page);
 
       // Find the Service schema (there's also a WebSite schema from Layout)
       const jsonLdScripts = page.locator('script[type="application/ld+json"]');

@@ -1,8 +1,10 @@
 import { expect, test } from "@playwright/test";
+import { acceptConsentIfVisible } from "./helpers/mixpanel";
 
 test.describe("CV Page", () => {
   test.beforeEach(async ({ page, baseURL }) => {
     await page.goto(`${baseURL}/cv`);
+    await acceptConsentIfVisible(page);
   });
 
   test("CV page renders with correct SEO metadata", async ({ page }) => {
