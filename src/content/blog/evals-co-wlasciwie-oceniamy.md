@@ -17,7 +17,7 @@ to druga brzmi:
 
 > „musisz wiedzieć, co konkretnie oceniasz, zanim zaczniesz oceniać cokolwiek”.
 
-W świecie klasycznego QA to względnie proste — jest funkcjonalność, są wymagania, jest oczekiwany rezultat. W LLM-ach potrzebujemy czegoś innego: kategorie evals, czyli jasno zdefiniowanych wymiarów jakości, które pozwalają ocenić odpowiedź modelu „step by step”. To właśnie te kategorie pomagają zamienić chaos w proces.
+W świecie klasycznego QA to względnie proste — jest funkcjonalność, są wymagania, jest oczekiwany rezultat. W LLM-ach potrzebujemy czegoś innego: kategorii evals, czyli jasno zdefiniowanych wymiarów jakości, które pozwalają ocenić odpowiedź modelu „step by step”. To właśnie te kategorie pomagają zamienić chaos w proces.
 
 - QA klasyczne: binarne pass/fail.
 - LLM QA: wielowymiarowa ocena, często na skalach 1–5 lub 1–10, wielowątkowość, niejednoznaczność.
@@ -34,7 +34,7 @@ W testowaniu LLM-ów:
 - bezpieczeństwo odpowiedzi ma znaczenie większe niż kosmetyczne detale,
 - jakość odpowiedzi zależy od kontekstu, a nie samej treści.
 
-Evals są niezbędne, aby uzyskać obiektywną ocenę jakości.
+Evals pomagają przybliżyć się do bardziej obiektywnej/ustrukturyzowanej oceny jakości.
 
 ## Przykłady głównych kategorii
 
@@ -91,15 +91,16 @@ Prompt:
 Odpowiedź A:
 „Python to świetny język do analizy danych, a w ogóle to ciekawostka: pandy w zoo potrafią spać nawet 14 godzin dziennie.”
 ➡️ Relevance: 1/5
-• odpowiedź ucieka od tematu,
-• brak odpowiedzi na pytanie,
-• halucynacja kontekstowa (pandy??).
-Odpowiedź B:
-„Tak, Python nadaje się do budowania backendu - szczególnie dzięki frameworkom takim jak Django i FastAPI. Jest często wybierany do aplikacji webowych, API i usług mikroserwisowych.”
-➡️ Relevance: 5/5
-• bezpośrednia odpowiedź,
-• poprawna merytorycznie,
-• na temat i konkretna.
+
+- odpowiedź ucieka od tematu,
+- brak odpowiedzi na pytanie,
+- halucynacja kontekstowa (pandy??).
+  Odpowiedź B:
+  „Tak, Python nadaje się do budowania backendu - szczególnie dzięki frameworkom takim jak Django i FastAPI. Jest często wybierany do aplikacji webowych, API i usług mikroserwisowych.”
+  ➡️ Relevance: 5/5
+- bezpośrednia odpowiedź,
+- poprawna merytorycznie,
+- na temat i konkretna.
 
 ### Accuracy — zgodność z rzeczywistością
 
