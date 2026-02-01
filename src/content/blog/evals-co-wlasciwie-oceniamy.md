@@ -74,13 +74,11 @@ Odpowiedź B:
 ### Relevance — trafność
 
 **Pytanie:**  
-Na ile odpowiedź jest na temat, logiczna i faktograficznie poprawna?
+Na ile odpowiedź jest na temat i odpowiada na intencję użytkownika?
 
 **Co mierzymy:**
 
 - zgodność z intencją,
-- poprawność merytoryczną,
-- brak halucynacji,
 - logiczną spójność.
 
 **Przykład:**  
@@ -112,6 +110,9 @@ Odpowiedź B:
 
 **Pytanie:**  
 Czy to, co powiedział, jest zgodne z faktami?
+
+**Uwaga:**  
+Relevance mówi, czy odpowiedź odpowiada na pytanie. Accuracy mówi, czy fakty są prawdziwe.
 
 **Co mierzymy:**
 
