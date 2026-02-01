@@ -18,7 +18,7 @@ to druga brzmi:
 W świecie klasycznego QA to względnie proste — jest funkcjonalność, są wymagania, jest oczekiwany rezultat. W LLM-ach potrzebujemy czegoś innego: kategorii evals, czyli jasno zdefiniowanych wymiarów jakości, które pozwalają ocenić odpowiedź modelu „step by step”. To właśnie te kategorie pomagają zamienić chaos w proces.
 
 - QA klasyczne: binarne pass/fail.
-- LLM QA: wielowymiarowa ocena, często na skalach 1–5 lub 1–10, wielowątkowość, niejednoznaczność.
+- LLM QA: wielowymiarowa ocena — często na skalach 1–5 lub 1–10, ale też binarna (np. safety) albo oparta o rubryki opisowe — wielowątkowość, niejednoznaczność.
 
 ## Dlaczego evals są kluczowe?
 
