@@ -11,13 +11,13 @@ draft: false
 
 Jeśli pierwsza lekcja z testowania LLM-ów brzmi:
 
-> „expected output nie istnieje”,
+> „expected output często nie istnieje”,
 
 to druga brzmi:
 
 > „musisz wiedzieć, co konkretnie oceniasz, zanim zaczniesz oceniać cokolwiek”.
 
-W światach klasycznego QA to względnie proste — jest funkcjonalność, są wymagania, jest oczekiwany rezultat. W LLM-ach potrzebujemy czegoś innego: kategorii evals, czyli jasno zdefiniowanych wymiarów jakości, które pozwalają ocenić odpowiedź modelu „step by step”. To właśnie te kategorie pomagają zamienić chaos w proces.
+W świecie klasycznego QA to względnie proste — jest funkcjonalność, są wymagania, jest oczekiwany rezultat. W LLM-ach potrzebujemy czegoś innego: kategorie evals, czyli jasno zdefiniowanych wymiarów jakości, które pozwalają ocenić odpowiedź modelu „step by step”. To właśnie te kategorie pomagają zamienić chaos w proces.
 
 - QA klasyczne: binarne pass/fail.
 - LLM QA: wielowymiarowa ocena, często na skalach 1–5 lub 1–10, wielowątkowość, niejednoznaczność.
@@ -73,7 +73,7 @@ Odpowiedź B:
 
 ➡️ Fidelity: 5/5 — zadanie wykonane poprawnie i kompletnie.
 
-### Relevance — trafność i poprawność merytoryczna
+### Relevance — trafność
 
 **Pytanie:**  
 Na ile odpowiedź jest na temat, logiczna i faktograficznie poprawna?
@@ -87,22 +87,41 @@ Na ile odpowiedź jest na temat, logiczna i faktograficznie poprawna?
 
 **Przykład:**  
 Prompt:
-
-```
-Czy InPost ma Paczkomaty we Francji?
-```
-
+„Czy Python nadaje się do budowania backendu?”
 Odpowiedź A:
-
-> „Francja ma bogatą kulturę kulinarną i piękne zabytki.”
-
-➡️ Relevance: 0/5 — totalny off-topic.
-
+„Python to świetny język do analizy danych, a w ogóle to ciekawostka: pandy w zoo potrafią spać nawet 14 godzin dziennie.”
+➡️ Relevance: 1/5
+• odpowiedź ucieka od tematu,
+• brak odpowiedzi na pytanie,
+• halucynacja kontekstowa (pandy??).
 Odpowiedź B:
+„Tak, Python nadaje się do budowania backendu - szczególnie dzięki frameworkom takim jak Django i FastAPI. Jest często wybierany do aplikacji webowych, API i usług mikroserwisowych.”
+➡️ Relevance: 5/5
+• bezpośrednia odpowiedź,
+• poprawna merytorycznie,
+• na temat i konkretna.
 
-> „Nie, obecnie InPost nie posiada automatów paczkowych we Francji. Działa w Polsce, Wielkiej Brytanii, Włoszech, Hiszpanii itd.”
+### Accuracy — zgodność z rzeczywistością
 
-➡️ Relevance: 5/5 — bezpośrednia, merytoryczna odpowiedź.
+**Pytanie:**  
+Czy to, co powiedział, jest zgodne z faktami?
+
+**Co mierzymy:**
+
+- prawdziwość faktów,
+- zgodność z bazą wiedzy, katalogiem, źródłem,
+- brak halucynacji,
+- poprawność logiczną opartą o dane.
+
+**Przykład:**  
+Prompt:
+„W którym roku Python został wydany?”
+❌ Zła odpowiedź:
+„W 1999.”
+➡️ Accuracy: 1/5 — fałsz (Python powstał w 1991).
+✔️ Dobra odpowiedź:
+„W 1991 — Guido van Rossum opublikował pierwszą wersję Pythona.”
+➡️ Accuracy: 5/5 — zgodne z faktami.
 
 ### Safety — bezpieczeństwo treści
 
@@ -211,7 +230,6 @@ Dobra odpowiedź:
 4. Pozwalają porównywać modele granularnie (np. Model A świetny w safety, słaby w context).
 5. Są skalowalne — nadają się do automatyzacji, agregacji i zestawiania.
 
-## Finalnie
+## Podsumowując
 
-Nie oceniamy „odpowiedzi”. Oceniamy właściwości odpowiedzi.  
-To zmienia wszystko.
+Nie oceniamy „odpowiedzi”. Oceniamy właściwości odpowiedzi.
