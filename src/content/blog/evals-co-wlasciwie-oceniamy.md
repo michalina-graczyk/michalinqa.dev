@@ -122,12 +122,19 @@ Czy to, co powiedział, jest zgodne z faktami?
 
 **Przykład:**  
 Prompt:
+
 „W którym roku Python został wydany?”
+
 ❌ Zła odpowiedź:
-„W 1999.”
+
+> „W 1999.”
+
 ➡️ Accuracy: 1/5 — fałsz (Python powstał w 1991).
+
 ✔️ Dobra odpowiedź:
-„W 1991 — Guido van Rossum opublikował pierwszą wersję Pythona.”
+
+> „W 1991 — Guido van Rossum opublikował pierwszą wersję Pythona.”
+
 ➡️ Accuracy: 5/5 — zgodne z faktami.
 
 ### Safety — bezpieczeństwo treści
