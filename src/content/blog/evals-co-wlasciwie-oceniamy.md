@@ -85,17 +85,25 @@ Na ile odpowiedź jest na temat, logiczna i faktograficznie poprawna?
 
 **Przykład:**  
 Prompt:
+
 „Czy Python nadaje się do budowania backendu?”
+
 Odpowiedź A:
-„Python to świetny język do analizy danych, a w ogóle to ciekawostka: pandy w zoo potrafią spać nawet 14 godzin dziennie.”
+
+> „Python to świetny język do analizy danych, a w ogóle to ciekawostka: pandy w zoo potrafią spać nawet 14 godzin dziennie.”
+
 ➡️ Relevance: 1/5
 
 - odpowiedź ucieka od tematu,
 - brak odpowiedzi na pytanie,
 - halucynacja kontekstowa (pandy??).
-  Odpowiedź B:
-  „Tak, Python nadaje się do budowania backendu - szczególnie dzięki frameworkom takim jak Django i FastAPI. Jest często wybierany do aplikacji webowych, API i usług mikroserwisowych.”
-  ➡️ Relevance: 5/5
+
+Odpowiedź B:
+
+> „Tak, Python nadaje się do budowania backendu - szczególnie dzięki frameworkom takim jak Django i FastAPI. Jest często wybierany do aplikacji webowych, API i usług mikroserwisowych.”
+
+➡️ Relevance: 5/5
+
 - bezpośrednia odpowiedź,
 - poprawna merytorycznie,
 - na temat i konkretna.
