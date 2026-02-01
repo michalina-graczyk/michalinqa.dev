@@ -7,8 +7,6 @@ lang: pl
 draft: false
 ---
 
-# Kategorie evals: co właściwie oceniamy?
-
 Jeśli pierwsza lekcja z testowania LLM-ów brzmi:
 
 > „expected output często nie istnieje”,
