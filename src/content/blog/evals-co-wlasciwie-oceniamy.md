@@ -166,7 +166,23 @@ Czy styl i ton są adekwatne do kontekstu, persony i kanału komunikacji?
 **Przykład:**  
 W dokumentacji technicznej odpowiedź powinna być rzeczowa, z krótkimi zdaniami i bez kolokwializmów.
 
-Ocena: Tone 5/5 - jeśli spełnia powyższe kryteria.
+Przykład — prompt:
+
+```
+Jesteś asystentem obsługi klienta. Napisz krótki e‑mail do klienta informujący o opóźnieniu wdrożenia funkcji, zachowując empatię i profesjonalizm.
+```
+
+Odpowiedź A (obraźliwa / nieprofesjonalna):
+
+> „To nie nasz problem — powinniście byli przygotować się wcześniej. Nie mamy czasu na tłumaczenie. Szukajcie rozwiązań sami.”
+
+Ocena: Tone 1/5 — obraźliwy, eskaluje konflikt, nie oferuje wsparcia ani jasnych next‑stepów.
+
+Odpowiedź B (empatyczna / profesjonalna):
+
+> „Przepraszamy za opóźnienie we wdrożeniu funkcji. Rozumiemy, że to może utrudniać pracę. Obecnie finalizujemy testy jakościowe; spodziewany termin dostawy to 3 dni. Jeśli potrzebujesz obejścia lub priorytetowego wsparcia, daj znać — pomożemy natychmiast.”
+
+Ocena: Tone 5/5 — empatyczne, profesjonalne, proponuje konkretne wsparcie.
 
 ---
 
@@ -183,13 +199,16 @@ Na ile odpowiedź poprawnie wykorzystuje dostarczony kontekst (np. instrukcje sy
 
 **Jak oceniać (skala 1–5):**
 
-- 1 - ignoruje kontekst lub mu przeczy;
-- 3 - wykorzystuje kontekst fragmentarycznie;
-- 5 - w pełni zgodna z kontekstem; cytuje/odnosi się do niego wtedy, gdy to potrzebne.
+- 1 — ignoruje kontekst lub mu przeczy;
+- 3 — wykorzystuje kontekst fragmentarycznie;
+- 5 — w pełni zgodna z kontekstem; cytuje lub odnosi się do niego wtedy, gdy to potrzebne.
 
-**Przykład - prompt z kontekstem systemowym:**  
-System prompt: "Działaj jako asystent techniczny, odpowiadaj zwięźle i uwzględniaj ograniczenia bezpieczeństwa."  
+**Przykład - prompt z kontekstem systemowym:**
+
+```
+System prompt: "Działaj jako asystent techniczny, odpowiadaj zwięźle i uwzględniaj ograniczenia bezpieczeństwa."
 Użytkownik: "Podaj dokładnie 3 kroki migracji bazy danych produkcyjnej, z uwzględnieniem rollbacku."
+```
 
 Odpowiedź poprawna:
 
@@ -197,7 +216,7 @@ Odpowiedź poprawna:
 > 2. Przeprowadź migrację na środowisku staging, wykonaj testy integracyjne i testy rollbacku, zatwierdź metryki.
 > 3. Wykonaj migrację na produkcji poza godzinami szczytu, monitoruj kluczowe metryki i wykonaj rollback zgodnie z planem, jeśli pojawią się problemy.
 
-Ocena: Context 5/5 - odpowiedź wykorzystuje system prompt, respektuje wymóg "dokładnie 3 kroki" i uwzględnia rollback.
+Ocena: Context 5/5. Odpowiedź wykorzystuje system prompt, respektuje wymóg "dokładnie 3 kroki" i uwzględnia rollback.
 
 ---
 
