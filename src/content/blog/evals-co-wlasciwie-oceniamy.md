@@ -5,7 +5,6 @@ excerpt: "Jak zdefiniować kategorie oceny (fidelity, relevance, safety, tone, c
 tags: ["llm", "evals", "testing", "quality-assurance", "ai"]
 lang: pl
 draft: false
-
 ---
 
 Jeśli pierwsza lekcja z testowania LLM-ów brzmi:
