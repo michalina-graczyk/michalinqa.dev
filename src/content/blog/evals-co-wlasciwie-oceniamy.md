@@ -1,3 +1,4 @@
+---
 title: "Kategorie evals: co właściwie oceniamy?"
 date: 2026-02-11
 excerpt: "Jak zdefiniować kategorie oceny (fidelity, relevance, safety, tone, context), by testować LLM-y wielowymiarowo i skalowalnie."
