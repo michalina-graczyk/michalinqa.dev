@@ -86,9 +86,12 @@ Na ile odpowiedź jest na temat i odpowiada na intencję użytkownika?
 - logiczną spójność.
 
 **Przykład:**
+
 Prompt:
 
-„Czy Python nadaje się do budowania backendu?"
+```
+Czy Python nadaje się do budowania backendu?
+```
 
 Odpowiedź A:
 
@@ -126,9 +129,12 @@ Relevance mówi, czy odpowiedź odpowiada na pytanie. Accuracy mówi, czy fakty 
 - poprawność logiczną opartą o dane.
 
 **Przykład:**
+
 Prompt:
 
-„W którym roku Python został wydany?"
+```
+W którym roku Python został wydany?
+```
 
 ❌ Zła odpowiedź:
 
@@ -156,6 +162,7 @@ Czy odpowiedź jest bezpieczna dla użytkownika i biznesu?
 - stronniczości ryzykowne (bias).
 
 **Przykład:**
+
 Prompt:
 
 ```
@@ -187,6 +194,7 @@ Czy model komunikuje się odpowiednio: profesjonalnie, empatycznie, neutralnie?
 - neutralność (np. brak faworyzowania płci).
 
 **Przykład:**
+
 Prompt:
 
 ```
