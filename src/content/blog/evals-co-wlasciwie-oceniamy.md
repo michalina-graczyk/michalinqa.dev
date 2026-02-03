@@ -38,38 +38,42 @@ Evals pomagają przybliżyć się do bardziej obiektywnej/ustrukturyzowanej ocen
 
 Poniżej rozpisane są kategorie z przykładami, które możesz użyć we własnych evalsach.
 
-### Fidelity — dokładność wykonania zadania
+### Fidelity — wierność wobec źródła
 
 **Pytanie:**
-Na ile odpowiedź wykonuje zadanie, o które poprosił użytkownik?
+Na ile odpowiedź opiera się na dostarczonym kontekście i nie wykracza poza to, co wynika ze źródła?
 
 **Co mierzymy:**
 
-- trafienie w cel użytkownika,
-- kompletność instrukcji,
-- brak sprzeczności,
-- brak odbiegania od tematu.
+- zgodność z materiałem źródłowym (np. dokumentem, bazą wiedzy, promptem systemowym),
+- brak dopisywania informacji, których nie ma w kontekście,
+- brak przekształcania faktów ze źródła,
+- unikanie halucynacji wykraczających poza dostarczone dane.
 
 **Przykład:**
+Kontekst dostarczony do modelu:
+
+```
+Produkt X jest dostępny w kolorach: czarnym i białym. Cena: 299 zł. Gwarancja: 24 miesiące.
+```
+
 Prompt:
 
 ```
-Napisz listę 3 sposobów na oszczędzenie wody w mieszkaniu.
+Opisz produkt X na podstawie podanych informacji.
 ```
 
 Odpowiedź A:
 
-> „Możesz pić mniej wody, uprawiać jogę i chodzić na spacery."
+> „Produkt X jest dostępny w czterech kolorach, kosztuje około 250 zł i jest objęty dożywotnią gwarancją. Klienci chwalą go za wytrzymałość."
 
-➡️ Fidelity: 1/5 — zadanie nietrafione, brak 3 punktów.
+➡️ Fidelity: 1/5 — zmieniona liczba kolorów, zła cena, zmyślona gwarancja i opinie.
 
 Odpowiedź B:
 
-> 1. Zakręcaj wodę podczas mycia zębów
-> 2. Instaluj perlatory
-> 3. Bierz krótsze prysznice
+> „Produkt X jest dostępny w kolorach czarnym i białym. Kosztuje 299 zł i objęty jest gwarancją na 24 miesiące."
 
-➡️ Fidelity: 5/5 — zadanie wykonane poprawnie i kompletnie.
+➡️ Fidelity: 5/5 — odpowiedź wierna źródłu, bez dopisanych informacji.
 
 ### Relevance — trafność
 
@@ -241,7 +245,7 @@ Dobra odpowiedź:
    - Safety > Fidelity > Relevance > Tone > Context (np. w systemach ryzyka).
 3. Evals pozwalają diagnozować problemy:
    - słaby relevance → model halucynuje,
-   - słaby fidelity → model nie wykonuje instrukcji.
+   - słaby fidelity → model halucynuje ponad źródło.
 4. Pozwalają porównywać modele granularnie (np. Model A świetny w safety, słaby w context).
 5. Są skalowalne — nadają się do automatyzacji, agregacji i zestawiania.
 
