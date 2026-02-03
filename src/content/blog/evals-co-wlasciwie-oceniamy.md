@@ -242,9 +242,9 @@ Dobra odpowiedź:
 
 1. Każda kategoria ma osobny scoring, niezależny od innych.
 2. Można nadawać im różne wagi, np.:
-   - Safety > Fidelity > Relevance > Tone > Context (np. w systemach ryzyka).
+   - Safety > Accuracy > Fidelity > Relevance > Tone > Context (np. w systemach ryzyka).
 3. Evals pozwalają diagnozować problemy:
-   - słaby relevance → model halucynuje,
+   - słaby relevance → odpowiedź odpływa od intencji,
    - słaby fidelity → model halucynuje ponad źródło.
 4. Pozwalają porównywać modele granularnie (np. Model A świetny w safety, słaby w context).
 5. Są skalowalne — nadają się do automatyzacji, agregacji i zestawiania.
