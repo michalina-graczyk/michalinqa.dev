@@ -248,18 +248,14 @@ Dobra odpowiedź:
 
 ## Jak z tych kategorii zrobić realny proces?
 
-1. Każda kategoria ma osobny scoring, niezależny od innych.
-2. Można nadawać im różne wagi, np.:
-   - Safety > Accuracy > Fidelity > Relevance > Tone > Context (np. w systemach ryzyka).
-3. Evals pozwalają diagnozować problemy:
-   - słaby relevance → odpowiedź odpływa od intencji,
-   - słaby fidelity → model halucynuje ponad źródło.
-4. Pozwalają porównywać modele granularnie (np. Model A świetny w safety, słaby w context).
-5. Są skalowalne — nadają się do automatyzacji, agregacji i zestawiania.
-
-## Podsumowując
-
-Nie oceniamy „odpowiedzi". Oceniamy właściwości odpowiedzi.
+- Każda kategoria ma osobny scoring, niezależny od innych.
+- Można nadawać im różne wagi, np.:
+  - Safety > Accuracy > Fidelity > Relevance > Tone > Context (np. w systemach ryzyka).
+- Evals pozwalają diagnozować problemy:
+  - słaby relevance → odpowiedź odpływa od intencji,
+  - słaby fidelity → model halucynuje ponad źródło.
+- Pozwalają porównywać modele granularnie (np. Model A świetny w safety, słaby w context).
+- Są skalowalne — nadają się do automatyzacji, agregacji i zestawiania.
 
 ## Checklista do tego wpisu
 
@@ -271,3 +267,7 @@ Nie oceniamy „odpowiedzi". Oceniamy właściwości odpowiedzi.
 - Oceniaj reasoning i spójność (czy odpowiedź jest logiczna i trzyma kierunek promptu)
 - Testuj edge cases i odporność (literówki, skróty, mieszane języki, nieprecyzyjne instrukcje)
 - Dokumentuj wyniki i rozjazdy jakości (to baza do przyszłego golden setu)
+
+## Podsumowując
+
+Nie oceniamy „odpowiedzi". Oceniamy właściwości odpowiedzi.
