@@ -260,3 +260,14 @@ Dobra odpowiedź:
 ## Podsumowując
 
 Nie oceniamy „odpowiedzi". Oceniamy właściwości odpowiedzi.
+
+## Checklista do tego wpisu
+
+- Zdefiniuj kategorie oceny (np. fidelity, relevance, accuracy, safety, tone, context — jak opisano wyżej)
+- Określ rubryki i skalę scoringu (warto mieć jednolite i powtarzalne kryteria oceny)
+  - Nie szukaj jednego „expected output" — oceniaj jakość odpowiedzi, nie identyczność.
+- Sprawdzaj bezpieczeństwo odpowiedzi (treści toksyczne, PII, odmowy tam gdzie trzeba)
+- Waliduj format i parsowalność (sztywne wymagania = mniej niespodzianek downstream)
+- Oceniaj reasoning i spójność (czy odpowiedź jest logiczna i trzyma kierunek promptu)
+- Testuj edge cases i odporność (literówki, skróty, mieszane języki, nieprecyzyjne instrukcje)
+- Dokumentuj wyniki i rozjazdy jakości (to baza do przyszłego golden setu)
