@@ -1,0 +1,48 @@
+---
+// src/components/NewsletterSignup.astro
+const { isMini = false } = Astro.props;
+---
+
+<section class={`${isMini ? 'mt-8' : 'mt-16'} p-8 bg-gray-50 dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800`}>
+  <div class="max-w-2xl mx-auto text-center">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">
+      Miej oko na nowości z LLM i QA! 🚀
+    </h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-8">
+      Praktycznie o testowaniu, procesach QA i nowoczesnej strategii jakości. Bez lania wody – dla testerów i liderów, którzy chcą „umieć w jakość”.
+    </p>
+
+    <form
+      action="https://buttondown.com/api/emails/embed-subscribe/michalina"
+      method="post"
+      target="popupwindow"
+      class="flex flex-col sm:flex-row gap-3"
+    >
+      <label for="bd-email" class="sr-only">Adres e-mail</label>
+      <input
+        type="email"
+        name="email"
+        id="bd-email"
+        placeholder="Twój e-mail..."
+        required
+        class="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-orange outline-none transition-all"
+      />
+      <input type="hidden" value="1" name="embed" />
+      <button
+        type="submit"
+        class="px-6 py-3 bg-orange text-white font-bold rounded-xl hover:opacity-90 active:scale-95 transition-all cursor-pointer"
+      >
+        Zapisuję się!
+      </button>
+    </form>
+    
+    <p class="mt-4 text-xs text-gray-500 dark:text-gray-500">
+      Dołączając, zgadzasz się na otrzymywanie newsów ode mnie. Możesz się wypisać w każdej chwili.
+    </p>
+  </div>
+</section>
+
+<script>
+  import { trackClick, TrackingEvents } from "@lib/tracking";
+  trackClick('button[type="submit"]', TrackingEvents.NEWSLETTER_SIGNUP_CLICKED);
+</script>
