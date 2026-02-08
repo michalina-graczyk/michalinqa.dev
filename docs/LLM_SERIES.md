@@ -5,7 +5,7 @@ Seria składa się z 8 części, publikowanych co 2 tygodnie (wtorki/środy).
 | Nr | Data | Temat | Status |
 | :--- | :--- | :--- | :--- |
 | **#1** | 28.01 | **Niedeterministyczność LLM - jak to wpływa na testy** | ✅ Opublikowany |
-| **#2** | 11.02 | **Kategorie evals - co mierzyć i dlaczego** | 📝 W trakcie (korekta) |
+| **#2** | 09.02 | **Kategorie evals - co mierzyć i dlaczego** | 📝 W trakcie (korekta) |
 | **#3** | 25.02 | **Golden set + evals w praktyce** | 🔜 Do zrobienia |
 | **#4** | - | **Guardrails + Safety (konkretne zagrożenia i testy)** | 🔜 Do zrobienia |
 | **#5** | - | **Robustness - odporność modelu w realnych warunkach** | 🔜 Do zrobienia |
