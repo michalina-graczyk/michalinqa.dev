@@ -1,17 +1,17 @@
 ---
 import OfferLayout from "@layouts/OfferLayout.astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
   const offers = await getCollection("offers");
   return offers.map((offer) => ({
-    params: { slug: offer.slug },
+    params: { slug: offer.id },
     props: { offer },
   }));
 }
 
 const { offer } = Astro.props;
-const { Content } = await offer.render();
+const { Content } = await render(offer);
 ---
 
 <OfferLayout
