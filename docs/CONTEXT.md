@@ -43,8 +43,9 @@ zasada “transportowalnej wiedzy”: każdy tekst musi dać czytelnikowi warto�
 
 ton profesjonalny, partnerski,
 zero “buzzwordów dla buzzwordów”,
-   - od czasu do czasu lekki, naturalny humor, ale subtelny,
-   - **hiszpańskie wstawki**: okazjonalne, naturalne nawiązania do "hiszpańskiej natury" autorki (np. _poco a poco_), ale z umiarem.
+
+- od czasu do czasu lekki, naturalny humor, ale subtelny,
+- **hiszpańskie wstawki**: okazjonalne, naturalne nawiązania do "hiszpańskiej natury" autorki (np. _poco a poco_), ale z umiarem.
 
 Jak asystent ma pracować z tekstem
 Asystent powinien:
