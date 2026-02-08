@@ -11,6 +11,9 @@ export default defineConfig({
   image: {
     responsiveStyles: true,
   },
+  devToolbar: {
+    placement: "bottom-right",
+  },
   vite: {
     plugins: [tailwindcss()],
   },
