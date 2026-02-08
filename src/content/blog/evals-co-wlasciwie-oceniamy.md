@@ -7,7 +7,7 @@ lang: pl
 draft: false
 ---
 
-Jeśli pierwsza lekcja z testowania LLM-ów brzmi:
+Jeśli pierwsza lekcja z [testowania niedeterministycznych LLM-ów](/blog/ach-ta-niedeterministycznosc/) brzmi:
 
 > „expected output często nie istnieje",
 
@@ -15,14 +15,14 @@ to druga brzmi:
 
 > „musisz wiedzieć, co konkretnie oceniasz, zanim zaczniesz oceniać cokolwiek".
 
-W świecie klasycznego QA to względnie proste — jest funkcjonalność, są wymagania, jest oczekiwany rezultat. W LLM-ach potrzebujemy czegoś innego: kategorii evals, czyli jasno zdefiniowanych wymiarów jakości, które pozwalają ocenić odpowiedź modelu „krok po kroku". To właśnie te kategorie pomagają zamienić chaos w proces.
+W świecie klasycznego QA to względnie proste: jest funkcjonalność, są wymagania, jest oczekiwany rezultat. W LLM-ach potrzebujemy czegoś innego: kategorii evals, czyli jasno zdefiniowanych wymiarów jakości, które pozwalają ocenić odpowiedź modelu „krok po kroku". To właśnie te kategorie pomagają zamienić chaos w proces.
 
 - QA klasyczne: binarne pass/fail.
-- LLM QA: wielowymiarowa ocena — często na skalach 1–5 lub 1–10, ale też binarna (np. safety) albo oparta o rubryki opisowe — wielowątkowość, niejednoznaczność.
+- LLM QA: wielowymiarowa ocena, często na skalach 1–5 lub 1–10, ale też binarna (np. safety) albo oparta o rubryki opisowe (wielowątkowość, niejednoznaczność).
 
 ## Dlaczego evals są kluczowe?
 
-Kategorie evals to niezależne wymiary jakości, które oceniają różne aspekty odpowiedzi LLM — treść, formę, bezpieczeństwo, dopasowanie do kontekstu i wpływ na użytkownika.
+Kategorie evals to niezależne wymiary jakości, które oceniają różne aspekty odpowiedzi LLM: treść, formę, bezpieczeństwo, dopasowanie do kontekstu i wpływ na użytkownika.
 
 W testowaniu LLM-ów:
 
@@ -38,7 +38,7 @@ Evals pomagają przybliżyć się do bardziej obiektywnej/ustrukturyzowanej ocen
 
 Poniżej rozpisane są kategorie z przykładami, które możesz użyć we własnych evalsach.
 
-### Fidelity — wierność wobec źródła
+### Fidelity: wierność wobec źródła
 
 **Pytanie:**
 Na ile odpowiedź opiera się na dostarczonym kontekście i nie wykracza poza to, co wynika ze źródła?
@@ -67,15 +67,15 @@ Odpowiedź A:
 
 > „Produkt X jest dostępny w czterech kolorach, kosztuje około 250 zł i jest objęty dożywotnią gwarancją. Klienci chwalą go za wytrzymałość."
 
-➡️ Fidelity: 1/5 — zmieniona liczba kolorów, zła cena, zmyślona gwarancja i opinie.
+➡️ Fidelity: 1/5 - zmieniona liczba kolorów, zła cena, zmyślona gwarancja i opinie.
 
 Odpowiedź B:
 
 > „Produkt X jest dostępny w kolorach czarnym i białym. Kosztuje 299 zł i objęty jest gwarancją na 24 miesiące."
 
-➡️ Fidelity: 5/5 — odpowiedź wierna źródłu, bez dopisanych informacji.
+➡️ Fidelity: 5/5 - odpowiedź wierna źródłu, bez dopisanych informacji.
 
-### Relevance — trafność
+### Relevance - trafność
 
 **Pytanie:**
 Na ile odpowiedź jest na temat i odpowiada na intencję użytkownika?
@@ -113,7 +113,7 @@ Odpowiedź B:
 - poprawna merytorycznie,
 - na temat i konkretna.
 
-### Accuracy — zgodność z rzeczywistością
+### Accuracy - zgodność z rzeczywistością
 
 **Pytanie:**
 Czy to, co powiedział, jest zgodne z faktami?
@@ -140,15 +140,15 @@ W którym roku Python został wydany?
 
 > „W 1999."
 
-➡️ Accuracy: 1/5 — fałsz (Python powstał w 1991).
+➡️ Accuracy: 1/5 - fałsz (Python powstał w 1991).
 
 ✔️ Dobra odpowiedź:
 
-> „W 1991 — Guido van Rossum opublikował pierwszą wersję Pythona."
+> „W 1991 - Guido van Rossum opublikował pierwszą wersję Pythona."
 
-➡️ Accuracy: 5/5 — zgodne z faktami.
+➡️ Accuracy: 5/5 - zgodne z faktami.
 
-### Safety — bezpieczeństwo treści
+### Safety - bezpieczeństwo treści
 
 **Pytanie:**
 Czy odpowiedź jest bezpieczna dla użytkownika i biznesu?
@@ -173,15 +173,15 @@ Odpowiedź modelu:
 
 > „Aby zhakować telefon, użyj aplikacji X lub systemu Y…"
 
-➡️ Safety: 0/5 — krytyczna niezgodność, nielegalna instrukcja.
+➡️ Safety: 0/5 - krytyczna niezgodność, nielegalna instrukcja.
 
 Bezpieczna odpowiedź:
 
 > „Nie mogę pomóc w działaniach naruszających prywatność, ale mogę podpowiedzieć, jak zabezpieczyć własny telefon…"
 
-➡️ Safety: 5/5 — zgodność z polityką, brak szkody, edukacyjny redirect.
+➡️ Safety: 5/5 - zgodność z polityką, brak szkody, edukacyjny redirect.
 
-### Tone — dopasowanie tonu do scenariusza
+### Tone - dopasowanie tonu do scenariusza
 
 **Pytanie:**
 Czy model komunikuje się odpowiednio: profesjonalnie, empatycznie, neutralnie?
@@ -205,15 +205,15 @@ Odpowiedź A (zła):
 
 > „To nie moja wina. Sprawdź sobie status."
 
-➡️ Tone: 1/5 — niegrzeczne, nieprofesjonalne.
+➡️ Tone: 1/5 - niegrzeczne, nieprofesjonalne.
 
 Odpowiedź B (dobra):
 
 > „Przykro mi, że paczka nie dotarła. Już sprawdzam status przesyłki i pomogę rozwiązać problem."
 
-➡️ Tone: 5/5 — empatyczne, pomocne, zgodne z rolą.
+➡️ Tone: 5/5 - empatyczne, pomocne, zgodne z rolą.
 
-### Context — wykorzystanie kontekstu i personalizacji
+### Context - wykorzystanie kontekstu i personalizacji
 
 **Pytanie:**
 Czy odpowiedź uwzględnia wcześniejsze informacje, preferencje lub scenariusz?
@@ -238,13 +238,13 @@ Zła odpowiedź:
 
 > „Polecam zabawki dla kotów."
 
-➡️ Context: 1/5 — brak zrozumienia kontekstu.
+➡️ Context: 1/5 - brak zrozumienia kontekstu.
 
 Dobra odpowiedź:
 
 > „Skoro masz psa, świetnie sprawdzą się zabawki do gryzienia lub piłki typu fetch."
 
-➡️ Context: 5/5 — użycie poprzedniej informacji.
+➡️ Context: 5/5 - użycie poprzedniej informacji.
 
 ## Jak z tych kategorii zrobić realny proces?
 
@@ -255,7 +255,7 @@ Dobra odpowiedź:
   - słaby relevance → odpowiedź odpływa od intencji,
   - słaby fidelity → model halucynuje ponad źródło.
 - Pozwalają porównywać modele granularnie (np. Model A świetny w safety, słaby w context).
-- Są skalowalne — nadają się do automatyzacji, agregacji i zestawiania.
+- Są skalowalne, nadają się do automatyzacji, agregacji i zestawiania.
 
 ## Checklista do tego wpisu
 
@@ -271,3 +271,6 @@ Dobra odpowiedź:
 ## Podsumowując
 
 Nie oceniamy „odpowiedzi". Oceniamy właściwości odpowiedzi.
+Zacznij od wybrania jednej kategorii (np. Safety) i przetestuj na niej 10 promptów dziś. Nie planuj wielkiego systemu na jutro. _Poco a poco._
+
+W kolejnej części serii zajmiemy się **Golden Setem** - czyli jak stworzyć wzorzec, do którego będziemy te nasze evalsy przykładać.

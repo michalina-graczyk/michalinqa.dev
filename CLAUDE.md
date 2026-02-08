@@ -1,3 +1,3 @@
 # CLAUDE.md
 
-See [AGENTS.md](./AGENTS.md) for commands and testing instructions.
+See [AGENTS.md](docs/AGENTS.md) for commands and testing instructions.
