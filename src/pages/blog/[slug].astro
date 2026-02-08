@@ -1,6 +1,7 @@
 ---
 import { render } from "astro:content";
 import ArticleLayout from "@layouts/ArticleLayout.astro";
+import NewsletterSignup from "@components/NewsletterSignup.astro";
 import { getPublishedPosts, calculateReadingTime } from "@lib/blog";
 
 export async function getStaticPaths() {
@@ -28,4 +29,5 @@ const readingTime = calculateReadingTime(post.body || "");
   canonicalUrl={post.data.canonicalUrl}
 >
   <Content />
+  <NewsletterSignup />
 </ArticleLayout>
