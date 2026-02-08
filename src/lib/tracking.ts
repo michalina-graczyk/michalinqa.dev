@@ -18,6 +18,7 @@ export const TrackingEvents = {
   CALENDLY_BOOKING_OPENED: "Calendly Booking Opened",
   OFFER_EMAIL_CLICKED: "Offer Email Clicked",
   OFFER_BOOKING_CLICKED: "Offer Booking Clicked",
+  NEWSLETTER_SIGNUP_CLICKED: "Newsletter Signup Clicked",
 } as const;
 
 export type EventName = (typeof TrackingEvents)[keyof typeof TrackingEvents];
