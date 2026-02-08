@@ -7,22 +7,20 @@ import {
 } from "./helpers/mixpanel";
 
 test.describe("Newsletter Signup", () => {
-  // No universal beforeEach to avoid global timeouts in acceptConsentIfVisible
-
   test("Newsletter form is visible in the Contact section on landing page", async ({
     page,
     baseURL,
   }) => {
     await page.goto(baseURL!);
-    // We don't strictly need consent for visibility tests
-    const contactSection = page.locator('[data-testid="contact"]');
-    const newsletterForm = contactSection.locator(
-      'form[action*="buttondown.com"]',
-    );
+    const newsletterSection = page.locator('[data-testid="newsletter-signup"]');
 
-    await expect(newsletterForm).toBeVisible();
-    await expect(newsletterForm.locator('input[type="email"]')).toBeVisible();
-    await expect(newsletterForm.locator('button[type="submit"]')).toBeVisible();
+    await expect(newsletterSection).toBeVisible();
+    await expect(
+      newsletterSection.locator('input[type="email"]'),
+    ).toBeVisible();
+    await expect(
+      newsletterSection.locator('button[type="submit"]'),
+    ).toBeVisible();
   });
 
   test("Newsletter form is visible at the bottom of blog posts", async ({
@@ -30,9 +28,9 @@ test.describe("Newsletter Signup", () => {
     baseURL,
   }) => {
     await page.goto(`${baseURL}/blog/ach-ta-niedeterministycznosc`);
-    // Skip acceptConsentIfVisible here to see if it's the culprit
-    const newsletterForm = page.locator('form[action*="buttondown.com"]');
-    await expect(newsletterForm).toBeVisible();
+    const newsletterSection = page.locator('[data-testid="newsletter-signup"]');
+
+    await expect(newsletterSection).toBeVisible();
     await expect(
       page.getByText("Praktycznie o testowaniu, procesach QA"),
     ).toBeVisible();
@@ -43,26 +41,22 @@ test.describe("Newsletter Signup", () => {
     baseURL,
   }) => {
     await page.goto(baseURL!);
-    // This one REALLY needs consent and tracking to work
-    await acceptConsentIfVisible(page).catch(() => {
-      console.warn(
-        "Failed to accept consent banner in time, continuing anyway...",
-      );
-    });
+    await acceptConsentIfVisible(page);
 
-    const newsletterForm = page.locator('form[action*="buttondown.com"]');
-    const emailInput = newsletterForm.locator('input[type="email"]');
-    const submitButton = newsletterForm.locator('button[type="submit"]');
+    // Intercept form submission to avoid hitting third-party API
+    await page.route("**/buttondown.com/**", (route) => route.abort());
+
+    const newsletterSection = page.locator('[data-testid="newsletter-signup"]');
+    const emailInput = newsletterSection.locator('input[type="email"]');
+    const submitButton = newsletterSection.locator('button[type="submit"]');
 
     await emailInput.fill("test@example.com");
     await submitButton.click();
 
-    // Check events with a bit more grace
-    await page.waitForTimeout(1000);
     const events = await getTrackedEvents(page);
-    const hasEvent = events.some(
-      (e) => e.eventName === "Newsletter Signup Clicked",
+    expectLastEventToBeTracked(
+      events,
+      TrackingEvents.NEWSLETTER_SIGNUP_CLICKED,
     );
-    expect(hasEvent).toBe(true);
   });
 });
