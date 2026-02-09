@@ -30,8 +30,8 @@
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.2.3",
-    "@iconify-json/simple-icons": "^1.2.69",
-    "@playwright/test": "^1.58.1",
+    "@iconify-json/simple-icons": "^1.2.70",
+    "@playwright/test": "^1.58.2",
     "@types/node": "^22",
     "dotenv": "^17.2.4",
     "prettier": "^3.8.1",
