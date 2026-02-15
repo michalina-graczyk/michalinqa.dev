@@ -1,5 +1,5 @@
 ---
-title: "Golden set + evals w praktyce: jak testować LLM-y tak, żeby to naprawdę działało"
+title: "Golden set + evals: Fundament wiarygodnych testów LLM"
 date: 2026-02-25
 excerpt: Pora połączyć niedeterministyczność i oceny w proces, który ma sens. Dowiedz się, jak zbudować i wykorzystać Golden Set w testowaniu AI.
 draft: false
@@ -7,17 +7,17 @@ lang: pl
 tags: ["LLM", "QA", "Evals", "Golden Set"]
 ---
 
-W pierwszej części mówiliśmy o tym, że LLM-y są niedeterministyczne. W drugiej - że klasyczne "pass/fail" nie działa i musimy oceniać różne aspekty odpowiedzi (evals).
+W [pierwszej części](/blog/ach-ta-niedeterministycznosc/) mówiliśmy o tym, że LLM-y są niedeterministyczne. W [drugiej](/blog/evals-co-wlasciwie-oceniamy/) - że klasyczne "pass/fail" nie działa i musimy oceniać różne aspekty odpowiedzi (evals).
 
 W trzeciej pora połączyć to w proces, który odpowiada na najważniejsze pytanie w QA: **"Skąd mam wiedzieć, czy po zmianie promptu lub modelu system faktycznie działa lepiej?"**.
 
-Odpowiedzią jest duet: golden set + evals. I spokojnie - jeśli do tej pory pracowałaś/pracowałeś głównie z testami API czy mobilką, to przejście w świat AI wcale nie jest takie straszne.
+Odpowiedzią jest duet: golden set + evals. I spokojnie - jeśli do tej pory pracowałaś/pracowałeś głównie z testami API czy mobilką, to przejście w świat AI wcale nie jest takie trudne.
 
 ## Czym jest golden set?
 
-Golden set to zestaw wejść (promptów) i wzorcowych, zaakceptowanych przez ludzi odpowiedzi, które służą jako punkt odniesienia (ground truth) przy testowaniu modelu. To Twoja "złota biblioteka" przypadków testowych.
+Golden set to zestaw promptów i wzorcowych, zaakceptowanych przez ludzi odpowiedzi, które służą jako punkt odniesienia (ground truth) przy testowaniu modelu. Tak jakby "złote zasady" przypadków testowych.
 
-Tyle że w świecie LLM oczekiwany rezultat nie jest sztywnym szablonem, tylko zbiorem informacji:
+Tyle że w świecie LLM oczekiwany rezultat nie jest sztywną ramą, a zbiorem informacji:
 
 - **Wzorcową odpowiedzią**, która pokazuje idealny ton i strukturę.
 - **Komentarzem eksperta**, który wyjaśnia, dlaczego ta odpowiedź jest dobra.
@@ -55,7 +55,7 @@ To nie musi być jedyny słuszny tekst. To może być:
 
 ### 3. Ocena według kategorii evals
 
-Tu pojawia się magia. Golden set nie jest tylko zbiorem odpowiedzi, ale też ich oceną według kategorii (pamiętasz poprzedni wpis?):
+Tu pojawia się magia. Golden set nie jest tylko zbiorem odpowiedzi, ale też ich oceną według [kategorii evals](/blog/evals-co-wlasciwie-oceniamy/):
 
 - **Fidelity** (czy wykonuje zadanie),
 - **Relevance** (czy trzyma się tematu),
@@ -77,7 +77,7 @@ To opisuje "intencję QA", która potem pomaga w automatyzacji.
 
 ## Jak golden set współpracuje z evals?
 
-Najprościej: Golden set to Twoje "paliwo" (przykłady), a evals to Twoja "procedura kontrolna" (sposób oceniania).
+Najprościej: Golden set to Twój "arkusz egzaminacyjny" (pytania i poprawne odpowiedzi). Evals to "klucz oceniania" (zasady, według których sprawdzasz ten egzamin).
 
 W nowoczesnym QA zapominamy o prostym porównywaniu tekstu. Zamiast tego wdrażamy proces:
 
@@ -115,7 +115,7 @@ To jest już Twój pipeline:
 3. Porównujemy wyniki z celami zdefiniowanymi w golden secie.
 4. Raportujemy jakość.
 
-W siódmym odcinku tej serii pokażę Ci, jak zaprząść do tego zadania inny model (**LLM-as-a-judge**), żeby całkowicie zautomatyzować ten proces. Ale fundamentem zawsze jest Twój Golden Set.
+W kolejnych częściach tej serii pokażę Ci, jak zaprząść do tego zadania inny model (**LLM-as-a-judge**), żeby całkowicie zautomatyzować ten proces. Ale fundamentem zawsze jest Twój Golden Set.
 
 ### Jak wygląda taki proces w praktyce?
 
@@ -144,11 +144,11 @@ Efekt końcowy? Nie dostajesz komunikatu "expected output mismatch", tylko konkr
 - **Tone**: Czy odpowiedź jest profesjonalna i rzeczowa?
 
 **Komentarz QA (Expertise Capture):**
-"Zależy nam na podkreśleniu wpływu biznesowego (Shift Left, regresja). Jeśli model poda 'oszczędność czasu testera', jest to akceptowalne, ale niżej punktowane niż 'skrócenie time-to-market'. Zabronione: stwierdzenia, że testy automatyczne zastępują testowanie eksploracyjne."
+"Zależy nam na podkreśleniu wpływu biznesowego (Shift Left, regresja). Jeśli model poda 'oszczędność czasu testera', jest to akceptowalne, ale niżej punktowane niż 'skrócenie time-to-market'. Zabronione: stwierdzenia, że testy automatyczne zastępują testowanie eksploracyjne lub wydłuają proces developmentu <o zgrozo>."
 
 ## Goldeny nie są po to, żeby model uczył się na pamięć
 
-Częsty błąd to traktowanie golden setu jako datasetu treningowego. Golden set to narzędzie QA, nie ML.
+Częsty błąd to traktowanie golden setu jako datasetu treningowego. Golden set to narzędzie QA, nie ML (Machine Learning).
 
 Ma być:
 
@@ -170,11 +170,11 @@ Golden set to żywy organizm.
 
 ## Checklista dla QA do tego wpisu
 
-- [ ] Czy Twój Golden Set służy do wykrywania **regresji merytorycznej**, a nie tylko błędów formatowania?
-- [ ] Czy udostępniasz judge'owi **odpowiedź referencyjną**, by mógł wykonać reference-based evaluation?
-- [ ] Czy w komentarzach QA zapisałeś **intencję biznesową**, a nie tylko "poprawny tekst"?
-- [ ] Czy Twój zestaw zawiera **edge-case'y** (krótkie, błędne, złośliwe prompty)?
-- [ ] Czy Golden Set jest oddzielony od danych używanych do fine-tuningu modelu?
+- Czy Twój Golden Set służy do wykrywania **regresji merytorycznej**, a nie tylko błędów formatowania?
+- Czy udostępniasz judge'owi **odpowiedź referencyjną**, by mógł wykonać reference-based evaluation?
+- Czy w komentarzach QA zapisałeś **intencję biznesową**, a nie tylko "poprawny tekst"?
+- Czy Twój zestaw zawiera **edge-case'y** (krótkie, błędne, złośliwe prompty)?
+- Czy Golden Set jest oddzielony od danych używanych do fine-tuningu modelu?
 
 ## Podsumowanie
 
