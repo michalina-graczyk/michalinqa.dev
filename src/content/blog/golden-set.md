@@ -1,6 +1,6 @@
 ---
 title: "Golden set + evals: Fundament wiarygodnych testów LLM"
-date: 2026-02-25
+date: 2026-02-22
 excerpt: Pora połączyć niedeterministyczność i oceny w proces, który ma sens. Dowiedz się, jak zbudować i wykorzystać Golden Set w testowaniu AI.
 draft: false
 lang: pl
