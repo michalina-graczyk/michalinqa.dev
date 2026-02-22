@@ -1,5 +1,5 @@
 ---
-title: "Evals categories: what are we actually evaluating?"
+title: "Eval categories: what are we actually evaluating?"
 date: 2026-02-09
 excerpt: "How to define evaluation categories (fidelity, relevance, safety, tone, context) to test LLMs multidimensionally and scalably."
 tags: ["llm", "evals", "testing", "quality-assurance", "ai"]
@@ -253,15 +253,15 @@ Good response:
   - Safety > Accuracy > Fidelity > Relevance > Tone > Context (e.g., in high-risk financial systems).
 - Evals allow you to diagnose specific root problems:
   - weak relevance → the response drifts away from user intent,
-  - weak fidelity → the model hallucinates wildly beyond its allowed source.
-- They let you compare models granularly (e.g., Model A is spectacular in safety, but struggles heavily with context).
+  - weak fidelity → the model hallucinates beyond the source.
+- They let you compare models granularly (e.g., Model A excels at safety but is weak in context).
 - They are scalable, automatable, aggregatable, and highly comparative.
 
 ## Checklist for this post
 
 - Define your evaluation categories (e.g., fidelity, relevance, accuracy, safety, tone, context, as described above).
 - Establish scoring rubrics and a scale (you need uniform, repeatable grading criteria).
-  - Stop hunting for a single "expected output". Grade the _quality_ of the response, not its strict identicality.
+  - Stop hunting for a single "expected output". Grade the _quality_ of the response, not its exact match.
 - Verify answer safety (toxic content, PII leaks, applying safe refusals).
 - Validate formatting and parseability (strict structural requirements = fewer downstream surprises).
 - Evaluate reasoning and coherence (is the logic sound, and does it retain the prompt's structural narrative).

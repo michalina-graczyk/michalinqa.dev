@@ -43,7 +43,7 @@ Testing language models isn't just about clicking a button and checking if "some
 - correct (zero hallucinations),
 - coherent (no erratic topic jumping),
 - compliant with instructions (the model must do what you ask),
-- properly formatted (we don't want every answer returning a different JSON schema),
+- properly formatted (we don't want every response returning a different format),
 - safe (no toxic content or generation of sensitive personal data).
 
 The QA's job is no longer to check _if_ the model answered, but _how_ it answered.

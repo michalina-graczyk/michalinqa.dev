@@ -111,7 +111,7 @@ E.g.: "The answer is correct because it contains X, Y, and Z. Acceptable version
 This is already your pipeline:
 
 1. Model generates an answer.
-2. **Evaluator** (you or an automat) checks the answer according to your evals.
+2. **Evaluator** (you or an automated system) checks the answer according to your evals.
 3. We compare the results with goals defined in the golden set.
 4. We report the quality.
 
@@ -133,7 +133,7 @@ The end result? You don't get an "expected output mismatch" message, but a concr
 
 **Golden answer (reference benchmark):**
 
-1. Fast feedback in the CI/CD process (regression shortening).
+1. Fast feedback in the CI/CD process (shorter regression cycles).
 2. Higher repeatability and elimination of human errors in boring tasks.
 3. Lowering bug detection costs thanks to shifting tests "to the left" (Shift Left).
 
@@ -144,7 +144,7 @@ The end result? You don't get an "expected output mismatch" message, but a concr
 - **Tone**: Is the answer professional and factual?
 
 **QA Comment (Expertise Capture):**
-"We want to emphasize the business impact (Shift Left, regression). If the model gives 'saving tester's time', it is acceptable but scored lower than 'shortening time-to-market'. Forbidden: statements that automated tests replace exploratory testing or prolong the development process."
+"We want to emphasize the business impact (Shift Left, regression). If the model gives 'saving tester's time', it is acceptable but scored lower than 'shortening time-to-market'. Forbidden: statements that automated tests replace exploratory testing or prolong the development process (oh, the horror)."
 
 ## Goldens aren't for the model to learn by heart
 
@@ -178,7 +178,7 @@ A golden set is a living organism.
 
 ## Summary
 
-A golden set is a QA way to bring order to a world where the answer is never identical, and there are more risks than in classic APIs. Combined with evals, it gives stable tests, repeatable evaluations, and real QA impact on the quality of LLM-based systems.
+A golden set is QA's way to bring order to a world where the answer is never identical, and there are more risks than in classic APIs. Combined with evals, it gives stable tests, repeatable evaluations, and real QA impact on the quality of LLM-based systems.
 
 It's the foundation of practical AI testing. Time to get to work and start building your own "golden library".
 

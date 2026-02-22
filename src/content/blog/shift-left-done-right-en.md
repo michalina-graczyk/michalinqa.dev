@@ -94,4 +94,4 @@ The fundamental shift recognizes that quality is owned by the entire team, not e
 
 Implementing shift left represents a cultural transformation rather than process addition. It involves advancing quality conversations earlier, embedding quality into planning, and distributing responsibility from inception. This approach enables faster movement with greater confidence, reduces waste, clarifies expectations, and establishes quality as a designed characteristic rather than a tested afterthought.
 
-Teams that design quality in achieve superior results compared to those attempting to test it in later.
+Teams that design quality in achieve superior results compared to those attempting to test it in afterward.
