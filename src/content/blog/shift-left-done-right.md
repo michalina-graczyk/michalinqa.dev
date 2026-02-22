@@ -1,7 +1,7 @@
 ---
-title: "Shift Left Done Right: QA w Nowoczesnym SDLC"
+title: "Shift Left Done Right: QA w nowoczesnym SDLC"
 date: 2025-04-11
-excerpt: "Shift Left to budowanie jakości od podstaw - podczas faz planowania, projektowania i programowania. Dowiedz się, jak wprowadzić to w swojej organizacji."
+excerpt: "Shift Left to budowanie jakości od podstaw - podczas faz planowania, projektowania i programowania. Dowiedz się, jak wprowadzić to podejście w swojej organizacji."
 tags: ["shift-left", "quality-assurance", "testing", "software-engineering"]
 lang: pl
 draft: false
@@ -9,85 +9,89 @@ devtoUrl: "https://dev.to/michalina_graczyk/shift-left-done-right-qa-in-the-mode
 canonicalUrl: "https://dev.to/michalina_graczyk/shift-left-done-right-qa-in-the-modern-sdlc-5c24"
 ---
 
-Shift Left to proaktywna strategia zapewniania jakości, która integruje testowanie w całym procesie rozwoju oprogramowania, zamiast zostawiać je na sam koniec. Podejście to ma na celu budowanie jakości od postaw – już podczas faz planowania, projektowania i programowania.
+Shift Left to proaktywna strategia zapewniania jakości, która integruje testowanie w całym procesie rozwoju oprogramowania, zamiast zostawiać je na sam koniec. Podejście to zakłada budowanie jakości od podstaw – już na etapach planowania, projektowania i programowania.
 
 ## Dlaczego Shift Left?
 
-Tradycyjne modele traktują testy QA jako ostateczny punkt kontrolny, co skutkuje wykrywaniem błędów na późnym etapie i bardzo drogimi poprawkami. Shift Left rozwiązuje ten problem poprzez osadzenie odpowiedzialności za jakość od wczesnych faz cyklu życia oprogramowania (SDLC), co tworzy środowiska oparte w pełni na współpracy i naturalnie rozdziela tę odpowiedzialność na całe zespoły.
+Tradycyjne modele koncentrują testy QA jako ostateczny punkt kontrolny, co skutkuje wykrywaniem błędów na późnym etapie i kosztownymi poprawkami. Shift Left rozwiązuje ten problem, osadzając odpowiedzialność za jakość na wczesnych etapach SDLC, tworząc środowisko współpracy i rozkładając odpowiedzialność na cały zespół.
 
-**Kluczowe korzyści to m.in.:**
+**Kluczowe korzyści:**
 
-- Wczesne wykrywanie problemów u źródła, co z miejsca redukuje błędy powracające na produkcję
-- Zwiększona pewność programistów względem własnego kodu podczas wdrażania na wyższych środowiskach
-- Przyspieszone wdrażanie CI/CD dzięki wyeliminowaniu wielkich, późnych „wąskich gardeł" na końcu sprintów
-- Jasne określenie faktu, że jakość jest stałą odpowiedzialnością dla każdego członka zespołu
+- Wczesne wykrywanie problemów, co redukuje liczbę błędów na produkcji
+- Większa pewność developerów co do tego, co wdrażają
+- Przyspieszenie pipeline'ów CI/CD dzięki eliminacji wąskich gardeł na końcu procesu
+- Ugruntowanie jakości jako wspólnej odpowiedzialności całego zespołu
 
-## Jak wprowadzić Shift Left poprzez organizację
+## Jak wprowadzić Shift Left w organizacji
 
-### 1. Zmapuj swój obecny SDLC i znajdź odnogi ze stratami (luki)
+### 1. Zmapuj swój obecny SDLC i znajdź luki
 
-Zorganizuj spotkania na przeprowadzenie oceny od etapu kształtowania się idei aż po wdrożenie oprogramowania. Zidentyfikuj fazy procesu, w których często pojawiają się błędy i punkty, co do zjawienia się pierwszych procesów QA. Szukaj powracających wzorców takich jak:
+Przeprowadź ocenę całego procesu – od pomysłu po wdrożenie. Zidentyfikuj, gdzie pojawiają się błędy i kiedy następuje zaangażowanie QA. Szukaj takich wzorców:
 
-- Testowanie, które bywa skumulowane wyłącznie na końcu procesu i blokuje releasowanie
-- Zbyt mocno rozszerzona weryfikacja stricte manualna dla przepływów biznesowych
-- Ubytki i brak pełnego pokrycia testami dla rozwiązań i architektury API
-- Luki metrykalne (nie ma liczb określających błędy, spójności raportów „flaky tests” lub ogólnie dla weryfikacji po regresjach)
-- Spotkania i dyskusje na etapach projektowych, które odrzucają konieczność przemyślenia trudnych przypadków brzegowych – co ostatecznie bije deweloperów po kieszeni od razu podczas developmentu
+- Testowanie skoncentrowane wyłącznie na końcu procesu
+- Ręczna weryfikacja przepływów biznesowych
+- Brak pokrycia testami API lub testami integracyjnymi
+- Brak metryk dla błędów, flaky testów czy regresji
+- Refinementy bez uwzględnienia przypadków brzegowych
 
-### 2. Zdefiniuj na nowo całą wizję dla SDLC w oparciu o Shift Left
+### 2. Zdefiniuj wersję SDLC opartą o Shift Left
 
-Zaprojektuj owoce ponownie na etapie map, przesuwając ciężar ważnych punktów kontrolnych dla testów w dół, na wcześniejsze osie czasu:
+Przeprojektuj SDLC, przesuwając punkty kontrolne jakości na wcześniejsze fazy:
 
-**Faza planowania oraz Refinementy projektów**
+**Faza planowania i refinementu**
 
-- QA dołącza od startu do przeglądów wymagań biznesu i wylicza wątpliwości na równi z devteamem
-- Następuje definiowanie kluczowych dróg w formie krytycznych, asertywnych pytań dla biznesu
-- Identyfikowanie pożarów (ryzyk ze stopniem High) jak np. słabych czy awaryjnych mechanizmów w wybranym UI
-- Odczuwalne spersonalizowanie warunków dotyczących weryfikacji u Acceptance Criteria
-- Stawianie jasnych pytań, aby z góry uzgodnić zakresy wymaganych pokryć czy też przypadki Test Cases zanim kod w ogóle się stworzy
+- QA dołącza do przeglądów wymagań i designu
+- Definiowanie kluczowych pytań dla biznesu
+- Wczesna identyfikacja ryzyk UI/UX
+- Ustalanie kryteriów akceptacji
+- Definiowanie zakresu testów, przypadków testowych i edge case'ów przed rozpoczęciem developmentu
+- Propozycje metryk obserwowalności
+- Kompletna dokumentacja przed implementacją
 
-**Faza wdrożeniowa i development zespołowy**
+**Faza developmentu**
 
-- Cały programiści sztab pracuje na bazie zatwierdzonego zarysu funkcjonalności i wymagań, a nie samowolnych domysłów
-- Analiza kodu wpada w mocny wir krytyki (również tych fragmentów skupionych na sprawdzeniu jakości przy code review i asercji z samą testowalnością w projekcie)
-- Podział sił, aby testy unitowe narastały równomiernie spójnie pisane z klasami, metodami i wdrażanym refactorem
-- Silniki CI są wymuszane do bezwarunkowego egzekwowania testów odświeżających bazę wiedzy np. we wszystkich wypchniętych pull request'ach!
+- Developerzy pracują na bazie dobrze zdefiniowanych wymagań
+- Code review uwzględnia jakość i testowalność kodu
+- Testy jednostkowe pisane równolegle z kodem
+- CI uruchamia testy automatyczne przy każdym pull requeście
+- Ciągła aktualizacja dokumentacji
 
-**Faza procesowania samych testów**
+**Faza testów**
 
-- Zgrane pakiety obejmujące niezawodną pulę w pełni bezobsługowych powtarzających skryptów: regresji czy solidnych pakietów testów złącznych
-- Prawdziwe, mozolne testy dla UX zostawiane w rezerwie wyłącznie pod skomplikowane i trudne algorytmy ludzkich działań w najcięższych Corner i Edge cases
+- Niezawodne, zautomatyzowane testy regresyjne i integracyjne
+- Testy manualne zarezerwowane dla złożonych scenariuszy UX i przypadków brzegowych
 
-**Faza wdrożeniowa Release oraz szerokie wsparcie Maintenence**
+**Faza wdrożenia i utrzymania**
 
-- Stabilny status i oznaczalność z Release testingu dające z góry certyfikat pod bezkolizyjną zrzutkę dla wejść z rozwiązaniami pod produkcję
-- Niejako "żywy obraz" i wertykalne śledzenie (tzw. monitoring) i analizy, jak obiektywnie wyznaczają się u użytkowników nowe metryki dla procesowania rozwiązań na poziomie performensowym
-- Problematyczne wydania (post-release issues) tworzą krwioobieg pętli opinii (tzw. Feedback loops), wracającej natychmiast uświadamiająco i prewencyjnie przed powtórzeniem pomyłki do serca i rdzeni deweloperskich.
+- Testy release'owe potwierdzające gotowość do produkcji
+- Monitoring śledzący metryki wydajności i użytkowania
+- Problemy po wdrożeniu zasilają pętle feedbacku
 
-### 3. Zmodyfikuj swoją strategię testów (Overhauls dla projektów)
+### 3. Przebuduj swoją strategię testów
 
-Efektywne wykorzystywanie Shift Left wymusza ogromne załamania dotychczasowego spojrzenia, budując zręby ewolucji opartej na odrzucaniu błędów od samych korzeni.
+Skuteczne wdrożenie Shift Left wymaga strategicznych zmian w podejściu do testowania:
 
-- Zaplanuj i wciel odejście na mniejszą asercję w stronę testowania API od mocnych testów na samej powłoce Frontend-endowych End2Ends na bazie gotowych mechanik np. w zastępstwie wdrażając mocne zmockowane scenariusze.
-- Wypatruj co w trawie piszczy (dosłownie monitorując odchylenia flakiness'ów za wczasu).
-- Odśwież i przerysuj potężną i obarczoną wieloma potknięciami integracją CI drogę do releasowania dla stabilizacji bazy.
-- Wypełniaj misje ze stanowczością co do własności poszczególnych procesów pośród zespołu z wyraźnie widocznym przyrostowym raportem powygrywanych batalii (ownership u metryk wydań lub zgranych ze smakiem pokryć TDD).
+- Migracja z testów end-to-end na UI na rzecz testów API lub testów integracyjnych z mockowanymi danymi
+- Monitorowanie flakiness testów
+- Mapowanie przepływów release'owych w celu identyfikacji problemów z CI
+- Jasne określenie odpowiedzialności za przypadki testowe i metryki po wdrożeniu
 
-Głęboka taktyka pozwala tu uniknąć i zlikwidować tak potężny hamulec jakim były przedziwne, niedostępne lub po prostu niewydolne stanowiska blokujące ruch zespołom. Utrzymuje od tego uwarstwienie pętli, spoiwo ze zwrotów na linii kod-wykonawca dla stabilniejszego reagowania, bez wąskich gardeł o podłożach testowania końcowego, zwanego niejednokrotnie od tyłu SDLC "korkiem" projektu.
+Strategia powinna wspierać zespoły bez tworzenia wąskich gardeł, utrzymując szybkie pętle feedbacku i wiarygodne sygnały.
 
-## Jak w świetle praktyki może zabrnąć wymarzony sukces we Shift Left?
+## Jak może wyglądać sukces
 
-Rozwijanie wdrażania za darmo oferowanych zmian z zasobów ideowych nie wymaga budżetu ze świata astronomii, rodzi też nad wyraz mierzalne na gruncie realnego projektu skutki:
+Udane wdrożenie przynosi mierzalne rezultaty:
 
-- Skupienie w planowaniu. Odkręcone pytania budujące od góry zasoby jako bazę pewności dla rzutu projektami jako siłą oprogramowania.
-- Mocniejsze fundamenty oświetlające sens wykonawczy jeszcze przed spędzeniem bezsennych nocy w IDE dla kodowania w pustych i nieraz złudnych obietnicach (tzw. docs before code).
-- Prewencyjne rozpoznawanie pułapek!
-- Wyzwolona ścieżka uwolnień produkcyjnych! (Brak paniki dla end-stage zapóźnień owocuje bezbolesnym wypuszczeniem upragnionych funkcjonalności o prognozownym czasie dla planującego product managementu).
-- Wolny wiatr QA: to oddanie we władaniu u samych testów do skrzydeł nad ogółem rzucania na siebie jakości (wyzwolona ze sztywnych procedur uwalnia tak zwany quality enablement) - a stając się strażnikami procesów deweloperskich!
+- **Lepsze refinementy:** Dyskusje skoncentrowane na jakości napędzają planowanie
+- **Dokumentacja przed kodem:** Developerzy rozumieją wymagania zanim zaczną pisać kod
+- **Wczesna widoczność:** Zespoły mierzą kluczowe metryki i proaktywnie adresują ryzyka
+- **Szybsze releasy:** Mniej testów na końcu procesu oznacza przewidywalne wdrożenia
+- **Wzmocnione QA:** Quality enablement zastępuje dynamikę wąskiego gardła
 
-Esencja zmiany zakotwicza od teraz w 100% u twardej myśli, dowodząc od wczoraj i dzisiejszego wdrożenia postawy Shift left - że proces testowania dla rzemiosła jest procesem odpowiedzialnym od pierwszej litery programistycznego warsztatu – rzeczą, do której ręce przysłowiowo przekładają wszyscy w rzetelnym oddaniu na korzyść gotowego programu; rezygnując z testowania ex-post i po wykonanej sztuce u Inżynierach wyłącznie dla roli QA!
+Fundamentalna zmiana polega na uznaniu, że jakość jest własnością całego zespołu, a nie wyłącznie działu QA.
 
-## Kilka słów podsumowania ze strony samej rzetelności
+## Podsumowanie
 
-Decyzje z wykorzystaniem z lewostronnych modyfikacji nie budują na zewnątrz pustego oprogramowania jako tylko nowego procesu, a rozbudzają transformatywne uwarunkowania po każdej stronie programowania; do kultury tworzących go ludzi u każdej strony postaw, które ewoluują w uderzaniu przy budowie już od rdzenia przy projektowaniu. To osadzenie we wnętrzu SDLC od startowego pociągnięcia ręką z rozproszonym udziałem na całokształt w powstawaniu. Piekielnie skraca całe czasowe dystanse z ogromem obfitej do wzięcia stabilności w potknięciach i buduje pewność opartą od razu bezbłędnie przetestowaną ścieżką w niejedno - tak też eliminowaną i strącaną we mrzonki na margines oczekiwań z pozoru nieszkodliwą pomyłką! Uznaje i wycenia się, że jakość za tę wypracowaną rzetelność cechuje się od samego fundamentu – nigdy za wtórnym przyłożeniem dłoni w post-realizacji kodu!
-Ostateczny odzew – te zespoły programistów, które projektując rzetelnie biorą we wspieraniu taktyczne podejścia we wczesne zaplanowanie w tym i testowe uwikłanie z budującym się produktem - owocują osiągnięciami przerastającymi bezlitosnych gigantów o potknięciach dopiero podczas mozolnie łatanej i drogiej drogi poszatkowanej z końca!
+Wdrożenie Shift Left to transformacja kulturowa, a nie dodanie kolejnego procesu. Chodzi o to, żeby rozmowy o jakości odbywały się wcześniej, żeby jakość była wbudowana w planowanie i żeby odpowiedzialność za nią była rozłożona od samego początku. Takie podejście pozwala działać szybciej i z większą pewnością, redukuje marnotrawstwo, precyzuje oczekiwania i sprawia, że jakość staje się cechą zaprojektowaną, a nie doczepioną po fakcie.
+
+Zespoły, które projektują z myślą o jakości, osiągają lepsze wyniki niż te, które próbują ją dołożyć na końcu.

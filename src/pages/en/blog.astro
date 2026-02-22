@@ -10,11 +10,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 
-const posts = await getGroupedPostsByLang(lang as "pl" | "en");
-
-const sortedPosts = posts.sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime()
-);
+const sortedPosts = await getGroupedPostsByLang(lang as "pl" | "en");
 ---
 
 <Layout
