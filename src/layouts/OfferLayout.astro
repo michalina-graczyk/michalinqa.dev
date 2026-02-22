@@ -6,6 +6,7 @@ import CalendlyButton from "@components/ui/CalendlyButton.astro";
 import { Icon } from "astro-icon/components";
 import { calendlyURL, emailAddress } from "@config/contact";
 import { TrackingEvents } from "@lib/tracking";
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
 
 export interface Props {
   title: string;
@@ -23,9 +24,11 @@ const serviceSchema = {
   provider: {
     "@type": "Person",
     name: "Michalina Graczyk",
-    jobTitle: "Engineering Manager",
   },
 };
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <Layout title={`${title} | Michalina Graczyk`} description={description} type="website">
@@ -35,11 +38,11 @@ const serviceSchema = {
       <header class="mb-10">
         <div class="mb-6">
           <a
-            href="/#offers"
+            href={`/${lang === "pl" ? "" : lang + "/"}#offers`}
             class="inline-flex items-center gap-2 text-sm text-gray-600 transition-colors hover:text-orange dark:text-gray-400 dark:hover:text-orange"
           >
             <Icon name="mdi:arrow-left" class="h-4 w-4" />
-            Wróć do oferty
+            {t("offer.backToOffers")}
           </a>
         </div>
 
@@ -67,17 +70,17 @@ const serviceSchema = {
 
       <div class="mt-12 rounded-xl border border-orange/30 bg-orange/5 p-6 dark:bg-orange/10">
         <h2 class="mb-4 text-xl font-bold text-black dark:text-white">
-          Zainteresowany/a?
+          {t("offer.interestedTitle")}
         </h2>
         <p class="mb-6 text-gray-600 dark:text-gray-400">
-          Umów bezpłatną 15-minutową rozmowę, podczas której omówimy Twoje potrzeby.
+          {t("offer.interestedDescription")}
         </p>
         <div class="flex flex-wrap gap-4">
           <CalendlyButton
             calendlyUrl={calendlyURL}
             trackingEvent={TrackingEvents.OFFER_BOOKING_CLICKED}
           >
-            Umów spotkanie
+            {t("home.contact.calendlyBtn")}
           </CalendlyButton>
           <Button
             size="lg"
@@ -86,18 +89,18 @@ const serviceSchema = {
             href={emailAddress}
             class="offer-email-btn"
           >
-            Napisz maila
+            {t("home.contact.emailBtn")}
           </Button>
         </div>
       </div>
 
       <footer class="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
         <a
-          href="/#offers"
+          href={`/${lang === "pl" ? "" : lang + "/"}#offers`}
           class="inline-flex items-center gap-2 font-medium text-orange transition-colors hover:underline"
         >
           <Icon name="mdi:arrow-left" class="h-5 w-5" />
-          Zobacz wszystkie usługi
+          {t("offer.seeAll")}
         </a>
       </footer>
     </article>

@@ -6,7 +6,8 @@ import { getLangFromUrl, useTranslations } from "@i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const offers = await getCollection("offers");
+const allOffers = await getCollection("offers");
+const offers = allOffers.filter((offer) => offer.data.lang === lang);
 ---
 
 <section
@@ -17,15 +18,21 @@ const offers = await getCollection("offers");
   <SectionTitle>{t("home.offers.title")}</SectionTitle>
   <div class="mb-10 flex w-full flex-col flex-wrap items-stretch md:flex-row">
     {
-      offers.map((offer) => (
-        <Card
-          url={`/offers/${offer.id}`}
-          title={offer.data.title}
-          description={offer.data.description}
-          alt={offer.data.img_alt}
-          tags={offer.data.tags}
-        />
-      ))
+      offers.length === 0 ? (
+        <p class="text-center w-full text-gray-500 my-8 py-8 border border-dashed border-gray-300 dark:border-gray-700 rounded-xl">
+          More offers coming soon!
+        </p>
+      ) : (
+        offers.map((offer) => (
+          <Card
+            url={`/offers/${offer.id}`}
+            title={offer.data.title}
+            description={offer.data.description}
+            alt={offer.data.img_alt}
+            tags={offer.data.tags}
+          />
+        ))
+      )
     }
   </div>
 </section>

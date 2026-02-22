@@ -27,7 +27,7 @@ export function useTranslatedPath(lang: keyof typeof ui) {
     if (l === defaultLang) {
       return pathWithoutLang;
     }
-    
+
     // Non-default locale gets the prefix
     return `/${l}${pathWithoutLang === "/" ? "" : pathWithoutLang}`;
   };

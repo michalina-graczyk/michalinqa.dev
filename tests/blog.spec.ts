@@ -9,16 +9,37 @@ test.describe("Blog", () => {
 
       await expect(page).toHaveTitle(/Blog/);
 
-      // Should have at least one blog post
+      // Should have exactly 5 blog posts (verified symmetric grouping logic)
       const articles = page.locator("main article");
       await expect(articles.first()).toBeVisible();
       const count = await articles.count();
-      expect(count).toBeGreaterThan(0);
+      expect(count).toBe(5);
 
       // Each article should have title, date, and tags
       const firstArticle = articles.first();
       await expect(firstArticle.locator("h2")).toBeVisible();
       await expect(firstArticle.locator("time")).toBeVisible();
+    });
+
+    test("displays exactly symmetrically grouped posts on English index", async ({
+      page,
+      baseURL,
+    }) => {
+      await page.goto(`${baseURL}/en/blog`);
+      await acceptConsentIfVisible(page);
+
+      await expect(page).toHaveTitle(/Blog/);
+
+      // Should have exactly 5 blog posts
+      const articles = page.locator("main article");
+      await expect(articles.first()).toBeVisible();
+      const count = await articles.count();
+      expect(count).toBe(5);
+
+      // Each article should have title, date, and English specific elements
+      const firstArticle = articles.first();
+      await expect(firstArticle.locator("h2")).toBeVisible();
+      await expect(firstArticle.getByText(/read more/i)).toBeVisible();
     });
   });
 
@@ -130,7 +151,7 @@ test.describe("Blog", () => {
       await expect(page.getByTitle("Polski")).toBeVisible();
 
       // English article
-      await page.goto(`${baseURL}/blog/from-cypress-to-playwright`);
+      await page.goto(`${baseURL}/en/blog/from-cypress-to-playwright`);
       await acceptConsentIfVisible(page);
       await expect(page.getByTitle("English")).toBeVisible();
     });
@@ -186,7 +207,7 @@ test.describe("Blog", () => {
       await expect(plLocale).toHaveAttribute("content", "pl_PL");
 
       // English article should have en_US locale
-      await page.goto(`${baseURL}/blog/from-cypress-to-playwright`);
+      await page.goto(`${baseURL}/en/blog/from-cypress-to-playwright`);
       await acceptConsentIfVisible(page);
       const enLocale = page.locator('meta[property="og:locale"]');
       await expect(enLocale).toHaveAttribute("content", "en_US");
@@ -202,7 +223,7 @@ test.describe("Blog", () => {
       await expect(page.locator("html")).toHaveAttribute("lang", "pl");
 
       // English article should have lang="en"
-      await page.goto(`${baseURL}/blog/from-cypress-to-playwright`);
+      await page.goto(`${baseURL}/en/blog/from-cypress-to-playwright`);
       await acceptConsentIfVisible(page);
       await expect(page.locator("html")).toHaveAttribute("lang", "en");
     });

@@ -27,3 +27,29 @@ export function calculateReadingTime(body: string): number {
 export function getLanguageFlag(lang: "pl" | "en"): string {
   return lang === "pl" ? "🇵🇱" : "🇬🇧";
 }
+
+/**
+ * Get published blog posts grouped by base slug,
+ * prioritizing the target language, with a fallback to the other language.
+ */
+export async function getGroupedPostsByLang(
+  targetLang: "pl" | "en",
+): Promise<CollectionEntry<"blog">[]> {
+  const allPosts = await getPublishedPosts();
+  const grouped = new Map<string, CollectionEntry<"blog">>();
+
+  for (const post of allPosts) {
+    const baseSlug = post.id.replace("-en", "");
+    const existing = grouped.get(baseSlug);
+
+    if (!existing) {
+      grouped.set(baseSlug, post);
+    } else if (post.data.lang === targetLang) {
+      grouped.set(baseSlug, post);
+    }
+  }
+
+  return Array.from(grouped.values()).sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+  );
+}

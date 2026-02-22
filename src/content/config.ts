@@ -8,6 +8,7 @@ const offersCollection = defineCollection({
     description: z.string(),
     tags: z.array(z.string()),
     img_alt: z.string().optional(),
+    lang: z.enum(["pl", "en"]).default("pl"),
   }),
 });
 
