@@ -27,8 +27,8 @@ test.describe("Internationalization (i18n)", () => {
       await expect(langToggle).toBeVisible();
       await langToggle.click();
 
-      // Should be on English homepage
-      await expect(page).toHaveURL(`${baseURL}/en`);
+      // Should be on English homepage (trailing slash may vary by hosting)
+      await expect(page).toHaveURL(/\/en\/?$/);
       await expect(page.locator("html")).toHaveAttribute("lang", "en");
 
       // Open mobile menu if needed again (closed after navigation)
@@ -56,8 +56,8 @@ test.describe("Internationalization (i18n)", () => {
       await page.goto(`${baseURL}/blog/${postSlug}`);
       await acceptConsentIfVisible(page);
 
-      // Verify we are on the Polish version
-      await expect(page).toHaveURL(`${baseURL}/blog/${postSlug}`);
+      // Verify we are on the Polish version (trailing slash may vary by hosting)
+      await expect(page).toHaveURL(new RegExp(`/blog/${postSlug}/?$`));
       await expect(page.locator("html")).toHaveAttribute("lang", "pl");
 
       // Ensure the Polish UI wrapper is visible
@@ -73,7 +73,7 @@ test.describe("Internationalization (i18n)", () => {
       await langToggle.click();
 
       // Verify we are redirected to the English route for the same slug
-      await expect(page).toHaveURL(`${baseURL}/en/blog/${postSlug}`);
+      await expect(page).toHaveURL(new RegExp(`/en/blog/${postSlug}/?$`));
       await expect(page.locator("html")).toHaveAttribute("lang", "en");
 
       // Ensure the English UI wrapper is now visible (fallback logic)
