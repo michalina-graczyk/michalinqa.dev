@@ -1,0 +1,24 @@
+---
+import { getLangFromUrl, useTranslatedPath } from "@i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const basePath = import.meta.env.BASE_URL;
+const translatePath = useTranslatedPath(lang);
+
+const pathname = Astro.url.pathname;
+
+// Determine target language and link purely from URL path
+const isPolish = lang === "pl";
+const targetLang = isPolish ? "en" : "pl";
+const targetLabel = isPolish ? "EN" : "PL";
+const targetPath = translatePath(pathname, targetLang);
+---
+
+<a
+  href={targetPath}
+  class="ml-2 flex items-center justify-center rounded-full bg-orange/10 px-3 py-1 font-mono text-sm font-bold text-orange hover:bg-orange/20 transition-colors"
+  aria-label={`Switch to ${targetLang === "en" ? "English" : "Polish"}`}
+  data-testid="language-toggle"
+>
+  {targetLabel}
+</a>

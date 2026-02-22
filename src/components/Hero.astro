@@ -2,6 +2,10 @@
 import heroImage from "@assets/images/hero.png";
 import { Image } from "astro:assets";
 import Button from "@components/ui/Button.astro";
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <section
@@ -12,10 +16,8 @@ import Button from "@components/ui/Button.astro";
     <div class="max-w-2xl">
       <h1
         class="mb-10 font-monospace text-3xl text-black [text-wrap:balance] dark:text-white lg:text-5xl"
-      >
-        Cześć! Jestem <span class="text-orange">Michalina</span>, Engineering
-        Manager specjalizująca się w strategii jakości i testowania z AI.
-      </h1>
+        set:html={t('home.hero.title')}
+      />
     </div>
     <div class="mb-10">
       <Button
@@ -25,7 +27,7 @@ import Button from "@components/ui/Button.astro";
         name="see how I can help"
         href="#about"
       >
-        Sprawdź, jak mogę pomóc
+        {t('home.hero.cta')}
       </Button>
     </div>
   </div>

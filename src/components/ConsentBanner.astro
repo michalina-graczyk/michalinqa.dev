@@ -4,6 +4,10 @@
  * Shows a minimalist bottom bar on first visit.
  * Initializes Mixpanel only after user accepts.
  */
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <div
@@ -18,7 +22,7 @@
     class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-4"
   >
     <p class="text-sm text-white">
-      Używamy analityki, aby ulepszać tę stronę.
+      {t("consent.message")}
     </p>
     <div class="flex gap-2">
       <button
@@ -26,14 +30,14 @@
         class="cursor-pointer rounded-xl border-2 border-white bg-transparent px-4 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-white hover:text-black focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 motion-reduce:transition-none"
         data-testid="consent-reject"
       >
-        Odrzuć
+        {t("consent.reject")}
       </button>
       <button
         id="consent-accept"
         class="cursor-pointer rounded-xl border-2 border-orange bg-orange px-4 py-1.5 text-sm text-white transition-colors duration-200 hover:bg-transparent hover:text-orange focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 motion-reduce:transition-none"
         data-testid="consent-accept"
       >
-        Akceptuję
+        {t("consent.accept")}
       </button>
     </div>
   </div>

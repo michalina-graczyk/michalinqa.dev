@@ -25,10 +25,12 @@ export interface LayoutProps {
   lang?: "pl" | "en";
 }
 
-const defaultTitle =
-  "Michalina Graczyk | Engineering Manager";
-const defaultDescription =
-  "Michalina Graczyk - Engineering Manager w InPost | QA & Test Automation Strategy | AI-driven Testing | LLM Evaluation | Mobile QA";
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+const currentLang = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLang);
+
+const defaultTitle = t("seo.title.default");
+const defaultDescription = t("seo.description.default");
 const defaultImage = "/og-image.png";
 
 const {
@@ -39,7 +41,7 @@ const {
   canonical,
   noindex = false,
   nofollow = false,
-  lang = "pl",
+  lang = currentLang,
 } = Astro.props as LayoutProps;
 
 const canonicalURL = canonical || Astro.url.href;
@@ -110,7 +112,7 @@ const websiteSchema = {
   <body
     class="mx-auto max-w-screen-xl bg-white px-5 font-sans text-white dark:bg-black xs:text-[16px] md:text-[18px]"
   >
-    <a href="#main-content" class="skip-link">Przejdź do głównej treści</a>
+    <a href="#main-content" class="skip-link">{t("skipLink")}</a>
     <Navbar />
     <slot />
     <Footer />

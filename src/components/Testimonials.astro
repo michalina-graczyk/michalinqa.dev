@@ -1,5 +1,9 @@
 ---
 import SectionTitle from "@components/ui/SectionTitle.astro";
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const testimonials = [
   {
@@ -26,7 +30,7 @@ const testimonials = [
   id="testimonials"
   class="mb-10 flex flex-col items-center justify-center lg:mb-0 lg:min-h-[50vh]"
 >
-  <SectionTitle>Co mówią inni</SectionTitle>
+  <SectionTitle>{t("home.testimonials.title")}</SectionTitle>
   <div class="flex w-full flex-col gap-6 md:flex-row md:gap-8">
     {
       testimonials.map((t) => (

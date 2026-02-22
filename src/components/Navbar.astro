@@ -1,29 +1,34 @@
 ---
 import ToggleTheme from "@components/ui/ToggleTheme.astro";
+import LanguageToggle from "@components/ui/LanguageToggle.astro";
 import { Astronav, MenuIcon, MenuItems } from "astro-navbar";
+import { getLangFromUrl, useTranslations, useTranslatedPath } from "@i18n/utils";
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 const currentPath = Astro.url.pathname;
 
 const menuitems = [
   {
-    title: "O mnie",
-    path: "/#about",
+    title: t("nav.about"),
+    path: translatePath("/#about"),
   },
   {
-    title: "Oferta",
-    path: "/#offers",
+    title: t("nav.offers"),
+    path: translatePath("/#offers"),
   },
   {
-    title: "Kontakt",
-    path: "/#contact",
+    title: t("nav.contact"),
+    path: translatePath("/#contact"),
   },
   {
-    title: "CV",
-    path: "/cv",
+    title: t("nav.cv"),
+    path: translatePath("/cv"),
   },
   {
-    title: "Blog",
-    path: "/blog",
+    title: t("nav.blog"),
+    path: translatePath("/blog"),
   },
 ];
 
@@ -82,6 +87,7 @@ function isActive(itemPath: string): boolean {
           })
         }
         <li><ToggleTheme /></li>
+        <li><LanguageToggle /></li>
       </ul>
     </MenuItems>
   </Astronav>

@@ -2,7 +2,10 @@
 import Card from "@components/ui/Card.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
 import { getCollection } from "astro:content";
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const offers = await getCollection("offers");
 ---
 
@@ -11,7 +14,7 @@ const offers = await getCollection("offers");
   id="offers"
   class="mb-10 flex flex-col items-center justify-center lg:mb-0 lg:min-h-dvh"
 >
-  <SectionTitle>Oferta</SectionTitle>
+  <SectionTitle>{t("home.offers.title")}</SectionTitle>
   <div class="mb-10 flex w-full flex-col flex-wrap items-stretch md:flex-row">
     {
       offers.map((offer) => (
