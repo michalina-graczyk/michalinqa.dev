@@ -2,13 +2,13 @@
 import { render } from "astro:content";
 import ArticleLayout from "@layouts/ArticleLayout.astro";
 import NewsletterSignup from "@components/NewsletterSignup.astro";
-import { getGroupedPostsByLang, calculateReadingTime } from "@lib/blog";
+import { getGroupedPostsByLang, calculateReadingTime, getBaseSlug } from "@lib/blog";
 
 export async function getStaticPaths() {
   const posts = await getGroupedPostsByLang("en");
 
   return posts.map((post) => ({
-    params: { slug: post.id.replace(/-en$/, '') },
+    params: { slug: getBaseSlug(post.id) },
     props: { post },
   }));
 }

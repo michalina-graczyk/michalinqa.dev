@@ -3,7 +3,7 @@ import BackToTop from "@components/ui/BackToTop.astro";
 import Layout from "@layouts/Layout.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
 import { Icon } from "astro-icon/components";
-import { getGroupedPostsByLang, getLanguageFlag } from "@lib/blog";
+import { getGroupedPostsByLang, getLanguageFlag, getBaseSlug } from "@lib/blog";
 import { getLangFromUrl, useTranslations, useTranslatedPath } from "@i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
@@ -44,7 +44,7 @@ const sortedPosts = await getGroupedPostsByLang(lang as "pl" | "en");
               return (
                 <article class="group">
                   <a
-                    href={translatePath(`/blog/${post.id.replace(/-en$/, '')}`)}
+                    href={translatePath(`/blog/${getBaseSlug(post.id)}`)}
                     class="block overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:border-orange hover:shadow-lg hover:shadow-orange/10 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-orange dark:hover:shadow-orange/20"
                   >
                     <div class="flex">

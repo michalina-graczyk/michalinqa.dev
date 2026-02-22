@@ -13,7 +13,7 @@ export function useTranslations(lang: keyof typeof ui) {
 }
 
 export function useTranslatedPath(lang: keyof typeof ui) {
-  return function translatePath(path: string, l: string = lang) {
+  return function translatePath(path: string, l: keyof typeof ui = lang) {
     // If the path already has a language prefix (e.g. /en/something), strip it out so we can re-apply the correct one
     let pathWithoutLang = path;
     for (const locale of Object.keys(ui)) {

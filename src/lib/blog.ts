@@ -29,6 +29,14 @@ export function getLanguageFlag(lang: "pl" | "en"): string {
 }
 
 /**
+ * Strip the `-en` translation suffix from a post ID to get the canonical slug.
+ * E.g. "my-post-en" → "my-post", "my-post" → "my-post"
+ */
+export function getBaseSlug(postId: string): string {
+  return postId.replace(/-en$/, "");
+}
+
+/**
  * Get published blog posts grouped by base slug,
  * prioritizing the target language, with a fallback to the other language.
  */
@@ -39,7 +47,7 @@ export async function getGroupedPostsByLang(
   const grouped = new Map<string, CollectionEntry<"blog">>();
 
   for (const post of allPosts) {
-    const baseSlug = post.id.replace(/-en$/, "");
+    const baseSlug = getBaseSlug(post.id);
     const existing = grouped.get(baseSlug);
 
     if (!existing) {
