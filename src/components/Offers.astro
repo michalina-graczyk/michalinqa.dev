@@ -20,7 +20,7 @@ const offers = allOffers.filter((offer) => offer.data.lang === lang);
     {
       offers.length === 0 ? (
         <p class="text-center w-full text-gray-500 my-8 py-8 border border-dashed border-gray-300 dark:border-gray-700 rounded-xl">
-          More offers coming soon!
+          {t("offers.empty")}
         </p>
       ) : (
         offers.map((offer) => (

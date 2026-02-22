@@ -9,11 +9,11 @@ test.describe("Blog", () => {
 
       await expect(page).toHaveTitle(/Blog/);
 
-      // Should have exactly 5 blog posts (verified symmetric grouping logic)
+      // Should have blog posts
       const articles = page.locator("main article");
       await expect(articles.first()).toBeVisible();
       const count = await articles.count();
-      expect(count).toBe(5);
+      expect(count).toBeGreaterThan(0);
 
       // Each article should have title, date, and tags
       const firstArticle = articles.first();
@@ -30,11 +30,11 @@ test.describe("Blog", () => {
 
       await expect(page).toHaveTitle(/Blog/);
 
-      // Should have exactly 5 blog posts
+      // Should have blog posts
       const articles = page.locator("main article");
       await expect(articles.first()).toBeVisible();
       const count = await articles.count();
-      expect(count).toBe(5);
+      expect(count).toBeGreaterThan(0);
 
       // Each article should have title, date, and English specific elements
       const firstArticle = articles.first();

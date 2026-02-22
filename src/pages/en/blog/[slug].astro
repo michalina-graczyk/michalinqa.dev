@@ -8,7 +8,7 @@ export async function getStaticPaths() {
   const posts = await getGroupedPostsByLang("en");
 
   return posts.map((post) => ({
-    params: { slug: post.id.replace('-en', '') },
+    params: { slug: post.id.replace(/-en$/, '') },
     props: { post },
   }));
 }

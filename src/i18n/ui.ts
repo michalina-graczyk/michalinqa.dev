@@ -68,6 +68,7 @@ export const ui = {
     "newsletter.button": "Zapisuję się!",
     "newsletter.disclaimer":
       "Dołączając, zgadzasz się na otrzymywanie newsów ode mnie. Możesz się wypisać w każdej chwili.",
+    "offers.empty": "Więcej ofert już wkrótce!",
   },
   en: {
     "nav.about": "About me",
@@ -131,5 +132,6 @@ export const ui = {
     "newsletter.button": "Subscribe!",
     "newsletter.disclaimer":
       "By joining, you agree to receive news from me. You can unsubscribe at any time.",
+    "offers.empty": "More offers coming soon!",
   },
 } as const;

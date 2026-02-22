@@ -39,7 +39,7 @@ export async function getGroupedPostsByLang(
   const grouped = new Map<string, CollectionEntry<"blog">>();
 
   for (const post of allPosts) {
-    const baseSlug = post.id.replace("-en", "");
+    const baseSlug = post.id.replace(/-en$/, "");
     const existing = grouped.get(baseSlug);
 
     if (!existing) {
