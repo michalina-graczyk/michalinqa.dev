@@ -4,7 +4,7 @@ date: 2024-11-29
 excerpt: "Oto historia tego, jak pracowałyśmy we wczesnych dniach automatyzacji testów, jak zmierzyliśmy się w uświadamianiu nam potrzeb adaptacji z perspektyw i dlatego stanowczo zatrzymaliśmy się tu z najstabilniejszym i o wiele z optymalniejszym ze współczesnych narzędzi rozwiązaniem testowym!"
 tags: ["testing", "playwright", "cypress", "automation"]
 lang: pl
-draft: true
+draft: false
 devtoUrl: "https://dev.to/saleor/from-cypress-to-playwright-saleors-voyage-5d8f"
 canonicalUrl: "https://dev.to/saleor/from-cypress-to-playwright-saleors-voyage-5d8f"
 ---
