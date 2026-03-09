@@ -1,6 +1,6 @@
 ---
 title: "Guardrails i Safety: Kto wyznacza granice moralne Twojemu LLM-owi?"
-date: 2026-02-22
+date: 2026-03-09
 excerpt: "Twój model AI nie ma kręgosłupa moralnego. Dowiedz się, czym są guardrails, jak testować safety i dlaczego to człowiek musi chronić aplikację przed generowaniem niebezpiecznych treści."
 tags: ["LLM", "QA", "Safety", "Guardrails", "AI"]
 lang: pl
@@ -89,4 +89,4 @@ Testowanie _Safety_ to nie jest dodatek, to podstawa. Jeśli Twój system zaczni
 
 Modele LLM dają ogromne możliwości, ale to na zespole wytwórczym spoczywa odpowiedzialność za wyznaczenie im twardych granic. Zdefiniuj swoje ryzyka, wdroż w proces _Safety evals_ i automatyzuj ataki testowe. Dopiero z solidnymi _guardrails_ testowanie AI staje się przewidywalne.
 
-Do następnego! �
+Do następnego!
