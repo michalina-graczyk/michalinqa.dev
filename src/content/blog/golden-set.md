@@ -182,4 +182,15 @@ Golden set to sposób QA na wprowadzenie porządku w świecie, w którym odpowie
 
 To fundament praktycznego testowania AI. Pora brać się do roboty i zacząć budować własną "złotą bibliotekę".
 
+## Od teorii do praktyki (i Twojego projektu)
+
+To fundament praktycznego testowania AI. Pora brać się do roboty i zacząć budować własną "złotą bibliotekę".
+
+Samo przygotowanie Golden Setu to jednak dopiero połowa sukcesu. Prawdziwa zabawa (i wyzwanie!) zaczyna się, gdy musisz to wszystko spiąć w działający proces: od przygotowania danych, przez automatyczną ocenę, aż po raportowanie regresji w CI/CD.
+
+Wiem, że wielu z Was szuka właśnie takiego przykładu "mini-projektu" od A do Z. Dlatego przygotowuję coś specjalnego - praktyczny warsztat, w którym przejdziemy przez cały ten proces na realnym kodzie i danych.
+
+> [!TIP]
+> Jeśli chcesz dostać info o starcie warsztatu jako pierwsza/pierwszy (i zgarnąć szablon Golden Setu na start), zapisz się na listę oczekujących [tutaj - link placeholder]. _¡Poco a poco!_
+
 Do usłyszenia w kolejnym odcinku serii! 👋
