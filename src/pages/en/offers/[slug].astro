@@ -4,7 +4,7 @@ import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
   const allOffers = await getCollection("offers");
-  const offers = allOffers.filter((o) => o.data.lang === "pl");
+  const offers = allOffers.filter((o) => o.data.lang === "en");
   return offers.map((offer) => ({
     params: { slug: offer.id },
     props: { offer },

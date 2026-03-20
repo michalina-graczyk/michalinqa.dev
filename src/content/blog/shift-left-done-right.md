@@ -1,97 +1,97 @@
 ---
-title: "Shift Left Done Right: QA in the Modern SDLC"
+title: "Shift Left Done Right: QA w nowoczesnym SDLC"
 date: 2025-04-11
-excerpt: "Shifting left is about building quality from the ground up - during planning, design, and development phases. Learn how to introduce it in your organization."
+excerpt: "Shift Left to budowanie jakości od podstaw - podczas faz planowania, projektowania i programowania. Dowiedz się, jak wprowadzić to podejście w swojej organizacji."
 tags: ["shift-left", "quality-assurance", "testing", "software-engineering"]
-lang: en
+lang: pl
 draft: false
 devtoUrl: "https://dev.to/michalina_graczyk/shift-left-done-right-qa-in-the-modern-sdlc-5c24"
 canonicalUrl: "https://dev.to/michalina_graczyk/shift-left-done-right-qa-in-the-modern-sdlc-5c24"
 ---
 
-Shifting left is a proactive quality assurance strategy that integrates testing throughout development rather than at the end. The approach aims to build quality from the ground up - during planning, design, and development phases.
+Shift Left to proaktywna strategia zapewniania jakości, która integruje testowanie w całym procesie rozwoju oprogramowania, zamiast zostawiać je na sam koniec. Podejście to zakłada budowanie jakości od podstaw – już na etapach planowania, projektowania i programowania.
 
-## Why Shift Left?
+## Dlaczego Shift Left?
 
-Traditional models concentrate QA testing as a final checkpoint, resulting in late-stage bug discovery and expensive fixes. Shifting left addresses this by embedding quality ownership early in the SDLC, creating collaborative environments and distributing responsibility across teams.
+Tradycyjne modele koncentrują testy QA jako ostateczny punkt kontrolny, co skutkuje wykrywaniem błędów na późnym etapie i kosztownymi poprawkami. Shift Left rozwiązuje ten problem, osadzając odpowiedzialność za jakość na wczesnych etapach SDLC, tworząc środowisko współpracy i rozkładając odpowiedzialność na cały zespół.
 
-**Key benefits include:**
+**Kluczowe korzyści:**
 
-- Early issue detection reducing production bugs
-- Enhanced developer confidence in releases
-- Accelerated CI/CD pipelines by removing late-stage bottlenecks
-- Establishing quality as everyone's responsibility
+- Wczesne wykrywanie problemów, co redukuje liczbę błędów na produkcji
+- Większa pewność developerów co do tego, co wdrażają
+- Przyspieszenie pipeline'ów CI/CD dzięki eliminacji wąskich gardeł na końcu procesu
+- Ugruntowanie jakości jako wspólnej odpowiedzialności całego zespołu
 
-## How to Introduce Shift Left in an Organization
+## Jak wprowadzić Shift Left w organizacji
 
-### 1. Map Your Current SDLC and Find the Gaps
+### 1. Zmapuj swój obecny SDLC i znajdź luki
 
-Conduct an assessment from ideation through release, identifying where bugs surface and when QA involvement occurs. Look for patterns like:
+Przeprowadź ocenę całego procesu – od pomysłu po wdrożenie. Zidentyfikuj, gdzie pojawiają się błędy i kiedy następuje zaangażowanie QA. Szukaj takich wzorców:
 
-- Testing concentrated only at the end
-- Manual verification of business flows
-- Lack of API or integration test coverage
-- Missing metrics for bugs, flaky tests, or regressions
-- Refinements without proper edge case consideration
+- Testowanie skoncentrowane wyłącznie na końcu procesu
+- Ręczna weryfikacja przepływów biznesowych
+- Brak pokrycia testami API lub testami integracyjnymi
+- Brak metryk dla błędów, flaky testów czy regresji
+- Refinementy bez uwzględnienia przypadków brzegowych
 
-### 2. Define a Shift Left Version of Your SDLC
+### 2. Zdefiniuj wersję SDLC opartą o Shift Left
 
-Redesign the SDLC by shifting quality checkpoints across phases:
+Przeprojektuj SDLC, przesuwając punkty kontrolne jakości na wcześniejsze fazy:
 
-**Planning & Refinement Phase**
+**Faza planowania i refinementu**
 
-- QA joins requirement and design reviews
-- Define critical questions for business refinement
-- Identify UI/UX risks early
-- Establish acceptance criteria
-- Define test scope, test cases, and edge cases before development
-- Propose observability metrics
-- Complete documentation before implementation
+- QA dołącza do przeglądów wymagań i designu
+- Definiowanie kluczowych pytań dla biznesu
+- Wczesna identyfikacja ryzyk UI/UX
+- Ustalanie kryteriów akceptacji
+- Definiowanie zakresu testów, przypadków testowych i edge case'ów przed rozpoczęciem developmentu
+- Propozycje metryk obserwowalności
+- Kompletna dokumentacja przed implementacją
 
-**Development Phase**
+**Faza developmentu**
 
-- Developers work from well-defined requirements
-- Code reviews include quality and testability checks
-- Unit tests written alongside code
-- CI runs automated tests on every PR
-- Continuous documentation updates
+- Developerzy pracują na bazie dobrze zdefiniowanych wymagań
+- Code review uwzględnia jakość i testowalność kodu
+- Testy jednostkowe pisane równolegle z kodem
+- CI uruchamia testy automatyczne przy każdym pull requeście
+- Ciągła aktualizacja dokumentacji
 
-**Testing Phase**
+**Faza testów**
 
-- Reliable automated regression and integration tests
-- Manual testing reserved for complex UX scenarios or edge cases
+- Niezawodne, zautomatyzowane testy regresyjne i integracyjne
+- Testy manualne zarezerwowane dla złożonych scenariuszy UX i przypadków brzegowych
 
-**Deployment & Maintenance Phase**
+**Faza wdrożenia i utrzymania**
 
-- Release testing confirms production readiness
-- Monitoring tracks performance and usage metrics
-- Post-release issues inform feedback loops
+- Testy release'owe potwierdzające gotowość do produkcji
+- Monitoring śledzący metryki wydajności i użytkowania
+- Problemy po wdrożeniu zasilają pętle feedbacku
 
-### 3. Overhaul Your Test Strategy
+### 3. Przebuduj swoją strategię testów
 
-Effective shift left implementation requires strategic testing changes:
+Skuteczne wdrożenie Shift Left wymaga strategicznych zmian w podejściu do testowania:
 
-- Migrate from end-to-end UI tests to API or UI-integration tests using mocked data
-- Monitor test flakiness
-- Map release flows to identify CI issues
-- Clarify ownership for test cases and post-release metrics
+- Migracja z testów end-to-end na UI na rzecz testów API lub testów integracyjnych z mockowanymi danymi
+- Monitorowanie flakiness testów
+- Mapowanie przepływów release'owych w celu identyfikacji problemów z CI
+- Jasne określenie odpowiedzialności za przypadki testowe i metryki po wdrożeniu
 
-The strategy should enable teams without creating bottlenecks, maintaining fast feedback loops and reliable signals.
+Strategia powinna wspierać zespoły bez tworzenia wąskich gardeł, utrzymując szybkie pętle feedbacku i wiarygodne sygnały.
 
-## What Success Can Look Like
+## Jak może wyglądać sukces
 
-Successful implementation produces measurable outcomes:
+Udane wdrożenie przynosi mierzalne rezultaty:
 
-- **Better Refinements:** Quality-focused discussions guide planning
-- **Docs Before Code:** Developers understand requirements before starting
-- **Early Visibility:** Teams measure critical metrics and address risks proactively
-- **Faster Releases:** Reduced end-stage testing enables predictable deployments
-- **Empowered QA:** Quality enablement replaces bottleneck dynamics
+- **Lepsze refinementy:** Dyskusje skoncentrowane na jakości napędzają planowanie
+- **Dokumentacja przed kodem:** Developerzy rozumieją wymagania zanim zaczną pisać kod
+- **Wczesna widoczność:** Zespoły mierzą kluczowe metryki i proaktywnie adresują ryzyka
+- **Szybsze releasy:** Mniej testów na końcu procesu oznacza przewidywalne wdrożenia
+- **Wzmocnione QA:** Quality enablement zastępuje dynamikę wąskiego gardła
 
-The fundamental shift recognizes that quality is owned by the entire team, not exclusively by QA functions.
+Fundamentalna zmiana polega na uznaniu, że jakość jest własnością całego zespołu, a nie wyłącznie działu QA.
 
-## Final Thoughts
+## Podsumowanie
 
-Implementing shift left represents a cultural transformation rather than process addition. It involves advancing quality conversations earlier, embedding quality into planning, and distributing responsibility from inception. This approach enables faster movement with greater confidence, reduces waste, clarifies expectations, and establishes quality as a designed characteristic rather than a tested afterthought.
+Wdrożenie Shift Left to transformacja kulturowa, a nie dodanie kolejnego procesu. Chodzi o to, żeby rozmowy o jakości odbywały się wcześniej, żeby jakość była wbudowana w planowanie i żeby odpowiedzialność za nią była rozłożona od samego początku. Takie podejście pozwala działać szybciej i z większą pewnością, redukuje marnotrawstwo, precyzuje oczekiwania i sprawia, że jakość staje się cechą zaprojektowaną, a nie doczepioną po fakcie.
 
-Teams that design quality in achieve superior results compared to those attempting to test it in later.
+Zespoły, które projektują z myślą o jakości, osiągają lepsze wyniki niż te, które próbują ją dołożyć na końcu.

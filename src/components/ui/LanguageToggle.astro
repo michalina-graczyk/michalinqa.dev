@@ -1,0 +1,28 @@
+---
+import { getLangFromUrl, useTranslatedPath } from "@i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const translatePath = useTranslatedPath(lang);
+
+const pathname = Astro.url.pathname;
+
+// Determine target language and link purely from URL path
+const isPolish = lang === "pl";
+const targetLang = isPolish ? "en" : "pl";
+
+let targetPath = translatePath(pathname, targetLang);
+
+// Nested dynamic routes like /blog/[slug] and /offers/[slug] are symmetric now, 
+// so translatePath perfectly handles them out-of-the-box (e.g. /pl/blog/slug -> /en/blog/slug)
+---
+
+<a
+  href={targetPath}
+  class="flex items-center justify-center rounded-full bg-orange/10 px-3 h-[34px] font-mono text-sm text-orange hover:bg-orange/20 transition-colors"
+  aria-label={`Switch to ${targetLang === "en" ? "English" : "Polish"}`}
+  data-testid="language-toggle"
+>
+  <span class={isPolish ? "font-bold" : "opacity-50"}>PL</span>
+  <span class="mx-1 opacity-50">/</span>
+  <span class={!isPolish ? "font-bold" : "opacity-50"}>EN</span>
+</a>

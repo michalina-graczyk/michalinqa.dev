@@ -1,3 +1,9 @@
+---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
 <footer
   data-testid="footer"
   class="p-6 text-center text-sm text-black dark:text-white"
@@ -36,7 +42,7 @@
       class="min-h-[44px] cursor-pointer text-gray-500 underline hover:text-orange"
       data-testid="cookie-settings"
     >
-      Ustawienia analityki
+      {t("footer.cookieSettings")}
     </button>
   </p>
 </footer>

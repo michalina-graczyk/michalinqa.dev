@@ -1,0 +1,127 @@
+{
+  "header": {
+    "name": "Michalina Graczyk",
+    "title": "Engineering Manager",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/michalina-graczyk/",
+        "icon": "simple-icons:linkedin"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/michalina-graczyk",
+        "icon": "simple-icons:github"
+      }
+    ]
+  },
+  "summary": "Engineering Manager with over 10 years of experience in IT. I specialize in QA & Test Automation Strategy, AI-driven Testing, and LLM Evaluation. Passionate about effective communication and mentoring, helping others grow their careers in IT.",
+  "experience": [
+    {
+      "title": "Engineering Manager",
+      "company": "InPost",
+      "dateRange": "Jul 2025 - present",
+      "responsibilities": [
+        "Creating and implementing quality strategies (Master Test Strategy) for product teams (web, mobile, API)",
+        "Innovative approaches to testing - LLM-as-a-judge strategy, Promptfoo, evaluating AI model responses",
+        "Collaborating with SRE and product teams to ensure high-quality services",
+        "Managing the QA team and developing competencies in automation and AI-driven testing"
+      ]
+    },
+    {
+      "title": "Head of Quality Assurance",
+      "company": "Saleor Commerce",
+      "dateRange": "Feb 2022 - May 2025 • 3 yrs 4 mos",
+      "responsibilities": [
+        "Team management: skills development, mentoring, and work organization",
+        "QA Guild coordination: developing internal practices and promoting a culture of quality",
+        "Designing and optimizing quality assurance processes",
+        "Supervising manual and automated testing processes",
+        "Managing the recruitment process for the QA team"
+      ]
+    },
+    {
+      "title": "Maternity leave",
+      "company": null,
+      "dateRange": "2021",
+      "responsibilities": null
+    },
+    {
+      "title": "Quality Assurance Specialist",
+      "company": "Saleor Commerce",
+      "dateRange": "Mar 2020 - Dec 2020 • 10 mos",
+      "responsibilities": [
+        "First person in the company in a QA role",
+        "Introducing and implementing automated tests",
+        "Developing test strategies and processes",
+        "Building a quality culture in the organization"
+      ]
+    },
+    {
+      "title": "QA Engineer",
+      "company": "Kellton Europe (Tivix)",
+      "dateRange": "Nov 2018 - Feb 2020 • 1 yr 4 mos",
+      "responsibilities": null
+    },
+    {
+      "title": "Quality Control Engineer",
+      "company": "SoftServe",
+      "dateRange": "May 2018 - Nov 2018 • 7 mos",
+      "responsibilities": null
+    },
+    {
+      "title": "QA Engineer",
+      "company": "Shiji Group",
+      "dateRange": "Sep 2016 - Apr 2018 • 1 yr 8 mos",
+      "responsibilities": null
+    },
+    {
+      "title": "QA Engineer",
+      "company": "EUVIC",
+      "dateRange": "Feb 2015 - Apr 2018 • 3 yrs 3 mos",
+      "responsibilities": null
+    }
+  ],
+  "education": [
+    {
+      "institution": "WSB Academy",
+      "degree": "Master of Computer Science",
+      "dateRange": "2016 - 2018"
+    },
+    {
+      "institution": "Silesian University of Technology",
+      "degree": "Bachelor of Management and Production Engineering",
+      "dateRange": "2012 - 2016"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Human Leader in Feedback with Impact",
+      "issuer": "Human Leaders",
+      "date": "Sep 2025",
+      "credentialId": null
+    },
+    {
+      "name": "Introduction to Observability",
+      "issuer": "Datadog",
+      "date": "Jun 2024",
+      "credentialId": "eukfvuvi0u"
+    },
+    {
+      "name": "ISTQB Foundation Level",
+      "issuer": "Polish Testing Board",
+      "date": "Oct 2016",
+      "credentialId": "06281/FLCT/2016"
+    }
+  ],
+  "publications": [
+    {
+      "title": "Shift Left Done Right: QA in the Modern SDLC",
+      "date": "Apr 2025"
+    },
+    {
+      "title": "From Cypress to Playwright - Saleor's Voyage",
+      "date": "Nov 2024"
+    }
+  ]
+}

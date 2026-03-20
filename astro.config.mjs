@@ -17,6 +17,13 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  i18n: {
+    defaultLocale: "pl",
+    locales: ["pl", "en"],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   env: {
     schema: {
       PUBLIC_MIXPANEL_TOKEN: envField.string({

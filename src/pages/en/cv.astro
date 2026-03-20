@@ -1,0 +1,129 @@
+---
+import BackToTop from "@components/ui/BackToTop.astro";
+import Layout from "@layouts/Layout.astro";
+import SectionTitle from "@components/ui/SectionTitle.astro";
+import { Icon } from "astro-icon/components";
+import cvData from "@data/cv-en.json";
+import { useTranslations } from "@i18n/utils";
+
+const t = useTranslations("en");
+---
+
+<Layout
+  title="Resume | Michalina Graczyk - Engineering Manager"
+  description={t("seo.description.default")}
+  type="website"
+>
+  <main id="main-content" class="mb-20">
+    <div class="mx-auto max-w-3xl px-4">
+      <!-- Header -->
+      <header class="mb-10 text-center">
+        <h1 class="mb-2 font-monospace text-4xl text-orange">
+          {cvData.header.name}
+        </h1>
+        <p class="text-lg font-bold text-black dark:text-white">
+          {cvData.header.title}
+        </p>
+        <div class="flex justify-center gap-4">
+          {
+            cvData.header.links.map((link) => (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener"
+                class="mt-2 inline-flex items-center text-black hover:text-orange dark:text-white dark:hover:text-orange"
+              >
+                <Icon class="h-5 w-5 mr-1" name={link.icon} />
+                <p>{link.label}</p>
+              </a>
+            ))
+          }
+        </div>
+      </header>
+
+      <!-- Summary -->
+      <section class="mb-12">
+        <SectionTitle>About me</SectionTitle>
+        <p class="text-black dark:text-white">
+          {cvData.summary}
+        </p>
+      </section>
+
+      <!-- Experience -->
+      <section class="mb-12">
+        <SectionTitle>Experience</SectionTitle>
+        <div class="space-y-8 text-black dark:text-white">
+          {
+            cvData.experience.map((job) => (
+              <div>
+                <h3 class="text-xl font-bold">{job.title}</h3>
+                <p class="text-orange">
+                  {job.company ? `${job.company} • ` : ""}
+                  {job.dateRange}
+                </p>
+                {job.responsibilities && (
+                  <ul class="mt-2 list-disc pl-5 space-y-1">
+                    {job.responsibilities.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section class="mb-12">
+        <SectionTitle>Education</SectionTitle>
+        <div class="space-y-4 text-black dark:text-white">
+          {
+            cvData.education.map((edu) => (
+              <div>
+                <h3 class="text-xl font-bold">{edu.institution}</h3>
+                <p class="text-orange">
+                  {edu.degree} • {edu.dateRange}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- Certifications -->
+      <section class="mb-12">
+        <SectionTitle>Certifications</SectionTitle>
+        <div class="space-y-4 text-black dark:text-white">
+          {
+            cvData.certifications.map((cert) => (
+              <div>
+                <h3 class="text-xl font-bold">{cert.name}</h3>
+                <p class="text-orange">
+                  {cert.issuer} • {cert.date}
+                </p>
+                {cert.credentialId && <p class="text-sm">ID: {cert.credentialId}</p>}
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- Publications -->
+      <section class="mb-12">
+        <SectionTitle>Publications</SectionTitle>
+        <div class="space-y-4 text-black dark:text-white">
+          {
+            cvData.publications.map((pub) => (
+              <div>
+                <h3 class="text-xl font-bold">{pub.title}</h3>
+                <p class="text-orange">{pub.date}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+    </div>
+    <BackToTop />
+  </main>
+</Layout>

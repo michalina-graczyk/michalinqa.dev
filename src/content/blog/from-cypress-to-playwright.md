@@ -1,90 +1,90 @@
 ---
-title: "From Cypress to Playwright - Saleor's Voyage"
+title: "Od Cypress do Playwright - podróż Saleor"
 date: 2024-11-29
-excerpt: "This is the story of Saleor's path from our early days of automated testing, to adapting to new tools, and finally to where we stand today with a more robust and efficient testing framework."
+excerpt: "Historia drogi Saleor od początków automatyzacji testów, przez adaptację nowych narzędzi, aż do miejsca, w którym jesteśmy dziś - ze stabilniejszym i wydajniejszym frameworkiem testowym."
 tags: ["testing", "playwright", "cypress", "automation"]
-lang: en
+lang: pl
 draft: false
 devtoUrl: "https://dev.to/saleor/from-cypress-to-playwright-saleors-voyage-5d8f"
 canonicalUrl: "https://dev.to/saleor/from-cypress-to-playwright-saleors-voyage-5d8f"
 ---
 
-This is the story of our path from our early days of automated testing, to adapting to new tools, and finally to where we stand today with a more robust and efficient testing framework.
+To historia naszej drogi od początków automatyzacji testów, przez adaptację nowych narzędzi, aż do miejsca, w którym jesteśmy dziś - ze stabilniejszym i wydajniejszym frameworkiem testowym.
 
-Saleor recently migrated our end-to-end test suite from Cypress to Playwright. In this article we share our journey, the challenges we encountered, and how the transition unfolded.
+W Saleor niedawno przeprowadziliśmy migrację naszego zestawu testów end-to-end z Cypress na Playwright. W tym artykule dzielę się naszą podróżą, wyzwaniami, na które natrafiliśmy, i tym, jak przebiegała cała transformacja.
 
-The decision to make the switch from one tool to another is never taken lightly. It needs to be carefully weighed up as it can impact the entire workflow and stability of our projects.
+Decyzja o zmianie jednego narzędzia na drugie nigdy nie jest podejmowana lekko. Trzeba ją dokładnie przemyśleć, bo może wpłynąć na cały workflow i stabilność naszych projektów.
 
-## How it started
+## Jak to się zaczęło
 
-Let's take a trip back to 2020. It's the beginning of the pandemic and I'm diving into adding the first storefront end-to-end tests written in Cypress. Back then, we didn't have a CI/CD setup - GitHub history shows that our deployment workflow was established in 2021.
+Cofnijmy się do 2020 roku. To początek pandemii, a ja właśnie zaczynam dodawać pierwsze testy end-to-end dla storefrontu, napisane w Cypress. W tamtym czasie nie mieliśmy jeszcze skonfigurowanego CI/CD - historia GitHuba pokazuje, że nasz deployment workflow powstał dopiero w 2021 roku.
 
-## Why we decided to use Cypress in 2020
+## Dlaczego wybraliśmy Cypress w 2020 roku
 
-Well, one thing was certain, we needed automation. There weren't many tools to choose between on the market, so the decision was straightforward. Selenium's ongoing problems with drivers and debugging made it a no-go for us. Cypress was more user-friendly and was on top at the time - the future seemed bright for end-to-end automation.
+Jedno było pewne - potrzebowaliśmy automatyzacji. Na rynku nie było zbyt wielu narzędzi do wyboru, więc decyzja była prosta. Ciągłe problemy Selenium z driverami i debugowaniem sprawiły, że ta opcja odpadła. Cypress był bardziej przyjazny dla użytkownika i był wtedy na topie - przyszłość automatyzacji end-to-end wyglądała obiecująco.
 
-As the years passed, our QA team grew and we had more and more tests. Around 2022 we decided to upgrade to the paid version of Cypress to use the dashboard (now Cloud). It was a significant improvement for us, finally we could run tests in parallel!
+Z biegiem lat nasz zespół QA rósł i mieliśmy coraz więcej testów. Około 2022 roku zdecydowaliśmy się na płatną wersję Cypress, żeby korzystać z dashboardu (dziś Cloud). To była znacząca poprawa - wreszcie mogliśmy uruchamiać testy równolegle!
 
-Test results were visible, we did some automation with Github. We are still using bots that tell us if the release has some failed tests or not.
+Wyniki testów były widoczne, zrobiliśmy trochę automatyzacji z GitHubem. Do dziś korzystamy z botów, które informują nas, czy release ma jakieś niezdane testy, czy nie.
 
-## Playwright was on the horizon
+## Playwright na horyzoncie
 
-As with every successful tech company, we keep an eye on 'new-tech' news. Playwright was gaining some attention and I became intrigued by this new tool. I was also a bit hesitant - with Playwright being a new tool, the community was only just starting to grow. In comparison, Cypress was more mature and well-documented, the community was more established, and we had experience with it.
+Jak w każdej dobrze prosperującej firmie technologicznej, śledzimy nowinki. Playwright zaczął zyskiwać uwagę i zaciekawił mnie jako nowe narzędzie. Byłam jednak nieco ostrożna - Playwright był wtedy nowy, a jego społeczność dopiero zaczynała rosnąć. W porównaniu z nim Cypress był dojrzalszy, lepiej udokumentowany, miał bardziej ugruntowaną społeczność, a my mieliśmy z nim doświadczenie.
 
-Even though we had encountered slowdowns and issues with Cypress, I was wary of making a rushed decision to switch test frameworks. Also, who would find the time to rewrite all our Cypress tests to Playwright?!
+Mimo że napotykaliśmy spowolnienia i problemy z Cypress, obawiałam się pochopnej decyzji o zmianie frameworka testowego. Poza tym - kto znalazłby czas, żeby przepisać wszystkie nasze testy z Cypress na Playwright?!
 
-Day by day, article by article, it became clear that we would eventually need to make the move. We were running tests so frequently and across so many versions that the cost of Cypress Cloud was becoming prohibitive. We tasked one of our QA team members to experiment with PW in their project. Tests ran faster, and a lot of the issues we experienced with Cypress seemed to vanish.
+Z dnia na dzień, artykuł po artykule, stawało się jasne, że w końcu będziemy musieli dokonać zmiany. Uruchamialiśmy testy tak często i w tylu wersjach, że koszt Cypress Cloud stawał się zaporowy. Poprosiliśmy jednego z członków naszego zespołu QA o eksperymentowanie z Playwright w swoim projekcie. Testy działały szybciej, a wiele problemów, których doświadczaliśmy z Cypress, po prostu znikło.
 
 ## Cypress vs Playwright
 
-Let's take a look at a comparison between the two:
+Spójrzmy na porównanie obu narzędzi:
 
-![Cypress vs Playwright comparison chart](../../assets/blog/cypress-playwright-comparison.png)
+![Porównanie Cypress i Playwright](../../assets/blog/cypress-playwright-comparison.png)
 
-## Test structures
+## Struktura testów
 
-Let's compare the test structures in Playwright and Cypress.
+Porównajmy struktury testów w Playwright i Cypress.
 
-![Playwright test code example](../../assets/blog/playwright-test-example.png)
+![Przykład kodu testu w Playwright](../../assets/blog/playwright-test-example.png)
 
-At first, you can notice that PW uses `test` to define the test case and `expect` from its testing library for assertions.
+Na pierwszy rzut oka widać, że Playwright używa `test` do definiowania przypadku testowego i `expect` ze swojej biblioteki testowej do asercji.
 
-![Cypress test code example](../../assets/blog/cypress-test-example.png)
+![Przykład kodu testu w Cypress](../../assets/blog/cypress-test-example.png)
 
-Cypress uses `it` to define the test case and Chai (`expect`) for assertions.
+Cypress używa `it` do definiowania przypadku testowego i Chai (`expect`) do asercji.
 
-As you can see, the test code looks different. Playwright uses a way of writing code called async/await, which is built into JavaScript. Cypress, on the other hand, has its own method for dealing with tasks that happen at different times, so you don't always need async/await. Assertions with PW uses Jest's library, whereas Cypress uses its built-in assertion library, powered by Chai.
+Jak widać, kod testów wygląda inaczej. Playwright używa wzorca async/await, wbudowanego w JavaScript. Cypress z kolei ma własny mechanizm obsługi asynchroniczności, więc nie zawsze potrzebuje async/await. Asercje w Playwright korzystają z biblioteki Jest, podczas gdy Cypress używa wbudowanej biblioteki asercji opartej na Chai.
 
-Additionally, Playwright features a built-in auto-wait strategy. If the anticipated checks fail to materialize within the designated timeout, the action is flagged with a TimeoutError, mitigating flakiness. In contrast, Cypress is engineered to wait automatically for elements to be present in the Document Object Model (DOM) prior to executing actions such as clicking or form submission. However, this can extend the test duration.
+Dodatkowo Playwright ma wbudowany mechanizm auto-wait. Jeśli oczekiwane sprawdzenia nie zmaterializują się w wyznaczonym czasie, akcja jest oznaczana błędem TimeoutError, co ogranicza flakiness testów. Z kolei Cypress jest zaprojektowany tak, aby automatycznie czekać na pojawienie się elementów w DOM przed wykonaniem akcji takich jak kliknięcie czy wysłanie formularza. Może to jednak wydłużać czas trwania testów.
 
-One of the advantages of PW is iFrame support, Cypress has problems with that which leads to having to do workarounds.
+Jedną z przewag Playwright jest wsparcie dla iFrame. Cypress ma z nimi problemy, co wymusza stosowanie obejść.
 
-These examples give you an idea of how Cypress and Playwright differ, but there's much more to explore.
+Te przykłady dają ogólne pojęcie o różnicach między Cypress a Playwright, ale jest jeszcze wiele więcej do odkrycia.
 
-## Decision and struggling
+## Decyzja i wyzwania
 
-So, in the middle of 2023, I began discussing the transition to PW with the QA team. We prioritized rewriting the most critical paths first and then tackled less critical but still important tests. During this refactor, we also cleaned up our tests, reducing the number of end-to-end tests in favor of more integration tests.
+W połowie 2023 roku zaczęłam rozmawiać z zespołem QA o przejściu na Playwright. Priorytetowo potraktowaliśmy przepisanie najważniejszych ścieżek, a potem zajęliśmy się mniej krytycznymi, ale wciąż istotnymi testami. Przy okazji tego refaktoru posprzątaliśmy nasze testy, zmniejszając liczbę testów end-to-end na rzecz większej liczby testów integracyjnych.
 
-As of 2024, we're still grappling with some configuration and workflow issues.
+Na początku 2024 roku wciąż mierzyliśmy się z pewnymi problemami konfiguracyjnymi i workflow.
 
-Our first challenge was adding new workflows for running Playwright on the main branch, on pull requests and keeping workflows for Cypress since we still support older versions of Saleor. We want to keep posting test results on Slack and receive concise information about whether tests pass or fail on the release pull request.
+Pierwszym wyzwaniem było dodanie nowych workflow do uruchamiania Playwright na głównej gałęzi i na pull requestach, przy jednoczesnym utrzymaniu workflow dla Cypress, ponieważ wciąż wspieramy starsze wersje Saleor. Chcieliśmy nadal publikować wyniki testów na Slacku i otrzymywać zwięzłe informacje o tym, czy testy przechodzą, czy nie na release pull request.
 
-Currently each pull request trigger the Playwright tests in parallel. This ensures us that only the most recent changes are tested.
+Obecnie każdy pull request uruchamia testy Playwright równolegle. Dzięki temu testujemy tylko najnowsze zmiany.
 
-We also created a workflow for nightly tests which are running three times per week.
+Stworzyliśmy też workflow dla testów nocnych, które uruchamiają się trzy razy w tygodniu.
 
-Last but not least, we have the possibility of running tests via Github Actions. It is possible to run it on selected branch or tag.
+Wreszcie mamy możliwość uruchamiania testów przez GitHub Actions - można je odpalić na wybranej gałęzi lub tagu.
 
-We needed to add a Slack notification. We wanted to receive concise information about whether tests pass or fail on the release pull request.
+Potrzebowaliśmy dodać powiadomienia na Slacku. Chcieliśmy otrzymywać zwięzłe informacje o tym, czy testy przechodzą na release pull request.
 
-Therefore, when a release pull request is ready, tests are triggered automatically, and the results are sent to TestMo (the tool for test cases and test results that we are using). In case some tests fail, we receive a Slack notification and comments on the release pull request. If all tests pass, then auto-merge should occur.
+Dlatego gdy release pull request jest gotowy, testy uruchamiają się automatycznie, a wyniki trafiają do TestMo (narzędzia do zarządzania przypadkami testowymi i wynikami, którego używamy). Jeśli jakieś testy nie przejdą, dostajemy powiadomienie na Slacku i komentarze na release pull request. Jeśli wszystkie testy przechodzą, następuje auto-merge.
 
-There is still some work to be done, and we still support Cypress tests for older versions of Saleor.
+Przed nami wciąż trochę pracy, a testy Cypress nadal wspieramy dla starszych wersji Saleor.
 
-## Summarizing
+## Podsumowanie
 
-Saleor's journey from Cypress to Playwright highlights the evolution of our automated testing framework. Starting with Cypress in 2020, we upgraded to the paid version to support parallel testing. However, rising costs and performance issues led us to explore Playwright, which offered faster execution, broader browser support, and finer control over browser interactions.
+Podróż Saleor od Cypress do Playwright pokazuje ewolucję naszego frameworka do automatyzacji testów. Zaczynając od Cypress w 2020 roku, przeszliśmy na płatną wersję, żeby wspierać równoległe testowanie. Rosnące koszty i problemy z wydajnością skłoniły nas jednak do eksploracji Playwright, który oferował szybsze wykonywanie testów, szersze wsparcie przeglądarek i lepszą kontrolę nad interakcjami.
 
-Despite initial hesitations, we began switching to Playwright in mid-2023. We faced configuration and workflow challenges but implemented new workflows for parallel testing, nightly tests, and GitHub Actions integration. Especially, developers found it easier to dive into Playwright tests compared to Cypress. While initially challenging for our QA team, our tests are now faster, more stable, and better organized.
+Mimo początkowych wahań, w połowie 2023 roku rozpoczęliśmy przejście na Playwright. Napotkaliśmy wyzwania konfiguracyjne i workflow, ale wdrożyliśmy nowe przepływy pracy dla testów równoległych, nocnych i integracji z GitHub Actions. Co ważne, developerzy uznali, że łatwiej jest im wejść w testy Playwright w porównaniu z Cypress. Choć dla naszego zespołu QA początki były trudne, nasze testy są teraz szybsze, stabilniejsze i lepiej zorganizowane.
 
-As of 2024, we still support Cypress for older versions but continue to refine our Playwright-based testing framework for greater efficiency and stability in our CI/CD pipeline. I'm proud of our team for making the switch!
+Na początku 2024 roku wciąż wspieramy Cypress dla starszych wersji, ale kontynuujemy rozwój naszego frameworka testowego opartego na Playwright, dążąc do większej wydajności i stabilności w naszym pipeline CI/CD. Jestem dumna z naszego zespołu za tę zmianę!

@@ -20,7 +20,8 @@
       "@pages/*": ["pages/*"],
       "@lib/*": ["lib/*"],
       "@config/*": ["config/*"],
-      "@data/*": ["data/*"]
+      "@data/*": ["data/*"],
+      "@i18n/*": ["i18n/*"]
     }
   }
 }

@@ -5,6 +5,7 @@ import growthPlanImage from "@assets/images/growth-plan.png";
 
 import { Image } from "astro:assets";
 import Tags from "@components/ui/Tags.astro";
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
 
 interface Props {
   url?: string;
@@ -20,8 +21,11 @@ interface ImageMap {
 
 const imageMap: ImageMap = {
   "Konsultacje online 1:1": consultationImage,
+  "1:1 Online Consultations": consultationImage,
   "Rozmowa rekrutacyjna": interviewImage,
+  "Interview Preparation": interviewImage,
   "Ścieżki kariery": growthPlanImage,
+  "Career Paths": growthPlanImage,
 };
 
 const {
@@ -32,6 +36,9 @@ const {
   tags = ["Tags"],
 } = Astro.props;
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 const image = imageMap[title];
 ---
 
@@ -40,7 +47,7 @@ const image = imageMap[title];
     data-testid="card"
     class="flex flex-1 flex-col rounded-xl bg-white dark:bg-gray-800 p-3 shadow-lg dark:shadow-orange/20 transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-orange/10 dark:hover:shadow-orange/30 motion-reduce:transition-none motion-reduce:hover:scale-100"
   >
-    <a href={url} aria-label={title ? `Zobacz ofertę: ${title}` : "Zobacz szczegóły oferty"} class="flex h-full flex-col">
+    <a href={url} aria-label={title ? `${t("card.viewOffer")}: ${title}` : t("card.viewDetails")} class="flex h-full flex-col">
       <div
         class="relative flex items-end justify-center overflow-hidden rounded-xl"
       >

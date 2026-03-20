@@ -2,6 +2,10 @@
 import profilePhotoImage from "@assets/images/profile-photo.png";
 import SectionTitle from "@components/ui/SectionTitle.astro";
 import { Image } from "astro:assets";
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <section
@@ -12,7 +16,7 @@ import { Image } from "astro:assets";
   <div
     class="mb-10 flex w-full flex-col items-center justify-center lg:mb-0 lg:w-1/2"
   >
-    <SectionTitle>O mnie</SectionTitle>
+    <SectionTitle>{t('home.about.title')}</SectionTitle>
     <Image
       src={profilePhotoImage}
       alt="Zdjęcie profilowe"
@@ -25,25 +29,10 @@ import { Image } from "astro:assets";
   </div>
 
   <div class="w-full text-justify text-black dark:text-white lg:w-1/2">
-    <p class="mb-4">
-      Z tej strony Michalina, Engineering Manager z ponad 10-letnim
-      doświadczeniem w IT. Moja droga zawodowa prowadziła od testera manualnego,
-      przez automatyzację testów, aż do zarządzania zespołami inżynieryjnymi.
-      Obecnie pracuję jako Engineering Manager w InPost.
-    </p>
-    <p class="mb-4">
-      Odpowiadam za rozwój strategii jakości i testów w organizacji. Tworzę
-      dedykowane plany testów dla zespołów produktowych oraz wdrażam
-      automatyzację testów w procesie SDLC. Współtworzę inicjatywy w obszarze
-      LLM-as-a-judge do oceny odpowiedzi modeli AI.
-    </p>
-    <p class="mb-4">
-      Skupiam się na innowacyjnych podejściach do testowania, łącząc klasyczne
-      metody z wykorzystaniem sztucznej inteligencji. Jestem pasjonatką
-      efektywnej komunikacji i mentoringu, pomagającą innym w rozwoju kariery
-      w IT.
-    </p>
-    <p>Zapraszam do kontaktu!</p>
+    <p class="mb-4">{t('home.about.p1')}</p>
+    <p class="mb-4">{t('home.about.p2')}</p>
+    <p class="mb-4">{t('home.about.p3')}</p>
+    <p>{t('home.about.p4')}</p>
   </div>
 </section>
 
