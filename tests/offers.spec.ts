@@ -83,7 +83,8 @@ test.describe("Offers", () => {
         await acceptConsentIfVisible(page);
 
         // Verify page title
-        await expect(page).toHaveTitle(new RegExp(offer.title));
+        const escapedTitle = offer.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        await expect(page).toHaveTitle(new RegExp(escapedTitle));
 
         // Verify main heading
         const heading = page.locator("main h1");
