@@ -1,7 +1,6 @@
 ---
 import consultationImage from "@assets/images/consultation.png";
-import interviewImage from "@assets/images/interview.png";
-import growthPlanImage from "@assets/images/growth-plan.png";
+import fallbackImage from "@assets/images/hero.png";
 
 import { Image } from "astro:assets";
 import Tags from "@components/ui/Tags.astro";
@@ -20,8 +19,7 @@ interface ImageMap {
 
 const imageMap: ImageMap = {
   "Konsultacje online 1:1": consultationImage,
-  "Rozmowa rekrutacyjna": interviewImage,
-  "Ścieżki kariery": growthPlanImage,
+  "AI dla QA Engineers (Wkrótce)": fallbackImage,
 };
 
 const {
