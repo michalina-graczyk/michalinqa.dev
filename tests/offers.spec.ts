@@ -8,8 +8,7 @@ import {
 
 const offers = [
   { slug: "konsultacje", title: "Konsultacje online 1:1" },
-  { slug: "rekrutacja", title: "Rozmowa rekrutacyjna" },
-  { slug: "kariera", title: "Ścieżki kariery" },
+  { slug: "ai-qa-toolkit", title: "AI dla QA Engineers (Wkrótce)" },
 ];
 
 test.describe("Offers", () => {
@@ -22,7 +21,7 @@ test.describe("Offers", () => {
         '[data-testid="offers"] a[href^="/offers/"]',
       );
       const count = await offerCards.count();
-      expect(count).toBe(3);
+      expect(count).toBe(2);
 
       // Verify each card links to correct internal page
       for (const offer of offers) {
@@ -58,7 +57,7 @@ test.describe("Offers", () => {
 
       const cards = page.locator('[data-testid="card"]');
       const count = await cards.count();
-      expect(count).toBe(3);
+      expect(count).toBe(2);
 
       const heights: number[] = [];
       for (let i = 0; i < count; i++) {
