@@ -9,4 +9,4 @@ Nowy produkt w przygotowaniu. Więcej informacji już wkrótce.
 
 Zapisz się na listę oczekujących, żeby nie przegapić premiery.
 
-[Zapisz się na listę oczekujących](#)
+[Zapisz się na listę oczekujących](/#contact)
