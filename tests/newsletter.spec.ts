@@ -48,7 +48,7 @@ test.describe("Newsletter Signup", () => {
       "https://buttondown.com/api/emails/embed-subscribe/michalinqa",
     );
     await expect(form).toHaveAttribute("method", "post");
-    await expect(form).toHaveAttribute("target", "_blank");
+    await expect(form).toHaveAttribute("target", "popupwindow");
     await expect(form.locator('input[name="embed"]')).toHaveAttribute(
       "value",
       "1",
