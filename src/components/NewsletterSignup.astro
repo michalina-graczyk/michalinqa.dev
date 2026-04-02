@@ -6,13 +6,17 @@ interface Props {
 const { isMini = false } = Astro.props;
 ---
 
-<section data-testid="newsletter-signup" class={`${isMini ? 'mt-8' : 'mt-16'} p-8 bg-gray-50 dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800`}>
+<section
+  data-testid="newsletter-signup"
+  class={`${isMini ? "mt-8" : "mt-16"} p-8 bg-gray-50 dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800`}
+>
   <div class="max-w-2xl mx-auto text-center">
     <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">
       Miej oko na nowości z LLM i QA! 🚀
     </h2>
     <p class="text-gray-600 dark:text-gray-400 mb-8">
-      Praktycznie o testowaniu, procesach QA i nowoczesnej strategii jakości. Bez lania wody – dla testerów i liderów, którzy chcą „umieć w jakość”.
+      Praktycznie o testowaniu, procesach QA i nowoczesnej strategii jakości.
+      Bez lania wody – dla testerów i liderów, którzy chcą „umieć w jakość”.
     </p>
 
     <form
@@ -38,14 +42,18 @@ const { isMini = false } = Astro.props;
         Zapisuję się!
       </button>
     </form>
-    
+
     <p class="mt-4 text-xs text-gray-500 dark:text-gray-500">
-      Dołączając, zgadzasz się na otrzymywanie newsów ode mnie. Możesz się wypisać w każdej chwili.
+      Dołączając, zgadzasz się na otrzymywanie newsów ode mnie. Możesz się
+      wypisać w każdej chwili.
     </p>
   </div>
 </section>
 
 <script>
   import { trackClick, TrackingEvents } from "@lib/tracking";
-  trackClick(".newsletter-submit-btn", TrackingEvents.NEWSLETTER_SIGNUP_CLICKED);
+  trackClick(
+    ".newsletter-submit-btn",
+    TrackingEvents.NEWSLETTER_SIGNUP_CLICKED,
+  );
 </script>
