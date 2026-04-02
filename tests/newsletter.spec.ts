@@ -36,6 +36,25 @@ test.describe("Newsletter Signup", () => {
     ).toBeVisible();
   });
 
+  test("Newsletter form posts to the correct Buttondown endpoint", async ({
+    page,
+    baseURL,
+  }) => {
+    await page.goto(baseURL!);
+    const form = page.locator('[data-testid="newsletter-signup"] form');
+
+    await expect(form).toHaveAttribute(
+      "action",
+      "https://buttondown.com/api/emails/embed-subscribe/michalinqa",
+    );
+    await expect(form).toHaveAttribute("method", "post");
+    await expect(form).toHaveAttribute("target", "_blank");
+    await expect(form.locator('input[name="embed"]')).toHaveAttribute(
+      "value",
+      "1",
+    );
+  });
+
   test("Clicking subscribe tracks event in Mixpanel", async ({
     page,
     baseURL,
