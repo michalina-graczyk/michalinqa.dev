@@ -7,7 +7,7 @@ lang: pl
 tags: ["LLM", "QA", "Robustness", "Evals", "Testing"]
 ---
 
-W poprzedniej części rozmawialiśmy o [Guardrails i Safety](/blog/guardrails-safety-granice-llm/), czyli o tym, jak powstrzymać model przed robieniem rzeczy nielegalnych lub niebezpiecznych. 
+W poprzedniej części rozmawialiśmy o [Guardrails i Safety](/blog/guardrails-safety-granice-llm/), czyli o tym, jak powstrzymać model przed robieniem rzeczy nielegalnych lub niebezpiecznych.
 
 Teraz schodzimy na ziemię. W prawdziwym życiu problemem zespołu QA rzadko są hakerzy. Głównym problemem są... zwykli użytkownicy.
 
@@ -58,6 +58,7 @@ Oto klucz. Nie szukasz tych przypadków ręcznie przed każdym pushem na produkc
 Bierzesz swój ułożony wcześniej [Golden Set](/blog/golden-set/). Masz tam swoje piękne wzorcowe prompty. Następnie przepuszczasz je przez prosty skrypt przed wykonaniem testu.
 
 Ten skrypt (często inny mniejszy lokalny model AI, albo po prostu funkcja w Pythonie) celowo:
+
 - "psuje" literówki (np. zamienia 5% znaków),
 - dokleja na początku lub na końcu bloki losowego tekstu,
 - usuwa znaki interpunkcyjne.
@@ -78,6 +79,6 @@ I tu pojawia się kluczowa kwestia: testując w ten sposób dziesiątki lub setk
 
 Odporność (Robustness) nie jest luksusowym dodatkiem. Użytkownicy rzadko dbają o poprawną interpunkcję na czacie z AI. Testując Robustness, udowadniasz, że system będzie działał na produkcji równie dobrze, jak działa na idealnie wyreżyserowanych spotkaniach demonstracyjnych.
 
-To jedna z tych rzeczy, która odróżnia fajne technologiczne demo od solidnego produktu dla klientów. Zadbaj o to! 
+To jedna z tych rzeczy, która odróżnia fajne technologiczne demo od solidnego produktu dla klientów. Zadbaj o to!
 
 W kolejnym artykule serii omówimy temat **LLM-as-a-Judge**, czyli jak w praktyce zatrudnić jeden model do testowania drugiego (i co może pójść nie tak). Do usłyszenia!
