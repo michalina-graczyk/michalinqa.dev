@@ -53,7 +53,7 @@ Użytkownik zamiast numeru, wkleja całą nieustrukturyzowaną wklejkę z tabelk
 
 ## Jak testować Robustness i odporność?
 
-Oto klucz. Nie szukasz tych przypadków ręcznie przed każdym pushem na produkcję. Korzystasz z koncepcji znanej jako **Data Augmentation** (augmentacja danych).
+Nie szukasz tych przypadków ręcznie przed każdym pushem na produkcję. Korzystasz z koncepcji znanej jako **Data Augmentation** (augmentacja danych).
 
 Bierzesz swój ułożony wcześniej [Golden Set](/blog/golden-set/). Masz tam swoje piękne wzorcowe prompty. Następnie przepuszczasz je przez prosty skrypt przed wykonaniem testu.
 
