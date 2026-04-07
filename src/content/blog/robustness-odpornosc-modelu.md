@@ -2,7 +2,7 @@
 title: "Testowanie odporności AI: Jak uchronić LLM przed nieprzewidywalnym użytkownikiem albo testerem?"
 date: 2026-03-23
 excerpt: "W idealnym środowisku testowym model odpowiada perfekcyjnie. Na produkcji użytkownicy robią literówki, wklejają dziwne formaty i piszą bez ładu i składu. Dowiedz się, czym jest robustness i jak testować AI w takich wypadkach."
-draft: true
+draft: false
 lang: pl
 tags: ["LLM", "QA", "Robustness", "Evals", "Testing"]
 ---
