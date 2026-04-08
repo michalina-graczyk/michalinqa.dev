@@ -1,9 +1,13 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  test:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,11 +40,40 @@ jobs:
         env:
           PUBLIC_MIXPANEL_TOKEN: ${{ vars.PUBLIC_MIXPANEL_TOKEN }}
 
+  e2e:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        name: Check out repository code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install declared npm version
+        run: |
+          DECLARED_NPM=$(node -e "const pm = require('./package.json').packageManager; console.log(pm.split('@')[1])")
+          npx "npm@$DECLARED_NPM" install -g "npm@$DECLARED_NPM"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
       - name: Wait for Cloudflare Pages Publish
-        if: github.ref != 'refs/heads/main'
         uses: lewagon/wait-on-check-action@v1.3.4
         with:
           ref: ${{ github.ref }}
@@ -50,17 +83,12 @@ jobs:
 
       - name: Get BASE_URL from Cloudflare deployment
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "BASE_URL=https://michalinqa-dev.pages.dev" >> $GITHUB_ENV
-          else
-            # Extract Branch Preview URL from Cloudflare Pages check output
-            PREVIEW_URL=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }}/check-runs \
-              --jq '.check_runs[] | select(.name == "Cloudflare Pages") | .output.summary' \
-              | tr '\n' ' ' \
-              | grep -o "Branch Preview URL.*href='[^']*'" \
-              | grep -o "https://[^']*")
-            echo "BASE_URL=${PREVIEW_URL}" >> $GITHUB_ENV
-          fi
+          PREVIEW_URL=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }}/check-runs \
+            --jq '.check_runs[] | select(.name == "Cloudflare Pages") | .output.summary' \
+            | tr '\n' ' ' \
+            | grep -o "Branch Preview URL.*href='[^']*'" \
+            | grep -o "https://[^']*")
+          echo "BASE_URL=${PREVIEW_URL}" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
