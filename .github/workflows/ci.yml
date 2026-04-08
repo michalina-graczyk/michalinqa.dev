@@ -15,8 +15,10 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "npm"
 
-      - name: Enable corepack
-        run: corepack enable
+      - name: Install declared npm version
+        run: |
+          DECLARED_NPM=$(node -e "const pm = require('./package.json').packageManager; console.log(pm.split('@')[1])")
+          npm install -g "npm@$DECLARED_NPM"
 
       - name: Install dependencies
         run: npm ci
