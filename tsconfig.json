@@ -12,15 +12,14 @@
     // Astro will directly run your TypeScript code, no transpilation needed.
     "noEmit": true,
     "strictNullChecks": true,
-    "baseUrl": "src",
     "paths": {
-      "@components/*": ["components/*"],
-      "@layouts/*": ["layouts/*"],
-      "@assets/*": ["assets/*"],
-      "@pages/*": ["pages/*"],
-      "@lib/*": ["lib/*"],
-      "@config/*": ["config/*"],
-      "@data/*": ["data/*"]
+      "@components/*": ["./src/components/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@config/*": ["./src/config/*"],
+      "@data/*": ["./src/data/*"]
     }
   }
 }
