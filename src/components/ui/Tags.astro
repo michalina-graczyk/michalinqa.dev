@@ -1,4 +1,7 @@
 ---
+import { isWaitlistTag } from "@lib/offers";
+import WaitlistBadge from "@components/ui/WaitlistBadge.astro";
+
 export interface Props {
   tags?: string[];
 }
@@ -9,22 +12,15 @@ const { tags } = Astro.props;
 {
   tags && (
     <div class="mt-2 flex flex-row flex-wrap items-center gap-x-3 gap-y-2">
-      {tags.map((tag) => {
-        const isWaitlist = tag.toLowerCase() === "waitlista";
-        return isWaitlist ? (
-          <span class="inline-flex items-center gap-1.5 py-2 text-xs font-semibold tracking-wide text-amber-600 uppercase lg:py-1 dark:text-amber-400">
-            <span class="relative inline-flex h-1.5 w-1.5" aria-hidden="true">
-              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-70 motion-reduce:animate-none" />
-              <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-500" />
-            </span>
-            {tag}
-          </span>
+      {tags.map((tag) =>
+        isWaitlistTag(tag) ? (
+          <WaitlistBadge label={tag} variant="inline" />
         ) : (
           <span class="inline-block py-2 text-xs text-black lg:py-1 dark:text-white">
             #{tag}
           </span>
-        );
-      })}
+        ),
+      )}
     </div>
   )
 }

@@ -6,6 +6,8 @@ import CalendlyButton from "@components/ui/CalendlyButton.astro";
 import { Icon } from "astro-icon/components";
 import { calendlyURL, emailAddress } from "@config/contact";
 import { TrackingEvents } from "@lib/tracking";
+import { isWaitlistTag } from "@lib/offers";
+import WaitlistBadge from "@components/ui/WaitlistBadge.astro";
 
 export interface Props {
   title: string;
@@ -20,12 +22,12 @@ const {
   description,
   tags,
   mode = "booking",
-  waitlistSubject = `Waitlista - ${Astro.props.title}`,
+  waitlistSubject = `Waitlista - ${title}`,
 } = Astro.props;
 
 const isWaitlist = mode === "waitlist";
-const waitlistBody = `Cześć Michalino,%0D%0A%0D%0Achciał(a)bym dołączyć do listy oczekujących na: ${title}.%0D%0A%0D%0AKrótko o mnie / czego szukam:%0D%0A%0D%0A`;
-const waitlistMailto = `${emailAddress}?subject=${encodeURIComponent(waitlistSubject)}&body=${waitlistBody}`;
+const waitlistBody = `Cześć Michalino,\r\n\r\nchciał(a)bym dołączyć do listy oczekujących na: ${title}.\r\n\r\nKrótko o mnie / czego szukam:\r\n\r\n`;
+const waitlistMailto = `${emailAddress}?subject=${encodeURIComponent(waitlistSubject)}&body=${encodeURIComponent(waitlistBody)}`;
 
 const serviceSchema = {
   "@context": "https://schema.org",
@@ -63,26 +65,15 @@ const serviceSchema = {
         {
           tags && tags.length > 0 && (
             <div class="mt-5 flex flex-wrap gap-2">
-              {tags.map((tag) => {
-                const isWaitlistTag = tag.toLowerCase() === "waitlista";
-                return (
-                  <span
-                    class={
-                      isWaitlistTag
-                        ? "inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-600 dark:text-amber-400"
-                        : "rounded-full border border-orange/30 bg-orange/10 px-3 py-1 text-xs font-medium text-orange"
-                    }
-                  >
-                    {isWaitlistTag && (
-                      <span class="relative inline-flex h-2 w-2" aria-hidden="true">
-                        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-60 motion-reduce:animate-none" />
-                        <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
-                      </span>
-                    )}
+              {tags.map((tag) =>
+                isWaitlistTag(tag) ? (
+                  <WaitlistBadge label={tag} variant="pill" />
+                ) : (
+                  <span class="rounded-full border border-orange/30 bg-orange/10 px-3 py-1 text-xs font-medium text-orange">
                     {tag}
                   </span>
-                );
-              })}
+                ),
+              )}
             </div>
           )
         }
@@ -95,13 +86,11 @@ const serviceSchema = {
       {
         isWaitlist ? (
           <div class="mt-12 overflow-hidden rounded-xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-transparent to-orange/5 p-6 dark:from-amber-500/10 dark:to-orange/10">
-            <div class="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-semibold tracking-wide text-amber-600 uppercase dark:text-amber-400">
-              <span class="relative inline-flex h-2 w-2" aria-hidden="true">
-                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-60 motion-reduce:animate-none" />
-                <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
-              </span>
-              Brak wolnych miejsc
-            </div>
+            <WaitlistBadge
+              label="Brak wolnych miejsc"
+              variant="header"
+              class="mb-3"
+            />
             <h2 class="mb-3 text-xl font-bold text-black dark:text-white">
               Zapisz się na listę oczekujących
             </h2>
@@ -213,5 +202,5 @@ const serviceSchema = {
   import { trackClick, TrackingEvents } from "@lib/tracking";
 
   trackClick(".offer-email-btn", TrackingEvents.OFFER_EMAIL_CLICKED);
-  trackClick(".offer-waitlist-btn", TrackingEvents.OFFER_EMAIL_CLICKED);
+  trackClick(".offer-waitlist-btn", TrackingEvents.OFFER_WAITLIST_CLICKED);
 </script>

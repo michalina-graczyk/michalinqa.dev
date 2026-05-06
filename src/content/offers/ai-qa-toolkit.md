@@ -1,5 +1,5 @@
 ---
-title: AI dla QA Engineers (Wkrótce)
+title: AI dla QA Engineers
 description: Pracuję nad nowym produktem, który pomoże QA Engineers wykorzystać AI w codziennej pracy. Zapisz się na listę oczekujących.
 img_alt: Laptop z edytorem kodu na ciemnym tle
 tags: ["AI", "QA", "Waitlista"]

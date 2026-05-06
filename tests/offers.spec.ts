@@ -15,7 +15,7 @@ const offers = [
   },
   {
     slug: "ai-qa-toolkit",
-    title: "AI dla QA Engineers (Wkrótce)",
+    title: "AI dla QA Engineers",
     mode: "waitlist" as const,
     waitlistSubject: "Waitlista - AI dla QA Engineers",
   },
@@ -130,12 +130,16 @@ test.describe("Offers", () => {
       page,
       baseURL,
     }) => {
-      await page.goto(`${baseURL}/offers/konsultacje`);
-      await acceptConsentIfVisible(page);
-      const tag = page
-        .locator("main header span", { hasText: "Waitlista" })
-        .first();
-      await expect(tag).toBeVisible();
+      const waitlistOffers = offers.filter((o) => o.mode === "waitlist");
+      expect(waitlistOffers.length).toBeGreaterThan(0);
+      for (const offer of waitlistOffers) {
+        await page.goto(`${baseURL}/offers/${offer.slug}`);
+        await acceptConsentIfVisible(page);
+        const tag = page
+          .locator("main header span", { hasText: "Waitlista" })
+          .first();
+        await expect(tag).toBeVisible();
+      }
     });
 
     test("waitlist mode hides Calendly button on offer page", async ({
@@ -165,13 +169,15 @@ test.describe("Offers", () => {
       await expect(page).toHaveURL(`${baseURL}/#offers`);
     });
 
-    test("Calendly popup opens on meeting button click", async ({
+    test("booking CTA absent while all offers are in waitlist mode", async ({
       page,
       baseURL,
     }) => {
-      // Booking-mode regression test: temporarily render a booking-mode offer.
-      // Currently both offers are in waitlist mode, so we assert the Calendly
-      // button is not present and skip the popup interaction.
+      // NOTE: this test only verifies absence of the Calendly CTA in the
+      // current waitlist-only state. Real booking-mode coverage (Calendly
+      // popup interaction + OFFER_BOOKING_CLICKED event) needs to be
+      // restored once a `mode: "booking"` offer (or test fixture) exists
+      // again. See review thread on offers.spec.ts:L172.
       await page.goto(`${baseURL}/offers/konsultacje`);
       await acceptConsentIfVisible(page);
       await expect(
@@ -198,7 +204,7 @@ test.describe("Offers", () => {
       const mixpanelEventsTracked = await getTrackedEvents(page);
       expectLastEventToBeTracked(
         mixpanelEventsTracked,
-        TrackingEvents.OFFER_EMAIL_CLICKED,
+        TrackingEvents.OFFER_WAITLIST_CLICKED,
       );
     });
 

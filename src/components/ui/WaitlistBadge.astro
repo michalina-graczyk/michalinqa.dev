@@ -1,0 +1,43 @@
+---
+/**
+ * Amber "Waitlista" badge with the live-ping dot.
+ *
+ * Single source of truth for waitlist visual language across:
+ *   - Card tag rows (Tags.astro)         → variant="inline"
+ *   - Offer page tag pills               → variant="pill"
+ *   - Offer page CTA "Brak wolnych miejsc" header → variant="header"
+ *
+ * If you change the amber palette or the ping animation, change it here.
+ */
+export interface Props {
+  label: string;
+  variant?: "inline" | "pill" | "header";
+  class?: string;
+}
+
+const { label, variant = "inline", class: className = "" } = Astro.props;
+
+const containerByVariant: Record<NonNullable<Props["variant"]>, string> = {
+  inline:
+    "inline-flex items-center gap-1.5 py-2 text-xs font-semibold tracking-wide text-amber-600 uppercase lg:py-1 dark:text-amber-400",
+  pill: "inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-600 dark:text-amber-400",
+  header:
+    "inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-semibold tracking-wide text-amber-600 uppercase dark:text-amber-400",
+};
+
+// Inline variant uses a slightly smaller dot to sit on a card row;
+// pill/header variants get the standard 2×2 dot.
+const dotSize = variant === "inline" ? "h-1.5 w-1.5" : "h-2 w-2";
+const pingOpacity = variant === "inline" ? "opacity-70" : "opacity-60";
+---
+
+<span class={`${containerByVariant[variant]} ${className}`.trim()}>
+  <span class={`relative inline-flex ${dotSize}`} aria-hidden="true">
+    <span
+      class={`absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 ${pingOpacity} motion-reduce:animate-none`}
+    ></span>
+    <span class={`relative inline-flex ${dotSize} rounded-full bg-amber-500`}
+    ></span>
+  </span>
+  {label}
+</span>
