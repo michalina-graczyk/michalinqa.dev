@@ -2,9 +2,8 @@
 title: AI dla QA Engineers
 description: Pracuję nad nowym produktem, który pomoże QA Engineers wykorzystać AI w codziennej pracy. Zapisz się na listę oczekujących.
 img_alt: Laptop z edytorem kodu na ciemnym tle
-tags: ["AI", "QA", "Waitlista"]
+tags: ["AI", "QA"]
 mode: "waitlist"
-waitlistSubject: "Waitlista - AI dla QA Engineers"
 ---
 
 Nowy produkt w przygotowaniu. Więcej informacji już wkrótce.

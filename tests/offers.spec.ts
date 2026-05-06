@@ -11,15 +11,17 @@ const offers = [
     slug: "konsultacje",
     title: "Mentoring 1:1",
     mode: "waitlist" as const,
-    waitlistSubject: "Waitlista - Mentoring 1:1",
   },
   {
     slug: "ai-qa-toolkit",
     title: "AI dla QA Engineers",
     mode: "waitlist" as const,
-    waitlistSubject: "Waitlista - AI dla QA Engineers",
   },
 ];
+
+// Default subject derived from title (mirrors `buildWaitlistSubject` in
+// `src/lib/offers.ts`). Frontmatter no longer hard-codes this.
+const defaultWaitlistSubject = (title: string) => `Waitlista - ${title}`;
 
 test.describe("Offers", () => {
   test.describe("Homepage Offer Cards", () => {
@@ -121,8 +123,11 @@ test.describe("Offers", () => {
         const href = await waitlistButton.getAttribute("href");
         expect(href).toContain("mailto:michalina@graczyk.dev");
         expect(href).toContain(
-          `subject=${encodeURIComponent(offer.waitlistSubject)}`,
+          `subject=${encodeURIComponent(defaultWaitlistSubject(offer.title))}`,
         );
+        // RFC 6068: body line breaks must be `\n` (`%0A`). `%0D` (CR) leaks
+        // into some clients as a visible artifact / double break.
+        expect(href).not.toContain("%0D");
       });
     }
 
@@ -173,16 +178,39 @@ test.describe("Offers", () => {
       page,
       baseURL,
     }) => {
-      // NOTE: this test only verifies absence of the Calendly CTA in the
-      // current waitlist-only state. Real booking-mode coverage (Calendly
-      // popup interaction + OFFER_BOOKING_CLICKED event) needs to be
-      // restored once a `mode: "booking"` offer (or test fixture) exists
-      // again. See review thread on offers.spec.ts:L172.
+      // Negative regression: in the current waitlist-only state the Calendly
+      // CTA must not be reachable from any offer page.
       await page.goto(`${baseURL}/offers/konsultacje`);
       await acceptConsentIfVisible(page);
       await expect(
         page.getByRole("button", { name: "Umów spotkanie" }),
       ).toHaveCount(0);
+    });
+
+    // Real booking-mode coverage (Calendly popup interaction +
+    // OFFER_BOOKING_CLICKED tracking). Kept as `fixme` so it stays visible in
+    // the report instead of being silently deleted. Re-enable once a
+    // `mode: "booking"` offer (or test fixture) ships again.
+    test.fixme("booking offer opens Calendly popup and tracks OFFER_BOOKING_CLICKED", async ({
+      page,
+      baseURL,
+    }) => {
+      // TODO(booking): point this at a real `mode: "booking"` offer slug.
+      await page.goto(`${baseURL}/offers/<booking-slug>`);
+      await acceptConsentIfVisible(page);
+
+      const meetingButton = page.getByRole("button", {
+        name: "Umów spotkanie",
+      });
+      await meetingButton.click();
+
+      await page.waitForSelector(".calendly-popup-content");
+
+      const mixpanelEventsTracked = await getTrackedEvents(page);
+      expectLastEventToBeTracked(
+        mixpanelEventsTracked,
+        TrackingEvents.OFFER_BOOKING_CLICKED,
+      );
     });
 
     test("waitlist email button has correct mailto and tracks event", async ({
@@ -198,6 +226,8 @@ test.describe("Offers", () => {
       const href = await waitlistButton.getAttribute("href");
       expect(href).toContain("mailto:michalina@graczyk.dev");
       expect(href).toContain("subject=Waitlista");
+      // Body uses `\n` (RFC 6068), never `\r\n`.
+      expect(href).not.toContain("%0D");
 
       await waitlistButton.click();
 
@@ -231,6 +261,12 @@ test.describe("Offers", () => {
       expect(serviceData).not.toBeNull();
       expect(serviceData.name).toBe("Mentoring 1:1");
       expect(serviceData.provider.name).toBe("Michalina Graczyk");
+      // Waitlist mode must surface as SoldOut so Google rich results don't
+      // advertise the service as available.
+      expect(serviceData.offers).toMatchObject({
+        "@type": "Offer",
+        availability: "https://schema.org/SoldOut",
+      });
     });
   });
 });

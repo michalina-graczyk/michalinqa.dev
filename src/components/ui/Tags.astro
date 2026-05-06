@@ -1,26 +1,32 @@
 ---
-import { isWaitlistTag } from "@lib/offers";
+import { tagsWithoutWaitlist } from "@lib/offers";
 import WaitlistBadge from "@components/ui/WaitlistBadge.astro";
 
 export interface Props {
   tags?: string[];
+  /**
+   * Drives the WaitlistBadge. `mode` is the single source of truth for
+   * waitlist state (see `src/content.config.ts`); we never key off the
+   * literal "Waitlista" tag here, and we strip it from the visible row.
+   */
+  mode?: "booking" | "waitlist";
 }
 
-const { tags } = Astro.props;
+const { tags, mode = "booking" } = Astro.props;
+const isWaitlist = mode === "waitlist";
+const visibleTags = tagsWithoutWaitlist(tags);
+const hasAnything = isWaitlist || visibleTags.length > 0;
 ---
 
 {
-  tags && (
+  hasAnything && (
     <div class="mt-2 flex flex-row flex-wrap items-center gap-x-3 gap-y-2">
-      {tags.map((tag) =>
-        isWaitlistTag(tag) ? (
-          <WaitlistBadge label={tag} variant="inline" />
-        ) : (
-          <span class="inline-block py-2 text-xs text-black lg:py-1 dark:text-white">
-            #{tag}
-          </span>
-        ),
-      )}
+      {isWaitlist && <WaitlistBadge label="Waitlista" variant="inline" />}
+      {visibleTags.map((tag) => (
+        <span class="inline-block py-2 text-xs text-black lg:py-1 dark:text-white">
+          #{tag}
+        </span>
+      ))}
     </div>
   )
 }

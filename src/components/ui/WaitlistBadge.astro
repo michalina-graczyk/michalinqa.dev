@@ -18,11 +18,13 @@ export interface Props {
 const { label, variant = "inline", class: className = "" } = Astro.props;
 
 const containerByVariant: Record<NonNullable<Props["variant"]>, string> = {
+  // Light-mode text bumped from amber-600 to amber-700 to clear WCAG AA
+  // (4.5:1) on the amber-500/10 background for small bold text.
   inline:
-    "inline-flex items-center gap-1.5 py-2 text-xs font-semibold tracking-wide text-amber-600 uppercase lg:py-1 dark:text-amber-400",
-  pill: "inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-600 dark:text-amber-400",
+    "inline-flex items-center gap-1.5 py-2 text-xs font-semibold tracking-wide text-amber-700 uppercase lg:py-1 dark:text-amber-400",
+  pill: "inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-700 dark:text-amber-400",
   header:
-    "inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-semibold tracking-wide text-amber-600 uppercase dark:text-amber-400",
+    "inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-semibold tracking-wide text-amber-700 uppercase dark:text-amber-400",
 };
 
 // Inline variant uses a slightly smaller dot to sit on a card row;

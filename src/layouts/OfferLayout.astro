@@ -6,7 +6,7 @@ import CalendlyButton from "@components/ui/CalendlyButton.astro";
 import { Icon } from "astro-icon/components";
 import { calendlyURL, emailAddress } from "@config/contact";
 import { TrackingEvents } from "@lib/tracking";
-import { isWaitlistTag } from "@lib/offers";
+import { buildWaitlistMailto, tagsWithoutWaitlist } from "@lib/offers";
 import WaitlistBadge from "@components/ui/WaitlistBadge.astro";
 
 export interface Props {
@@ -14,20 +14,23 @@ export interface Props {
   description: string;
   tags?: string[];
   mode?: "booking" | "waitlist";
+  /**
+   * Optional override for the waitlist email subject. Defaults to
+   * `Waitlista - <title>` (see `buildWaitlistSubject`). Only set this in
+   * frontmatter when you actually need a different subject — otherwise leave
+   * it out so the default stays the single source of truth.
+   */
   waitlistSubject?: string;
 }
 
-const {
-  title,
-  description,
-  tags,
-  mode = "booking",
-  waitlistSubject = `Waitlista - ${title}`,
-} = Astro.props;
+const { title, description, tags, mode = "booking", waitlistSubject } = Astro.props;
 
 const isWaitlist = mode === "waitlist";
-const waitlistBody = `Cześć Michalino,\r\n\r\nchciał(a)bym dołączyć do listy oczekujących na: ${title}.\r\n\r\nKrótko o mnie / czego szukam:\r\n\r\n`;
-const waitlistMailto = `${emailAddress}?subject=${encodeURIComponent(waitlistSubject)}&body=${encodeURIComponent(waitlistBody)}`;
+// `mode` is the single source of truth for waitlist state. Strip any
+// defensive "Waitlista" tag from the visible pill row — the badge below
+// covers it.
+const visibleTags = tagsWithoutWaitlist(tags);
+const waitlistMailto = isWaitlist ? buildWaitlistMailto(title, waitlistSubject) : "";
 
 const serviceSchema = {
   "@context": "https://schema.org",
@@ -39,6 +42,14 @@ const serviceSchema = {
     name: "Michalina Graczyk",
     jobTitle: "Engineering Manager",
   },
+  // Mirror the on-page CTA in structured data so Google rich results don't
+  // advertise the service as available while we're in waitlist mode.
+  ...(isWaitlist && {
+    offers: {
+      "@type": "Offer",
+      availability: "https://schema.org/SoldOut",
+    },
+  }),
 };
 ---
 
@@ -63,17 +74,14 @@ const serviceSchema = {
         <div class="mb-4 h-1 w-16 bg-orange"></div>
 
         {
-          tags && tags.length > 0 && (
+          (isWaitlist || visibleTags.length > 0) && (
             <div class="mt-5 flex flex-wrap gap-2">
-              {tags.map((tag) =>
-                isWaitlistTag(tag) ? (
-                  <WaitlistBadge label={tag} variant="pill" />
-                ) : (
-                  <span class="rounded-full border border-orange/30 bg-orange/10 px-3 py-1 text-xs font-medium text-orange">
-                    {tag}
-                  </span>
-                ),
-              )}
+              {isWaitlist && <WaitlistBadge label="Waitlista" variant="pill" />}
+              {visibleTags.map((tag) => (
+                <span class="rounded-full border border-orange/30 bg-orange/10 px-3 py-1 text-xs font-medium text-orange">
+                  {tag}
+                </span>
+              ))}
             </div>
           )
         }
@@ -85,7 +93,11 @@ const serviceSchema = {
 
       {
         isWaitlist ? (
-          <div class="mt-12 overflow-hidden rounded-xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-transparent to-orange/5 p-6 dark:from-amber-500/10 dark:to-orange/10">
+          <div
+            role="status"
+            aria-label="Status oferty: brak wolnych miejsc — zapisy na listę oczekujących"
+            class="mt-12 overflow-hidden rounded-xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-transparent to-orange/5 p-6 dark:from-amber-500/10 dark:to-orange/10"
+          >
             <WaitlistBadge
               label="Brak wolnych miejsc"
               variant="header"
