@@ -52,8 +52,4 @@ Uczę tego, czego nie znajdziesz w dokumentacji technicznej. Rozmawiamy o tym, j
 - Analiza Twoich postępów z pracy własnej (np. przegląd interakcji z AI).
 - Bieżące Q&A na Discordzie pomiędzy sesjami (w granicach zdrowego rozsądku).
 
-## Obecnie brak wolnych miejsc
-
-Pracuję w modelu kameralnym - z kilkoma osobami jednocześnie - żeby każda dostała pełną uwagę i realnie spersonalizowany ekosystem. Nowe miejsca zwalniają się okresowo.
-
-Jeżeli ten program rezonuje z tym, czego szukasz - **zapisz się na listę oczekujących**. Odezwę się do Ciebie jako pierwszej/pierwszego, gdy zwolni się slot. Cennik i szczegóły organizacyjne omawiamy indywidualnie podczas rozmowy kwalifikacyjnej.
+Cennik i szczegóły organizacyjne omawiamy indywidualnie podczas rozmowy kwalifikacyjnej - dopasowuję zakres do Twojego celu.
