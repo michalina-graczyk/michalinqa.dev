@@ -11,9 +11,21 @@ export interface Props {
   title: string;
   description: string;
   tags?: string[];
+  mode?: "booking" | "waitlist";
+  waitlistSubject?: string;
 }
 
-const { title, description, tags } = Astro.props;
+const {
+  title,
+  description,
+  tags,
+  mode = "booking",
+  waitlistSubject = `Waitlista - ${Astro.props.title}`,
+} = Astro.props;
+
+const isWaitlist = mode === "waitlist";
+const waitlistBody = `Cześć Michalino,%0D%0A%0D%0Achciał(a)bym dołączyć do listy oczekujących na: ${title}.%0D%0A%0D%0AKrótko o mnie / czego szukam:%0D%0A%0D%0A`;
+const waitlistMailto = `${emailAddress}?subject=${encodeURIComponent(waitlistSubject)}&body=${waitlistBody}`;
 
 const serviceSchema = {
   "@context": "https://schema.org",
@@ -51,11 +63,26 @@ const serviceSchema = {
         {
           tags && tags.length > 0 && (
             <div class="mt-5 flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <span class="rounded-full border border-orange/30 bg-orange/10 px-3 py-1 text-xs font-medium text-orange">
-                  {tag}
-                </span>
-              ))}
+              {tags.map((tag) => {
+                const isWaitlistTag = tag.toLowerCase() === "waitlista";
+                return (
+                  <span
+                    class={
+                      isWaitlistTag
+                        ? "inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-600 dark:text-amber-400"
+                        : "rounded-full border border-orange/30 bg-orange/10 px-3 py-1 text-xs font-medium text-orange"
+                    }
+                  >
+                    {isWaitlistTag && (
+                      <span class="relative inline-flex h-2 w-2" aria-hidden="true">
+                        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-60 motion-reduce:animate-none" />
+                        <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
+                      </span>
+                    )}
+                    {tag}
+                  </span>
+                );
+              })}
             </div>
           )
         }
@@ -65,31 +92,62 @@ const serviceSchema = {
         <slot />
       </div>
 
-      <div class="mt-12 rounded-xl border border-orange/30 bg-orange/5 p-6 dark:bg-orange/10">
-        <h2 class="mb-4 text-xl font-bold text-black dark:text-white">
-          Zainteresowany/a?
-        </h2>
-        <p class="mb-6 text-gray-600 dark:text-gray-400">
-          Umów bezpłatną 15-minutową rozmowę, podczas której omówimy Twoje potrzeby.
-        </p>
-        <div class="flex flex-wrap gap-4">
-          <CalendlyButton
-            calendlyUrl={calendlyURL}
-            trackingEvent={TrackingEvents.OFFER_BOOKING_CLICKED}
-          >
-            Umów spotkanie
-          </CalendlyButton>
-          <Button
-            size="lg"
-            style="secondary"
-            name="E-mail"
-            href={emailAddress}
-            class="offer-email-btn"
-          >
-            Napisz maila
-          </Button>
-        </div>
-      </div>
+      {
+        isWaitlist ? (
+          <div class="mt-12 overflow-hidden rounded-xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-transparent to-orange/5 p-6 dark:from-amber-500/10 dark:to-orange/10">
+            <div class="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-semibold tracking-wide text-amber-600 uppercase dark:text-amber-400">
+              <span class="relative inline-flex h-2 w-2" aria-hidden="true">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-60 motion-reduce:animate-none" />
+                <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
+              </span>
+              Brak wolnych miejsc
+            </div>
+            <h2 class="mb-3 text-xl font-bold text-black dark:text-white">
+              Zapisz się na listę oczekujących
+            </h2>
+            <p class="mb-6 text-gray-600 dark:text-gray-400">
+              Pracuję w modelu kameralnym - obecnie wszystkie miejsca są zajęte. Zostaw kontakt, a dam Ci znać jako pierwszej/pierwszemu, gdy zwolni się slot.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <Button
+                size="lg"
+                style="primary"
+                name="Waitlista"
+                href={waitlistMailto}
+                class="offer-waitlist-btn"
+              >
+                Dołącz do waitlisty
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div class="mt-12 rounded-xl border border-orange/30 bg-orange/5 p-6 dark:bg-orange/10">
+            <h2 class="mb-4 text-xl font-bold text-black dark:text-white">
+              Zainteresowany/a?
+            </h2>
+            <p class="mb-6 text-gray-600 dark:text-gray-400">
+              Umów bezpłatną 15-minutową rozmowę, podczas której omówimy Twoje potrzeby.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <CalendlyButton
+                calendlyUrl={calendlyURL}
+                trackingEvent={TrackingEvents.OFFER_BOOKING_CLICKED}
+              >
+                Umów spotkanie
+              </CalendlyButton>
+              <Button
+                size="lg"
+                style="secondary"
+                name="E-mail"
+                href={emailAddress}
+                class="offer-email-btn"
+              >
+                Napisz maila
+              </Button>
+            </div>
+          </div>
+        )
+      }
 
       <footer class="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
         <a
@@ -155,4 +213,5 @@ const serviceSchema = {
   import { trackClick, TrackingEvents } from "@lib/tracking";
 
   trackClick(".offer-email-btn", TrackingEvents.OFFER_EMAIL_CLICKED);
+  trackClick(".offer-waitlist-btn", TrackingEvents.OFFER_EMAIL_CLICKED);
 </script>

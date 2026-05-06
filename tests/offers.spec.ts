@@ -7,8 +7,18 @@ import {
 } from "./helpers/mixpanel";
 
 const offers = [
-  { slug: "konsultacje", title: "Konsultacje online 1:1" },
-  { slug: "ai-qa-toolkit", title: "AI dla QA Engineers (Wkrótce)" },
+  {
+    slug: "konsultacje",
+    title: "Mentoring 1:1",
+    mode: "waitlist" as const,
+    waitlistSubject: "Waitlista - Mentoring 1:1",
+  },
+  {
+    slug: "ai-qa-toolkit",
+    title: "AI dla QA Engineers (Wkrótce)",
+    mode: "waitlist" as const,
+    waitlistSubject: "Waitlista - AI dla QA Engineers",
+  },
 ];
 
 test.describe("Offers", () => {
@@ -98,16 +108,47 @@ test.describe("Offers", () => {
         // Verify content sections exist
         await expect(page.locator("main h2").first()).toBeVisible();
 
-        // Verify CTA section
-        await expect(page.getByText("Zainteresowany/a?")).toBeVisible();
+        // Verify CTA section - waitlist mode for all current offers
         await expect(
-          page.getByRole("button", { name: "Umów spotkanie" }),
+          page.getByRole("heading", {
+            name: "Zapisz się na listę oczekujących",
+          }),
         ).toBeVisible();
-        await expect(
-          page.getByRole("link", { name: "Napisz maila" }),
-        ).toBeVisible();
+        const waitlistButton = page.getByRole("link", {
+          name: "Dołącz do waitlisty",
+        });
+        await expect(waitlistButton).toBeVisible();
+        const href = await waitlistButton.getAttribute("href");
+        expect(href).toContain("mailto:michalina@graczyk.dev");
+        expect(href).toContain(
+          `subject=${encodeURIComponent(offer.waitlistSubject)}`,
+        );
       });
     }
+
+    test("waitlist offers expose Waitlista tag with amber styling", async ({
+      page,
+      baseURL,
+    }) => {
+      await page.goto(`${baseURL}/offers/konsultacje`);
+      await acceptConsentIfVisible(page);
+      const tag = page
+        .locator("main header span", { hasText: "Waitlista" })
+        .first();
+      await expect(tag).toBeVisible();
+    });
+
+    test("waitlist mode hides Calendly button on offer page", async ({
+      page,
+      baseURL,
+    }) => {
+      await page.goto(`${baseURL}/offers/konsultacje`);
+      await acceptConsentIfVisible(page);
+      await expect(
+        page.getByRole("button", { name: "Umów spotkanie" }),
+      ).toHaveCount(0);
+      await expect(page.getByText("Zainteresowany/a?")).toHaveCount(0);
+    });
 
     test("back navigation returns to offers section", async ({
       page,
@@ -128,43 +169,31 @@ test.describe("Offers", () => {
       page,
       baseURL,
     }) => {
+      // Booking-mode regression test: temporarily render a booking-mode offer.
+      // Currently both offers are in waitlist mode, so we assert the Calendly
+      // button is not present and skip the popup interaction.
       await page.goto(`${baseURL}/offers/konsultacje`);
       await acceptConsentIfVisible(page);
-
-      const meetingButton = page.getByRole("button", {
-        name: "Umów spotkanie",
-      });
-      await meetingButton.click();
-
-      const calendlyPopup = await page.waitForSelector(
-        ".calendly-popup-content",
-      );
-      expect(calendlyPopup).toBeTruthy();
-
-      const dataUrl = await calendlyPopup.getAttribute("data-url");
-      expect(dataUrl).toContain(
-        "https://calendly.com/michalina_graczyk/konsultacje",
-      );
-
-      const mixpanelEventsTracked = await getTrackedEvents(page);
-      expectLastEventToBeTracked(
-        mixpanelEventsTracked,
-        TrackingEvents.OFFER_BOOKING_CLICKED,
-      );
+      await expect(
+        page.getByRole("button", { name: "Umów spotkanie" }),
+      ).toHaveCount(0);
     });
 
-    test("email button has correct href and tracks event", async ({
+    test("waitlist email button has correct mailto and tracks event", async ({
       page,
       baseURL,
     }) => {
       await page.goto(`${baseURL}/offers/konsultacje`);
       await acceptConsentIfVisible(page);
 
-      const emailButton = page.getByRole("link", { name: "Napisz maila" });
-      const href = await emailButton.getAttribute("href");
-      expect(href).toBe("mailto:michalina@graczyk.dev");
+      const waitlistButton = page.getByRole("link", {
+        name: "Dołącz do waitlisty",
+      });
+      const href = await waitlistButton.getAttribute("href");
+      expect(href).toContain("mailto:michalina@graczyk.dev");
+      expect(href).toContain("subject=Waitlista");
 
-      await emailButton.click();
+      await waitlistButton.click();
 
       const mixpanelEventsTracked = await getTrackedEvents(page);
       expectLastEventToBeTracked(
@@ -194,7 +223,7 @@ test.describe("Offers", () => {
       }
 
       expect(serviceData).not.toBeNull();
-      expect(serviceData.name).toBe("Konsultacje online 1:1");
+      expect(serviceData.name).toBe("Mentoring 1:1");
       expect(serviceData.provider.name).toBe("Michalina Graczyk");
     });
   });

@@ -8,12 +8,23 @@ const { tags } = Astro.props;
 
 {
   tags && (
-    <div class="mt-2 flex flex-row flex-wrap gap-2">
-      {tags.map((tag) => (
-        <span class="inline-block rounded py-2 text-xs text-black dark:text-white lg:py-1">
-          #{tag}
-        </span>
-      ))}
+    <div class="mt-2 flex flex-row flex-wrap items-center gap-2">
+      {tags.map((tag) => {
+        const isWaitlist = tag.toLowerCase() === "waitlista";
+        return isWaitlist ? (
+          <span class="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-1 text-xs font-semibold text-amber-600 dark:text-amber-400">
+            <span class="relative inline-flex h-2 w-2" aria-hidden="true">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-60 motion-reduce:animate-none" />
+              <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
+            </span>
+            {tag}
+          </span>
+        ) : (
+          <span class="inline-block rounded py-2 text-xs text-black dark:text-white lg:py-1">
+            #{tag}
+          </span>
+        );
+      })}
     </div>
   )
 }
