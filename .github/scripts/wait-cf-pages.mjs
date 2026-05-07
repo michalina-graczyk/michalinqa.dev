@@ -75,12 +75,16 @@ for (let i = 1; i <= MAX_ATTEMPTS; i++) {
 
   if (status === "completed") {
     if (conclusion !== "success") {
-      console.error(`Cloudflare Pages check finished with conclusion=${conclusion}`);
+      console.error(
+        `Cloudflare Pages check finished with conclusion=${conclusion}`,
+      );
       process.exit(1);
     }
     const url = extractPreviewUrl(run.output?.summary);
     if (!url) {
-      console.error("Could not extract preview URL from CF Pages check summary");
+      console.error(
+        "Could not extract preview URL from CF Pages check summary",
+      );
       console.error("Summary was:", run.output?.summary);
       process.exit(1);
     }
