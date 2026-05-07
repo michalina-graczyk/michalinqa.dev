@@ -7,9 +7,21 @@ import {
 } from "./helpers/mixpanel";
 
 const offers = [
-  { slug: "konsultacje", title: "Konsultacje online 1:1" },
-  { slug: "ai-qa-toolkit", title: "AI dla QA Engineers (Wkrótce)" },
+  {
+    slug: "konsultacje",
+    title: "Mentoring 1:1",
+    mode: "waitlist" as const,
+  },
+  {
+    slug: "ai-qa-toolkit",
+    title: "AI dla QA Engineers",
+    mode: "waitlist" as const,
+  },
 ];
+
+// Default subject derived from title (mirrors `buildWaitlistSubject` in
+// `src/lib/offers.ts`). Frontmatter no longer hard-codes this.
+const defaultWaitlistSubject = (title: string) => `Waitlista - ${title}`;
 
 test.describe("Offers", () => {
   test.describe("Homepage Offer Cards", () => {
@@ -98,16 +110,54 @@ test.describe("Offers", () => {
         // Verify content sections exist
         await expect(page.locator("main h2").first()).toBeVisible();
 
-        // Verify CTA section
-        await expect(page.getByText("Zainteresowany/a?")).toBeVisible();
+        // Verify CTA section - waitlist mode for all current offers
         await expect(
-          page.getByRole("button", { name: "Umów spotkanie" }),
+          page.getByRole("heading", {
+            name: "Zapisz się na listę oczekujących",
+          }),
         ).toBeVisible();
-        await expect(
-          page.getByRole("link", { name: "Napisz maila" }),
-        ).toBeVisible();
+        const waitlistButton = page.getByRole("link", {
+          name: "Dołącz do waitlisty",
+        });
+        await expect(waitlistButton).toBeVisible();
+        const href = await waitlistButton.getAttribute("href");
+        expect(href).toContain("mailto:michalina@graczyk.dev");
+        expect(href).toContain(
+          `subject=${encodeURIComponent(defaultWaitlistSubject(offer.title))}`,
+        );
+        // RFC 6068: body line breaks must be `\n` (`%0A`). `%0D` (CR) leaks
+        // into some clients as a visible artifact / double break.
+        expect(href).not.toContain("%0D");
       });
     }
+
+    test("waitlist offers expose Waitlista tag with amber styling", async ({
+      page,
+      baseURL,
+    }) => {
+      const waitlistOffers = offers.filter((o) => o.mode === "waitlist");
+      expect(waitlistOffers.length).toBeGreaterThan(0);
+      for (const offer of waitlistOffers) {
+        await page.goto(`${baseURL}/offers/${offer.slug}`);
+        await acceptConsentIfVisible(page);
+        const tag = page
+          .locator("main header span", { hasText: "Waitlista" })
+          .first();
+        await expect(tag).toBeVisible();
+      }
+    });
+
+    test("waitlist mode hides Calendly button on offer page", async ({
+      page,
+      baseURL,
+    }) => {
+      await page.goto(`${baseURL}/offers/konsultacje`);
+      await acceptConsentIfVisible(page);
+      await expect(
+        page.getByRole("button", { name: "Umów spotkanie" }),
+      ).toHaveCount(0);
+      await expect(page.getByText("Zainteresowany/a?")).toHaveCount(0);
+    });
 
     test("back navigation returns to offers section", async ({
       page,
@@ -124,11 +174,29 @@ test.describe("Offers", () => {
       await expect(page).toHaveURL(`${baseURL}/#offers`);
     });
 
-    test("Calendly popup opens on meeting button click", async ({
+    test("booking CTA absent while all offers are in waitlist mode", async ({
       page,
       baseURL,
     }) => {
+      // Negative regression: in the current waitlist-only state the Calendly
+      // CTA must not be reachable from any offer page.
       await page.goto(`${baseURL}/offers/konsultacje`);
+      await acceptConsentIfVisible(page);
+      await expect(
+        page.getByRole("button", { name: "Umów spotkanie" }),
+      ).toHaveCount(0);
+    });
+
+    // Real booking-mode coverage (Calendly popup interaction +
+    // OFFER_BOOKING_CLICKED tracking). Kept as `fixme` so it stays visible in
+    // the report instead of being silently deleted. Re-enable once a
+    // `mode: "booking"` offer (or test fixture) ships again.
+    test.fixme("booking offer opens Calendly popup and tracks OFFER_BOOKING_CLICKED", async ({
+      page,
+      baseURL,
+    }) => {
+      // TODO(booking): point this at a real `mode: "booking"` offer slug.
+      await page.goto(`${baseURL}/offers/<booking-slug>`);
       await acceptConsentIfVisible(page);
 
       const meetingButton = page.getByRole("button", {
@@ -136,15 +204,7 @@ test.describe("Offers", () => {
       });
       await meetingButton.click();
 
-      const calendlyPopup = await page.waitForSelector(
-        ".calendly-popup-content",
-      );
-      expect(calendlyPopup).toBeTruthy();
-
-      const dataUrl = await calendlyPopup.getAttribute("data-url");
-      expect(dataUrl).toContain(
-        "https://calendly.com/michalina_graczyk/konsultacje",
-      );
+      await page.waitForSelector(".calendly-popup-content");
 
       const mixpanelEventsTracked = await getTrackedEvents(page);
       expectLastEventToBeTracked(
@@ -153,23 +213,28 @@ test.describe("Offers", () => {
       );
     });
 
-    test("email button has correct href and tracks event", async ({
+    test("waitlist email button has correct mailto and tracks event", async ({
       page,
       baseURL,
     }) => {
       await page.goto(`${baseURL}/offers/konsultacje`);
       await acceptConsentIfVisible(page);
 
-      const emailButton = page.getByRole("link", { name: "Napisz maila" });
-      const href = await emailButton.getAttribute("href");
-      expect(href).toBe("mailto:michalina@graczyk.dev");
+      const waitlistButton = page.getByRole("link", {
+        name: "Dołącz do waitlisty",
+      });
+      const href = await waitlistButton.getAttribute("href");
+      expect(href).toContain("mailto:michalina@graczyk.dev");
+      expect(href).toContain("subject=Waitlista");
+      // Body uses `\n` (RFC 6068), never `\r\n`.
+      expect(href).not.toContain("%0D");
 
-      await emailButton.click();
+      await waitlistButton.click();
 
       const mixpanelEventsTracked = await getTrackedEvents(page);
       expectLastEventToBeTracked(
         mixpanelEventsTracked,
-        TrackingEvents.OFFER_EMAIL_CLICKED,
+        TrackingEvents.OFFER_WAITLIST_CLICKED,
       );
     });
 
@@ -194,8 +259,14 @@ test.describe("Offers", () => {
       }
 
       expect(serviceData).not.toBeNull();
-      expect(serviceData.name).toBe("Konsultacje online 1:1");
+      expect(serviceData.name).toBe("Mentoring 1:1");
       expect(serviceData.provider.name).toBe("Michalina Graczyk");
+      // Waitlist mode must surface as SoldOut so Google rich results don't
+      // advertise the service as available.
+      expect(serviceData.offers).toMatchObject({
+        "@type": "Offer",
+        availability: "https://schema.org/SoldOut",
+      });
     });
   });
 });
