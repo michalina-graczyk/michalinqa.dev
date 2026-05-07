@@ -45,11 +45,14 @@ jobs:
     #
     # IMPORTANT: keep this image tag in lockstep with @playwright/test in
     # package.json. Renovate/Dependabot can manage this — see follow-up issue.
-    # `--user 1001` avoids root-owned files in the workspace (per Playwright
-    # docs: https://playwright.dev/docs/ci#via-containers).
+    #
+    # We deliberately omit `options: --user 1001` (which the Playwright docs
+    # recommend) because third-party actions like lewagon/wait-on-check-action
+    # internally use ruby/setup-ruby, which writes to /opt/hostedtoolcache
+    # (host-mounted, root-owned) and fails under a non-root container user.
+    # Running as root is fine on ephemeral GH runners.
     container:
       image: mcr.microsoft.com/playwright:v1.59.1-noble
-      options: --user 1001
     steps:
       - uses: actions/checkout@v4
         name: Check out repository code
