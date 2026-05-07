@@ -8,29 +8,41 @@ import Tags from "@components/ui/Tags.astro";
 interface Props {
   url?: string;
   alt?: string;
+  /**
+   * Stable identifier used to look up the card image. Keying off `slug`
+   * (frontmatter file name) instead of `title` means renaming the offer's
+   * visible title doesn't silently break the image — and the build will
+   * fail loudly if a new offer slug is added without an image entry below.
+   */
+  slug?: string;
   title?: string;
   description: string;
   tags: string[];
+  mode?: "booking" | "waitlist";
 }
 
 interface ImageMap {
   [key: string]: ImageMetadata;
 }
 
+// Keyed by content collection slug (filename without `.md`). When you add
+// a new offer file, also add its image here.
 const imageMap: ImageMap = {
-  "Konsultacje online 1:1": consultationImage,
-  "AI dla QA Engineers (Wkrótce)": fallbackImage,
+  konsultacje: consultationImage,
+  "ai-qa-toolkit": fallbackImage,
 };
 
 const {
   url = "#",
   alt = "Project",
+  slug,
   description = "Project Description",
   title = "Project title",
   tags = ["Tags"],
+  mode = "booking",
 } = Astro.props;
 
-const image = imageMap[title];
+const image = (slug && imageMap[slug]) ?? fallbackImage;
 ---
 
 <section class="w-full p-4 lg:w-1/3 flex flex-col">
@@ -53,7 +65,7 @@ const image = imageMap[title];
       <div class="mt-1 flex flex-grow flex-col p-2">
         <h3 class="text-xl text-orange lg:text-2xl">{title}</h3>
         <p class="flex-grow text-black dark:text-white text-s">{description}</p>
-        <Tags tags={tags} />
+        <Tags tags={tags} mode={mode} />
       </div>
     </a>
   </article>
