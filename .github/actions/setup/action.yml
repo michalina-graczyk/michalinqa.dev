@@ -1,0 +1,31 @@
+name: Setup Node and dependencies
+description: Checkout, set up Node.js with npm cache, pin declared npm version, and run npm ci.
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: ".nvmrc"
+        cache: "npm"
+
+    - name: Configure user-local npm prefix
+      # Make `npm install -g` write to $HOME instead of /usr/local so this works
+      # in containers running as a non-root user (e.g. the Playwright image with
+      # `options: --user 1001`). Harmless when running as root.
+      shell: bash
+      run: |
+        mkdir -p "$HOME/.npm-global"
+        npm config set prefix "$HOME/.npm-global"
+        echo "$HOME/.npm-global/bin" >> "$GITHUB_PATH"
+
+    - name: Install declared npm version
+      shell: bash
+      run: |
+        DECLARED_NPM=$(node -e "const pm = require('./package.json').packageManager; console.log(pm.split('@')[1])")
+        npx "npm@$DECLARED_NPM" install -g "npm@$DECLARED_NPM"
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci
