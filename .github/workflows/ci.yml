@@ -40,30 +40,22 @@ jobs:
     if: github.event_name == 'pull_request'
     needs: checks
     runs-on: ubuntu-latest
+    # Use the official Playwright container: browsers + all system deps are
+    # pre-baked, so we skip ~4 min of apt-get for libgstreamer/libavcodec/etc.
+    #
+    # IMPORTANT: keep this image tag in lockstep with @playwright/test in
+    # package.json. Renovate/Dependabot can manage this — see follow-up issue.
+    # `--user 1001` avoids root-owned files in the workspace (per Playwright
+    # docs: https://playwright.dev/docs/ci#via-containers).
+    container:
+      image: mcr.microsoft.com/playwright:v1.59.1-noble
+      options: --user 1001
     steps:
       - uses: actions/checkout@v4
         name: Check out repository code
 
       - name: Setup
         uses: ./.github/actions/setup
-
-      - name: Cache Playwright browsers
-        id: playwright-cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            playwright-${{ runner.os }}-
-
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install
-
-      - name: Install Playwright system dependencies
-        # System deps live outside ~/.cache/ms-playwright and aren't covered by
-        # the cache, so install them on every run regardless of cache hit.
-        run: npx playwright install-deps
 
       - name: Wait for Cloudflare Pages Publish
         uses: lewagon/wait-on-check-action@v1.3.4
@@ -74,9 +66,12 @@ jobs:
           wait-interval: 15
 
       - name: Get BASE_URL from Cloudflare deployment
+        # Uses curl + jq instead of `gh` because the Playwright container image
+        # doesn't ship the GitHub CLI.
         run: |
-          PREVIEW_URL=$(gh api repos/${{ github.repository }}/commits/${{ github.event.pull_request.head.sha }}/check-runs \
-            --jq '.check_runs[] | select(.name == "Cloudflare Pages") | .output.summary' \
+          PREVIEW_URL=$(curl -sSfH "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/commits/${{ github.event.pull_request.head.sha }}/check-runs" \
+            | jq -r '.check_runs[] | select(.name == "Cloudflare Pages") | .output.summary' \
             | tr '\n' ' ' \
             | grep -o "Branch Preview URL.*href='[^']*'" \
             | grep -o "https://[^']*")

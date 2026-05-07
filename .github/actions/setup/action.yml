@@ -10,6 +10,16 @@ runs:
         node-version-file: ".nvmrc"
         cache: "npm"
 
+    - name: Configure user-local npm prefix
+      # Make `npm install -g` write to $HOME instead of /usr/local so this works
+      # in containers running as a non-root user (e.g. the Playwright image with
+      # `options: --user 1001`). Harmless when running as root.
+      shell: bash
+      run: |
+        mkdir -p "$HOME/.npm-global"
+        npm config set prefix "$HOME/.npm-global"
+        echo "$HOME/.npm-global/bin" >> "$GITHUB_PATH"
+
     - name: Install declared npm version
       shell: bash
       run: |
