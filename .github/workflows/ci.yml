@@ -60,6 +60,16 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
+      - name: Install libyaml for Ruby (used by wait-on-check-action)
+        # The Playwright noble image doesn't ship libyaml-0.so.2, but
+        # ruby/setup-ruby (pulled in transitively by lewagon/wait-on-check-action)
+        # downloads a Ruby 3.2 build whose psych.so dynamically links against it.
+        # Without this, Bundler crashes before the action can do anything.
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends libyaml-0-2
+        shell: bash
+
       - name: Wait for Cloudflare Pages Publish
         uses: lewagon/wait-on-check-action@v1.3.4
         with:
