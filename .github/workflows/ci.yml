@@ -66,6 +66,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SHA: ${{ github.event.pull_request.head.sha }}
           REPO: ${{ github.repository }}
+        shell: bash
         run: |
           set -euo pipefail
           for i in $(seq 1 60); do  # 60 * 15s = 15 min cap
