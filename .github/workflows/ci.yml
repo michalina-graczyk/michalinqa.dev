@@ -1,27 +1,24 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         name: Check out repository code
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
-
-      - name: Install declared npm version
-        run: |
-          DECLARED_NPM=$(node -e "const pm = require('./package.json').packageManager; console.log(pm.split('@')[1])")
-          npx "npm@$DECLARED_NPM" install -g "npm@$DECLARED_NPM"
-
-      - name: Install dependencies
-        run: npm ci
+      - name: Setup
+        uses: ./.github/actions/setup
 
       - name: Lint
         run: npm run lint
@@ -36,33 +33,37 @@ jobs:
         env:
           PUBLIC_MIXPANEL_TOKEN: ${{ vars.PUBLIC_MIXPANEL_TOKEN }}
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+  e2e:
+    # E2E runs only on PRs: it depends on Cloudflare Pages preview deployments,
+    # which aren't produced for push-to-main. Also gated on `checks` so we don't
+    # burn minutes waiting on Cloudflare when lint/typecheck/build already failed.
+    if: github.event_name == 'pull_request'
+    needs: checks
+    runs-on: ubuntu-latest
+    # Use the official Playwright container: browsers + all system deps are
+    # pre-baked, so we skip ~4 min of apt-get for libgstreamer/libavcodec/etc.
+    #
+    # IMPORTANT: keep this image tag in lockstep with @playwright/test in
+    # package.json. Renovate/Dependabot can manage this — see follow-up issue.
+    container:
+      image: mcr.microsoft.com/playwright:v1.59.1-noble
+    steps:
+      - uses: actions/checkout@v4
+        name: Check out repository code
 
-      - name: Wait for Cloudflare Pages Publish
-        if: github.ref != 'refs/heads/main'
-        uses: lewagon/wait-on-check-action@v1.3.4
-        with:
-          ref: ${{ github.ref }}
-          check-name: "Cloudflare Pages"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 15
+      - name: Setup
+        uses: ./.github/actions/setup
 
-      - name: Get BASE_URL from Cloudflare deployment
-        run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "BASE_URL=https://michalinqa-dev.pages.dev" >> $GITHUB_ENV
-          else
-            # Extract Branch Preview URL from Cloudflare Pages check output
-            PREVIEW_URL=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }}/check-runs \
-              --jq '.check_runs[] | select(.name == "Cloudflare Pages") | .output.summary' \
-              | tr '\n' ' ' \
-              | grep -o "Branch Preview URL.*href='[^']*'" \
-              | grep -o "https://[^']*")
-            echo "BASE_URL=${PREVIEW_URL}" >> $GITHUB_ENV
-          fi
+      - name: Wait for Cloudflare Pages & extract BASE_URL
+        # See .github/scripts/wait-cf-pages.mjs for the why/how. Replaces
+        # lewagon/wait-on-check-action (and its Ruby toolchain). Uses Node
+        # rather than bash+jq because the Playwright container ships neither
+        # jq nor a usable Ruby, and Node is already provisioned by ./setup.
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          REPO: ${{ github.repository }}
+        run: node .github/scripts/wait-cf-pages.mjs
 
       - name: Run Playwright tests
         run: npm run test:ci

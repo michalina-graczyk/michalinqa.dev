@@ -9,6 +9,8 @@ const offersCollection = defineCollection({
     description: z.string(),
     tags: z.array(z.string()),
     img_alt: z.string().optional(),
+    mode: z.enum(["booking", "waitlist"]).default("booking"),
+    waitlistSubject: z.string().optional(),
   }),
 });
 
