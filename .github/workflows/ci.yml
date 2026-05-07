@@ -55,47 +55,15 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Wait for Cloudflare Pages & extract BASE_URL
-        # Polls the GitHub Checks API for the "Cloudflare Pages" check run on
-        # this PR's head commit, then parses the preview URL out of the check's
-        # human-readable summary HTML. Replaces lewagon/wait-on-check-action,
-        # which dragged in a Ruby toolchain (and a missing libyaml in the
-        # Playwright noble image). Pure curl + jq, no third-party action, no
-        # apt-get install. The CF Pages summary format is unofficial — if
-        # Cloudflare changes it, update the grep below.
+        # See .github/scripts/wait-cf-pages.mjs for the why/how. Replaces
+        # lewagon/wait-on-check-action (and its Ruby toolchain). Uses Node
+        # rather than bash+jq because the Playwright container ships neither
+        # jq nor a usable Ruby, and Node is already provisioned by ./setup.
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SHA: ${{ github.event.pull_request.head.sha }}
           REPO: ${{ github.repository }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          for i in $(seq 1 60); do  # 60 * 15s = 15 min cap
-            RUN=$(curl -sSfH "Authorization: Bearer $GH_TOKEN" \
-              "https://api.github.com/repos/$REPO/commits/$SHA/check-runs" \
-              | jq '[.check_runs[] | select(.name == "Cloudflare Pages")] | last')
-            STATUS=$(echo "$RUN" | jq -r '.status // empty')
-            CONCL=$(echo "$RUN"  | jq -r '.conclusion // empty')
-            echo "attempt $i: status=$STATUS conclusion=$CONCL"
-            if [ "$STATUS" = "completed" ]; then
-              if [ "$CONCL" != "success" ]; then
-                echo "Cloudflare Pages check finished with conclusion=$CONCL"
-                exit 1
-              fi
-              URL=$(echo "$RUN" | jq -r '.output.summary' \
-                | tr '\n' ' ' \
-                | grep -o "Branch Preview URL.*href='[^']*'" \
-                | grep -o "https://[^']*")
-              if [ -z "$URL" ]; then
-                echo "Could not extract preview URL from CF Pages check summary"
-                exit 1
-              fi
-              echo "BASE_URL=$URL" >> "$GITHUB_ENV"
-              exit 0
-            fi
-            sleep 15
-          done
-          echo "Timed out waiting for Cloudflare Pages check run"
-          exit 1
+        run: node .github/scripts/wait-cf-pages.mjs
 
       - name: Run Playwright tests
         run: npm run test:ci
