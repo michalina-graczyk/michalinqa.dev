@@ -1,0 +1,21 @@
+name: Setup Node and dependencies
+description: Checkout, set up Node.js with npm cache, pin declared npm version, and run npm ci.
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: ".nvmrc"
+        cache: "npm"
+
+    - name: Install declared npm version
+      shell: bash
+      run: |
+        DECLARED_NPM=$(node -e "const pm = require('./package.json').packageManager; console.log(pm.split('@')[1])")
+        npx "npm@$DECLARED_NPM" install -g "npm@$DECLARED_NPM"
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci
