@@ -18,6 +18,8 @@ const { Content } = await render(offer);
   title={offer.data.title}
   description={offer.data.description}
   tags={offer.data.tags}
+  mode={offer.data.mode}
+  waitlistSubject={offer.data.waitlistSubject}
 >
   <Content />
 </OfferLayout>
