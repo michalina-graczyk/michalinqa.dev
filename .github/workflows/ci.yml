@@ -45,12 +45,6 @@ jobs:
     #
     # IMPORTANT: keep this image tag in lockstep with @playwright/test in
     # package.json. Renovate/Dependabot can manage this — see follow-up issue.
-    #
-    # We deliberately omit `options: --user 1001` (which the Playwright docs
-    # recommend) because third-party actions like lewagon/wait-on-check-action
-    # internally use ruby/setup-ruby, which writes to /opt/hostedtoolcache
-    # (host-mounted, root-owned) and fails under a non-root container user.
-    # Running as root is fine on ephemeral GH runners.
     container:
       image: mcr.microsoft.com/playwright:v1.59.1-noble
     steps:
@@ -60,37 +54,47 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Install libyaml for Ruby (used by wait-on-check-action)
-        # The Playwright noble image doesn't ship libyaml-0.so.2, but
-        # ruby/setup-ruby (pulled in transitively by lewagon/wait-on-check-action)
-        # downloads a Ruby 3.2 build whose psych.so dynamically links against it.
-        # Without this, Bundler crashes before the action can do anything.
-        run: |
-          apt-get update
-          apt-get install -y --no-install-recommends libyaml-0-2
-        shell: bash
-
-      - name: Wait for Cloudflare Pages Publish
-        uses: lewagon/wait-on-check-action@v1.3.4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          check-name: "Cloudflare Pages"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 15
-
-      - name: Get BASE_URL from Cloudflare deployment
-        # Uses curl + jq instead of `gh` because the Playwright container image
-        # doesn't ship the GitHub CLI.
-        run: |
-          PREVIEW_URL=$(curl -sSfH "Authorization: Bearer $GH_TOKEN" \
-            "https://api.github.com/repos/${{ github.repository }}/commits/${{ github.event.pull_request.head.sha }}/check-runs" \
-            | jq -r '.check_runs[] | select(.name == "Cloudflare Pages") | .output.summary' \
-            | tr '\n' ' ' \
-            | grep -o "Branch Preview URL.*href='[^']*'" \
-            | grep -o "https://[^']*")
-          echo "BASE_URL=${PREVIEW_URL}" >> $GITHUB_ENV
+      - name: Wait for Cloudflare Pages & extract BASE_URL
+        # Polls the GitHub Checks API for the "Cloudflare Pages" check run on
+        # this PR's head commit, then parses the preview URL out of the check's
+        # human-readable summary HTML. Replaces lewagon/wait-on-check-action,
+        # which dragged in a Ruby toolchain (and a missing libyaml in the
+        # Playwright noble image). Pure curl + jq, no third-party action, no
+        # apt-get install. The CF Pages summary format is unofficial — if
+        # Cloudflare changes it, update the grep below.
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 60); do  # 60 * 15s = 15 min cap
+            RUN=$(curl -sSfH "Authorization: Bearer $GH_TOKEN" \
+              "https://api.github.com/repos/$REPO/commits/$SHA/check-runs" \
+              | jq '[.check_runs[] | select(.name == "Cloudflare Pages")] | last')
+            STATUS=$(echo "$RUN" | jq -r '.status // empty')
+            CONCL=$(echo "$RUN"  | jq -r '.conclusion // empty')
+            echo "attempt $i: status=$STATUS conclusion=$CONCL"
+            if [ "$STATUS" = "completed" ]; then
+              if [ "$CONCL" != "success" ]; then
+                echo "Cloudflare Pages check finished with conclusion=$CONCL"
+                exit 1
+              fi
+              URL=$(echo "$RUN" | jq -r '.output.summary' \
+                | tr '\n' ' ' \
+                | grep -o "Branch Preview URL.*href='[^']*'" \
+                | grep -o "https://[^']*")
+              if [ -z "$URL" ]; then
+                echo "Could not extract preview URL from CF Pages check summary"
+                exit 1
+              fi
+              echo "BASE_URL=$URL" >> "$GITHUB_ENV"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "Timed out waiting for Cloudflare Pages check run"
+          exit 1
 
       - name: Run Playwright tests
         run: npm run test:ci
