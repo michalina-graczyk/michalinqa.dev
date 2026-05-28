@@ -54,6 +54,7 @@ test.describe("CV Page", () => {
       "Doświadczenie",
       "Edukacja",
       "Certyfikaty",
+      "Wystąpienia",
       "Publikacje",
     ];
 
@@ -82,5 +83,41 @@ test.describe("CV Page", () => {
     await expect(page.getByText("ID: 06281/FLCT/2016")).toBeVisible();
     // Datadog has a credential ID
     await expect(page.getByText("ID: eukfvuvi0u")).toBeVisible();
+  });
+
+  test("CV talks section shows Testing Station entry with listen links", async ({
+    page,
+  }) => {
+    await expect(
+      page.getByRole("heading", { name: "Wystąpienia" }),
+    ).toBeVisible();
+
+    await expect(
+      page.getByRole("heading", {
+        name: "O testowaniu asystenta AI, pracy w InPost i nowych kierunkach QA",
+      }),
+    ).toBeVisible();
+
+    await expect(page.getByText("Testing Station")).toBeVisible();
+
+    const talksSection = page
+      .getByRole("heading", { name: "Wystąpienia" })
+      .locator("xpath=ancestor::section");
+
+    await expect(
+      talksSection.getByRole("link", { name: "YouTube" }),
+    ).toHaveAttribute("href", "https://www.youtube.com/watch?v=H9tyKlE9Hzc");
+    await expect(
+      talksSection.getByRole("link", { name: "Spotify" }),
+    ).toHaveAttribute(
+      "href",
+      "https://open.spotify.com/episode/5ycBXVusQImSyjXmkne3mu",
+    );
+    await expect(
+      talksSection.getByRole("link", { name: "Apple Podcasts" }),
+    ).toHaveAttribute(
+      "href",
+      "https://podcasts.apple.com/us/podcast/21-o-testowaniu-asystenta-ai-pracy-w-inpost-i-nowych/id1801809925?i=1000766797678",
+    );
   });
 });
