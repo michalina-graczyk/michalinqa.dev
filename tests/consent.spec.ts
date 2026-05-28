@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { CONSENT_KEY } from "../src/lib/consent";
+import { failOnMixpanelRequest } from "./helpers/mixpanel";
 
 test.describe("GDPR Consent Flow", () => {
   // Each test gets a fresh browser context with clean localStorage by default
@@ -47,6 +48,8 @@ test.describe("GDPR Consent Flow", () => {
     page,
     baseURL,
   }) => {
+    // Fail fast if Mixpanel SDK is fetched despite rejection
+    await failOnMixpanelRequest(page);
     await page.goto(baseURL!);
 
     const banner = page.locator('[data-testid="consent-banner"]');
@@ -94,6 +97,8 @@ test.describe("GDPR Consent Flow", () => {
     page,
     baseURL,
   }) => {
+    // Fail fast if Mixpanel SDK is fetched despite stored rejection
+    await failOnMixpanelRequest(page);
     // Set rejection before page loads
     await page.addInitScript((key) => {
       localStorage.setItem(key, "rejected");

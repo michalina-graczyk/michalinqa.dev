@@ -220,8 +220,14 @@ test.describe("Page Navigation", () => {
         await page.goto(`${baseURL}/blog`);
         await acceptConsentIfVisible(page);
         const blogLink = page.locator('nav a:has-text("Blog")');
-        await expect(blogLink).toHaveClass(/border-b-2/);
-        await expect(blogLink).toHaveClass(/border-orange/);
+        // Assert the actually rendered underline rather than Tailwind class
+        // names, so the test survives utility-class refactors and catches
+        // regressions in the design token (--color-orange = #e06330).
+        await expect(blogLink).toHaveCSS("border-bottom-width", "2px");
+        await expect(blogLink).toHaveCSS(
+          "border-bottom-color",
+          "rgb(224, 99, 48)",
+        );
       }
     });
   });
