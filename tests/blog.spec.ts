@@ -230,7 +230,7 @@ test.describe("Blog", () => {
 
       const main = page.locator("main");
       await expect(
-        main.locator('a[href*="youtube.com/watch?v=H9tyKlE9Hzc"]').first(),
+        main.locator('lite-youtube[videoid="H9tyKlE9Hzc"]'),
       ).toBeVisible();
       await expect(
         main.locator(
