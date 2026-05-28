@@ -207,4 +207,41 @@ test.describe("Blog", () => {
       await expect(page.locator("html")).toHaveAttribute("lang", "en");
     });
   });
+
+  test.describe("Testing Station post", () => {
+    const slug = "/blog/testing-station-llm-qa-w-praktyce";
+
+    test("appears on the blog listing", async ({ page, baseURL }) => {
+      await page.goto(`${baseURL}/blog`);
+      await acceptConsentIfVisible(page);
+
+      const link = page.locator(`main a[href="${slug}"]`).first();
+      await expect(link).toBeVisible();
+    });
+
+    test("renders post detail with all three podcast links", async ({
+      page,
+      baseURL,
+    }) => {
+      await page.goto(`${baseURL}${slug}`);
+      await acceptConsentIfVisible(page);
+
+      await expect(page.locator("main h1")).toContainText("Testing Station");
+
+      const main = page.locator("main");
+      await expect(
+        main.locator('a[href="https://www.youtube.com/watch?v=H9tyKlE9Hzc"]'),
+      ).toBeVisible();
+      await expect(
+        main.locator(
+          'a[href="https://open.spotify.com/episode/5ycBXVusQImSyjXmkne3mu"]',
+        ),
+      ).toBeVisible();
+      await expect(
+        main.locator(
+          'a[href="https://podcasts.apple.com/us/podcast/21-o-testowaniu-asystenta-ai-pracy-w-inpost-i-nowych/id1801809925?i=1000766797678"]',
+        ),
+      ).toBeVisible();
+    });
+  });
 });
