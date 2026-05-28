@@ -111,7 +111,7 @@ import cvData from "@data/cv.json";
         <SectionTitle>Wystąpienia</SectionTitle>
         <div class="space-y-6 text-black dark:text-white">
           {
-            cvData.talks.map((talk) => (
+            (cvData.talks ?? []).map((talk) => (
               <div>
                 <h3 class="text-xl font-bold">{talk.title}</h3>
                 <p class="text-orange">
@@ -128,7 +128,7 @@ import cvData from "@data/cv.json";
                     <a
                       href={link.url}
                       target="_blank"
-                      rel="noopener"
+                      rel="noopener noreferrer"
                       class="inline-flex items-center text-black hover:text-orange dark:text-white dark:hover:text-orange"
                     >
                       <Icon class="h-5 w-5 mr-1" name={link.icon} />
