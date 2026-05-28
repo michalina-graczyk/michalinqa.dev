@@ -124,7 +124,7 @@ import cvData from "@data/cv.json";
                 )}
                 {talk.summary && <p class="mt-2">{talk.summary}</p>}
                 <div class="mt-2 flex flex-wrap gap-4">
-                  {talk.links.map((link) => (
+                  {(talk.links ?? []).map((link) => (
                     <a
                       href={link.url}
                       target="_blank"

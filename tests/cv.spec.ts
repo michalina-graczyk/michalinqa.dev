@@ -98,11 +98,11 @@ test.describe("CV Page", () => {
       }),
     ).toBeVisible();
 
-    await expect(page.getByText("Testing Station")).toBeVisible();
-
     const talksSection = page
       .getByRole("heading", { name: "Wystąpienia" })
       .locator("xpath=ancestor::section");
+
+    await expect(talksSection.getByText("Testing Station")).toBeVisible();
 
     await expect(
       talksSection.getByRole("link", { name: "YouTube" }),
