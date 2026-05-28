@@ -28,12 +28,24 @@ test.describe("Page Content", () => {
       "about",
       "offers",
       "testimonials",
+      "media",
       "contact",
       "footer",
     ];
     for (const section of sections) {
       await expect(page.locator(`[data-testid="${section}"]`)).toBeVisible();
     }
+  });
+
+  test("Media section shows Testing Station with listen links", async ({
+    page,
+  }) => {
+    const media = page.locator('[data-testid="media"]');
+    await expect(media).toBeVisible();
+    await expect(media.getByText("Testing Station")).toBeVisible();
+    await expect(
+      media.getByRole("link", { name: "YouTube" }).first(),
+    ).toHaveAttribute("href", "https://www.youtube.com/watch?v=H9tyKlE9Hzc");
   });
 
   test("Blog page has correct meta description", async ({ page, baseURL }) => {

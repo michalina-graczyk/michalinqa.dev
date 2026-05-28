@@ -123,5 +123,33 @@
       "title": "From Cypress to Playwright - Saleor's Voyage",
       "date": "lis 2024"
     }
+  ],
+  "talks": [
+    {
+      "title": "O testowaniu asystenta AI, pracy w InPost i nowych kierunkach QA",
+      "show": "Testing Station",
+      "episode": "S03E01",
+      "host": "Arkadiusz Jelonek",
+      "date": "maj 2026",
+      "lang": "pl",
+      "summary": "Rozmowa o testowaniu asystenta AI InPost: human-in-the-loop, golden set, guardrails, LLM-as-a-judge i przyszłości roli QA.",
+      "links": [
+        {
+          "label": "YouTube",
+          "url": "https://www.youtube.com/watch?v=H9tyKlE9Hzc",
+          "icon": "simple-icons:youtube"
+        },
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/episode/5ycBXVusQImSyjXmkne3mu",
+          "icon": "simple-icons:spotify"
+        },
+        {
+          "label": "Apple Podcasts",
+          "url": "https://podcasts.apple.com/us/podcast/21-o-testowaniu-asystenta-ai-pracy-w-inpost-i-nowych/id1801809925?i=1000766797678",
+          "icon": "simple-icons:applepodcasts"
+        }
+      ]
+    }
   ]
 }
