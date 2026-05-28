@@ -12,11 +12,6 @@ const offers = [
     title: "Mentoring 1:1",
     mode: "waitlist" as const,
   },
-  {
-    slug: "ai-qa-toolkit",
-    title: "AI dla QA Engineers",
-    mode: "waitlist" as const,
-  },
 ];
 
 // Default subject derived from title (mirrors `buildWaitlistSubject` in
@@ -33,7 +28,7 @@ test.describe("Offers", () => {
         '[data-testid="offers"] a[href^="/offers/"]',
       );
       const count = await offerCards.count();
-      expect(count).toBe(2);
+      expect(count).toBe(1);
 
       // Verify each card links to correct internal page
       for (const offer of offers) {
@@ -69,7 +64,7 @@ test.describe("Offers", () => {
 
       const cards = page.locator('[data-testid="card"]');
       const count = await cards.count();
-      expect(count).toBe(2);
+      expect(count).toBe(1);
 
       const heights: number[] = [];
       for (let i = 0; i < count; i++) {

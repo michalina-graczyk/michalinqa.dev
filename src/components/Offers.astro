@@ -4,27 +4,76 @@ import SectionTitle from "@components/ui/SectionTitle.astro";
 import { getCollection } from "astro:content";
 
 const offers = await getCollection("offers");
+
+// When only one offer is live we pair it with an editorial lead column so the
+// section feels intentional instead of a lonely card floating in a sea of
+// negative space. Multi-offer state keeps the original wrapping flex row.
+const isSingle = offers.length === 1;
 ---
 
 <section
   data-testid="offers"
   id="offers"
-  class="mb-10 flex flex-col items-center justify-center lg:mb-0 lg:min-h-dvh"
+  class="mb-10 flex flex-col items-center justify-center py-16 lg:mb-0 lg:py-24"
 >
   <SectionTitle>Oferta</SectionTitle>
-  <div class="mb-10 flex w-full flex-col flex-wrap items-stretch justify-center md:flex-row">
-    {
-      offers.map((offer) => (
-        <Card
-          url={`/offers/${offer.id}`}
-          slug={offer.id}
-          title={offer.data.title}
-          description={offer.data.description}
-          alt={offer.data.img_alt}
-          tags={offer.data.tags}
-          mode={offer.data.mode}
-        />
-      ))
-    }
-  </div>
+  {
+    isSingle ? (
+      <div class="grid w-full max-w-6xl items-center gap-10 px-4 lg:grid-cols-2 lg:gap-16">
+        <div class="order-2 flex max-w-prose flex-col gap-4 text-black dark:text-white lg:order-1">
+          <p class="text-lg leading-relaxed">
+            Skupiam się teraz na pracy 1:1 z osobami, które chcą świadomie
+            poruszać się w QA napędzanym przez AI - zamiast rozpraszać uwagę
+            na wiele formatów naraz.
+          </p>
+          <p class="text-black/80 dark:text-white/80">
+            Jeśli ten format do Ciebie nie pasuje, najnowsze przemyślenia i
+            materiały publikuję na{" "}
+            <a
+              href="/blog"
+              class="text-orange underline-offset-4 hover:underline"
+            >
+              blogu
+            </a>{" "}
+            oraz w{" "}
+            <a
+              href="#contact"
+              class="text-orange underline-offset-4 hover:underline"
+            >
+              newsletterze
+            </a>
+            .
+          </p>
+        </div>
+        <div class="order-1 flex w-full justify-center lg:order-2">
+          {offers.map((offer) => (
+            <Card
+              url={`/offers/${offer.id}`}
+              slug={offer.id}
+              title={offer.data.title}
+              description={offer.data.description}
+              alt={offer.data.img_alt}
+              tags={offer.data.tags}
+              mode={offer.data.mode}
+              wrapperClass="flex w-full max-w-md flex-col p-4"
+            />
+          ))}
+        </div>
+      </div>
+    ) : (
+      <div class="mb-10 flex w-full flex-col flex-wrap items-stretch justify-center md:flex-row">
+        {offers.map((offer) => (
+          <Card
+            url={`/offers/${offer.id}`}
+            slug={offer.id}
+            title={offer.data.title}
+            description={offer.data.description}
+            alt={offer.data.img_alt}
+            tags={offer.data.tags}
+            mode={offer.data.mode}
+          />
+        ))}
+      </div>
+    )
+  }
 </section>

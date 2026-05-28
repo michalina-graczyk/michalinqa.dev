@@ -19,6 +19,12 @@ interface Props {
   description: string;
   tags: string[];
   mode?: "booking" | "waitlist";
+  /**
+   * Tailwind classes for the outer wrapper. Defaults to a 1/3-width column
+   * sized for a 3-card row. Override when a parent layout needs the card to
+   * fill a different slot (e.g. single-offer hero composition in `Offers.astro`).
+   */
+  wrapperClass?: string;
 }
 
 interface ImageMap {
@@ -29,7 +35,6 @@ interface ImageMap {
 // a new offer file, also add its image here.
 const imageMap: ImageMap = {
   konsultacje: consultationImage,
-  "ai-qa-toolkit": fallbackImage,
 };
 
 const {
@@ -40,12 +45,13 @@ const {
   title = "Project title",
   tags = ["Tags"],
   mode = "booking",
+  wrapperClass = "w-full p-4 lg:w-1/3 flex flex-col",
 } = Astro.props;
 
 const image = (slug && imageMap[slug]) ?? fallbackImage;
 ---
 
-<section class="w-full p-4 lg:w-1/3 flex flex-col">
+<section class={wrapperClass}>
   <article
     data-testid="card"
     class="flex flex-1 flex-col rounded-xl bg-white dark:bg-gray-800 p-3 shadow-lg dark:shadow-orange/20 transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-orange/10 dark:hover:shadow-orange/30 motion-reduce:transition-none motion-reduce:hover:scale-100"
