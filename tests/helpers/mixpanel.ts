@@ -1,9 +1,29 @@
-import { expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
 import type { EventName } from "../../src/lib/tracking";
 
 // Re-export TrackingEvents and EventName for use in tests
 export { TrackingEvents, type EventName } from "../../src/lib/tracking";
+
+/**
+ * Fail the test the moment any Mixpanel network request is issued.
+ *
+ * Use in tests that assert Mixpanel must NOT load (rejected consent, pre-consent
+ * state, etc.). Catches regressions that the `!window.mixpanel` check at the end
+ * of a test would miss — e.g. SDK URL fetched but global not yet attached.
+ *
+ * Backed by Playwright 1.60's `test.abort()`, which fails fast from a route
+ * handler with a clear message instead of letting the test time out.
+ */
+export async function failOnMixpanelRequest(page: Page) {
+  await page.route("**/*mixpanel*", (route) => {
+    test.abort(
+      `Unexpected Mixpanel request: ${route.request().url()}. ` +
+        `Mixpanel must not load without accepted consent.`,
+    );
+    return route.abort();
+  });
+}
 
 /**
  * Accept analytics consent if the banner is visible.
