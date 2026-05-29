@@ -25,10 +25,10 @@ test.describe("Page Content", () => {
 
     const sections = [
       "hero",
+      "latest-posts",
       "about",
       "offers",
-      "testimonials",
-      "media",
+      "social-proof",
       "contact",
       "footer",
     ];
@@ -37,15 +37,21 @@ test.describe("Page Content", () => {
     }
   });
 
-  test("Media section shows Testing Station with listen links", async ({
+  test("SocialProof media strip shows Testing Station with primary listen link", async ({
     page,
   }) => {
-    const media = page.locator('[data-testid="media"]');
-    await expect(media).toBeVisible();
-    await expect(media.getByText("Testing Station")).toBeVisible();
-    await expect(
-      media.getByRole("link", { name: "YouTube" }).first(),
-    ).toHaveAttribute("href", "https://www.youtube.com/watch?v=H9tyKlE9Hzc");
+    const sp = page.locator('[data-testid="social-proof"]');
+    await expect(sp).toBeVisible();
+    await expect(sp.getByText("Testing Station")).toBeVisible();
+
+    const pills = sp.locator('[data-testid="social-proof-media-pill"]');
+    await expect(pills).not.toHaveCount(0);
+    // The primary link for the Testing Station talk is the YouTube URL
+    // (first entry in talk.links in cv.json).
+    await expect(pills.first()).toHaveAttribute(
+      "href",
+      "https://www.youtube.com/watch?v=H9tyKlE9Hzc",
+    );
   });
 
   test("Blog page has correct meta description", async ({ page, baseURL }) => {
@@ -73,22 +79,24 @@ test.describe("Page Content", () => {
     });
   });
 
-  test.describe("Testimonials Section", () => {
+  test.describe("SocialProof Testimonials", () => {
     test("Testimonials are displayed with correct content", async ({
       page,
     }) => {
-      const testimonials = page.locator('[data-testid="testimonials"]');
-      await expect(testimonials).toBeVisible();
+      const sp = page.locator('[data-testid="social-proof"]');
+      await expect(sp).toBeVisible();
 
-      // Check section title
-      await expect(testimonials.locator("h2")).toHaveText("Co mówią inni");
+      // Section title (single h2 covers both testimonials and media)
+      await expect(sp.locator("h2")).toHaveText("Społeczność");
 
-      // Check testimonial cards
-      const testimonialCards = testimonials.locator("article");
+      // Testimonial cards
+      const testimonialCards = sp.locator(
+        '[data-testid="social-proof-testimonial"]',
+      );
       await expect(testimonialCards).toHaveCount(2);
 
-      // Verify LinkedIn links are present and open in new tab
-      const linkedInLinks = testimonials.locator('a[href*="linkedin.com"]');
+      // LinkedIn links still present, open in new tab
+      const linkedInLinks = sp.locator('a[href*="linkedin.com"]');
       await expect(linkedInLinks).toHaveCount(2);
 
       for (const link of await linkedInLinks.all()) {

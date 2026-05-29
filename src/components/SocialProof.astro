@@ -1,0 +1,98 @@
+---
+import { Icon } from "astro-icon/components";
+import SectionTitle from "@components/ui/SectionTitle.astro";
+import cvData from "@data/cv.json";
+
+const testimonials = [
+  {
+    name: "Patryk Andrzejewski",
+    role: "Product Engineer",
+    company: "Saleor Commerce",
+    linkedIn: "https://www.linkedin.com/in/patryk-andrzejewski/",
+    quote:
+      "She took ownership of our end-to-end software quality in a way that made everyone feel more confident about what we were shipping. She's professional, experienced, and honestly just great to work with.",
+  },
+  {
+    name: "Gabriela Salamon",
+    role: "People & Culture",
+    company: "Saleor Commerce",
+    linkedIn: "https://www.linkedin.com/in/gabrielasalamon/",
+    quote:
+      "Michalina has been an incredible support to every team member - always approachable, always encouraging, and deeply committed to everyone's success.",
+  },
+];
+
+const talks = cvData.talks ?? [];
+---
+
+<section
+  data-testid="social-proof"
+  id="social-proof"
+  class="w-full bg-gray-50 py-16 dark:bg-gray-950 lg:py-24"
+>
+  <div class="mx-auto w-full max-w-6xl px-4">
+    <SectionTitle>Społeczność</SectionTitle>
+
+    <div class="flex w-full flex-col gap-6 md:flex-row md:gap-8">
+      {
+        testimonials.map((t) => (
+          <article
+            data-testid="social-proof-testimonial"
+            class="flex-1 rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800 dark:shadow-orange/20"
+          >
+            <blockquote class="mb-4 italic text-black dark:text-white">
+              "{t.quote}"
+            </blockquote>
+            <footer class="text-sm">
+              <a
+                href={t.linkedIn}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-semibold text-orange hover:underline"
+              >
+                {t.name}
+              </a>
+              <p class="text-gray-600 dark:text-gray-400">
+                {t.role}, {t.company}
+              </p>
+            </footer>
+          </article>
+        ))
+      }
+    </div>
+
+    {
+      talks.length > 0 && (
+        <div class="mt-12">
+          <h3 class="mb-4 text-sm font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400">
+            Usłyszysz mnie też w
+          </h3>
+          <ul class="flex flex-wrap gap-3">
+            {talks.map((talk) => {
+              const primaryLink = (talk.links ?? [])[0];
+              if (!primaryLink) return null;
+              const label = talk.episode
+                ? `${talk.show} • ${talk.episode}`
+                : talk.show;
+              return (
+                <li>
+                  <a
+                    data-testid="social-proof-media-pill"
+                    href={primaryLink.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={talk.summary ?? ""}
+                    class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-black shadow-sm hover:bg-orange/10 hover:text-orange dark:bg-gray-800 dark:text-white dark:hover:bg-orange/20 dark:hover:text-orange"
+                  >
+                    <Icon name={primaryLink.icon} class="h-4 w-4" />
+                    <span>{label}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )
+    }
+  </div>
+</section>
