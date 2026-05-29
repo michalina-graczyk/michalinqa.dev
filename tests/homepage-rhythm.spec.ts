@@ -72,4 +72,42 @@ test.describe("Homepage section rhythm", () => {
       });
     }
   });
+
+  test.describe("Section count and order", () => {
+    test("page renders exactly the 6 expected sections in order", async ({
+      page,
+      baseURL,
+    }) => {
+      await page.goto(baseURL!);
+      await acceptConsentIfVisible(page);
+
+      const expected = [
+        "hero",
+        "latest-posts",
+        "about",
+        "offers",
+        "social-proof",
+        "contact",
+      ];
+
+      const tops = await page.evaluate((ids) => {
+        return ids.map((id) => {
+          const el = document.querySelector(`[data-testid="${id}"]`);
+          return el
+            ? el.getBoundingClientRect().top + window.scrollY
+            : null;
+        });
+      }, expected);
+
+      for (let i = 0; i < tops.length; i++) {
+        expect(tops[i], `section '${expected[i]}' missing`).not.toBeNull();
+      }
+      for (let i = 1; i < tops.length; i++) {
+        expect(
+          tops[i]!,
+          `'${expected[i]}' must follow '${expected[i - 1]}'`,
+        ).toBeGreaterThan(tops[i - 1]!);
+      }
+    });
+  });
 });
