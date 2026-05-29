@@ -20,4 +20,23 @@ test.describe("Homepage section rhythm", () => {
       expect(box!.y).toBeLessThan(800);
     });
   });
+
+  test.describe("About no longer claims full viewport", () => {
+    test.use({ viewport: { width: 1280, height: 800 } });
+
+    test("About section height is well under 100vh on desktop", async ({
+      page,
+      baseURL,
+    }) => {
+      await page.goto(baseURL!);
+      await acceptConsentIfVisible(page);
+
+      const about = page.locator('[data-testid="about"]');
+      const box = await about.boundingBox();
+      expect(box).not.toBeNull();
+      // Before this refactor About used lg:min-h-dvh = 800px. Anything below
+      // that proves the claim was dropped.
+      expect(box!.height).toBeLessThan(800);
+    });
+  });
 });
