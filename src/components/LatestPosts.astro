@@ -5,14 +5,14 @@ import { getPublishedPosts, getLanguageFlag } from "@lib/blog";
 
 const posts = await getPublishedPosts();
 
+// .toSorted() avoids mutating the array returned by getCollection (shared cache).
 const latestPosts = posts
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .toSorted((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
 ---
 
 <section
   data-testid="latest-posts"
-  aria-label="Z bloga"
   class="mx-auto w-full max-w-3xl px-4 py-16 lg:py-24"
 >
   <SectionTitle>
