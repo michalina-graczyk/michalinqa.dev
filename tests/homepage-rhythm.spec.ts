@@ -46,11 +46,7 @@ test.describe("Homepage section rhythm", () => {
       await acceptConsentIfVisible(page);
     });
 
-    const tintedSections = [
-      "latest-posts",
-      "offers",
-      "social-proof",
-    ] as const;
+    const tintedSections = ["latest-posts", "offers", "social-proof"] as const;
 
     for (const id of tintedSections) {
       test(`'${id}' carries the tinted background class`, async ({ page }) => {
@@ -93,9 +89,7 @@ test.describe("Homepage section rhythm", () => {
       const tops = await page.evaluate((ids) => {
         return ids.map((id) => {
           const el = document.querySelector(`[data-testid="${id}"]`);
-          return el
-            ? el.getBoundingClientRect().top + window.scrollY
-            : null;
+          return el ? el.getBoundingClientRect().top + window.scrollY : null;
         });
       }, expected);
 
