@@ -1,6 +1,18 @@
+---
+const hasSubtitle = Astro.slots.has("subtitle");
+---
+
 <div class="flex flex-col flex-wrap items-center justify-center">
   <h2 class="font-monospace text-2xl text-orange lg:text-4xl">
     <slot />
   </h2>
-  <span class="mb-6 ml-2 h-1 w-10 bg-orange"></span>
+  <span class:list={["ml-2 h-1 w-10 bg-orange", hasSubtitle ? "mb-3" : "mb-6"]}
+  ></span>
+  {
+    hasSubtitle && (
+      <p class="mb-6 max-w-xl px-4 text-center text-sm text-gray-600 dark:text-gray-400">
+        <slot name="subtitle" />
+      </p>
+    )
+  }
 </div>
