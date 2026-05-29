@@ -13,9 +13,10 @@ const latestPosts = posts
 
 <section
   data-testid="latest-posts"
-  class="mx-auto w-full max-w-3xl px-4 py-16 lg:py-24"
+  class="w-full bg-gray-50 py-16 dark:bg-gray-950 lg:py-24"
 >
-  <SectionTitle>
+  <div class="mx-auto w-full max-w-3xl px-4">
+    <SectionTitle>
     Z bloga
     <Fragment slot="subtitle">
       Najnowsze wpisy o jakości, testach i LLM-ach
@@ -104,6 +105,7 @@ const latestPosts = posts
       </div>
     )
   }
+  </div>
 </section>
 
 <style>

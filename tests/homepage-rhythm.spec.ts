@@ -39,4 +39,37 @@ test.describe("Homepage section rhythm", () => {
       expect(box!.height).toBeLessThan(800);
     });
   });
+
+  test.describe("Anchor-zone backgrounds", () => {
+    test.beforeEach(async ({ page, baseURL }) => {
+      await page.goto(baseURL!);
+      await acceptConsentIfVisible(page);
+    });
+
+    const tintedSections = [
+      "latest-posts",
+      "offers",
+      "social-proof",
+    ] as const;
+
+    for (const id of tintedSections) {
+      test(`'${id}' carries the tinted background class`, async ({ page }) => {
+        const section = page.locator(`[data-testid="${id}"]`);
+        await expect(section).toHaveClass(/bg-gray-50/);
+        await expect(section).toHaveClass(/dark:bg-gray-950/);
+      });
+    }
+
+    const anchorSections = ["hero", "about", "contact"] as const;
+    for (const id of anchorSections) {
+      test(`'${id}' does NOT carry the tinted background class`, async ({
+        page,
+      }) => {
+        const section = page.locator(`[data-testid="${id}"]`);
+        const cls = (await section.getAttribute("class")) ?? "";
+        expect(cls).not.toMatch(/\bbg-gray-50\b/);
+        expect(cls).not.toMatch(/\bdark:bg-gray-950\b/);
+      });
+    }
+  });
 });
