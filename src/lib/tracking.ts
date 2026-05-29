@@ -20,6 +20,8 @@ export const TrackingEvents = {
   OFFER_BOOKING_CLICKED: "Offer Booking Clicked",
   OFFER_WAITLIST_CLICKED: "Offer Waitlist Clicked",
   NEWSLETTER_SIGNUP_CLICKED: "Newsletter Signup Clicked",
+  BLOG_TEASER_CLICKED: "Blog Teaser Clicked",
+  BLOG_TEASER_VIEW_ALL_CLICKED: "Blog Teaser View All Clicked",
 } as const;
 
 export type EventName = (typeof TrackingEvents)[keyof typeof TrackingEvents];

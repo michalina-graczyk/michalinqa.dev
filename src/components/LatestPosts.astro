@@ -1,0 +1,148 @@
+---
+import SectionTitle from "@components/ui/SectionTitle.astro";
+import { Icon } from "astro-icon/components";
+import { getPublishedPosts, getLanguageFlag } from "@lib/blog";
+
+const posts = await getPublishedPosts();
+
+// .toSorted() avoids mutating the array returned by getCollection (shared cache).
+const latestPosts = posts
+  .toSorted((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<section
+  data-testid="latest-posts"
+  class="mx-auto w-full max-w-3xl px-4 py-16 lg:py-24"
+>
+  <SectionTitle>
+    Z bloga
+    <Fragment slot="subtitle">
+      Najnowsze wpisy o jakości, testach i LLM-ach
+    </Fragment>
+  </SectionTitle>
+
+  {
+    latestPosts.length === 0 ? (
+      <div class="mt-8 text-center">
+        <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-orange/10">
+          <Icon name="mdi:pencil-outline" class="h-8 w-8 text-orange" />
+        </div>
+        <p class="text-lg text-gray-600 dark:text-gray-400">
+          Wkrótce pojawią się nowe artykuły. Zapraszam wkrótce!
+        </p>
+      </div>
+    ) : (
+      <ul class="mt-4 divide-y divide-black/10 dark:divide-white/10">
+        {latestPosts.map((post, index) => {
+          const formattedDate = post.data.date.toLocaleDateString("pl-PL", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          });
+          const isoDate = post.data.date.toISOString();
+          const langLabel =
+            post.data.lang === "pl" ? "Wpis po polsku" : "Post in English";
+          const tags = (post.data.tags ?? []).slice(0, 3);
+
+          return (
+            <li>
+              <article class="py-6 lg:py-8">
+                <div class="mb-2 flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
+                  <time datetime={isoDate}>{formattedDate}</time>
+                  <span class="inline-flex items-center text-base leading-none">
+                    <span aria-hidden="true">
+                      {getLanguageFlag(post.data.lang)}
+                    </span>
+                    <span class="sr-only">{langLabel}</span>
+                  </span>
+                </div>
+
+                <h3 class="mb-2 text-xl font-bold text-black dark:text-white lg:text-2xl">
+                  <a
+                    href={`/blog/${post.id}`}
+                    data-blog-teaser-link
+                    data-slug={post.id}
+                    data-position={index}
+                    class="latest-post-title-link bg-no-repeat focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+                  >
+                    {post.data.title}
+                  </a>
+                </h3>
+
+                <p class="mb-3 line-clamp-1 text-gray-600 dark:text-gray-400 lg:line-clamp-2">
+                  {post.data.excerpt}
+                </p>
+
+                {tags.length > 0 && (
+                  <div class="flex flex-wrap gap-2">
+                    {tags.map((tag) => (
+                      <span class="rounded-full border border-orange/30 bg-orange/10 px-2.5 py-0.5 text-xs font-medium text-orange">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </article>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div class="mt-6 flex justify-end">
+        <a
+          href="/blog"
+          data-blog-teaser-view-all
+          class="latest-posts-view-all group inline-flex items-center gap-1 text-sm font-medium text-orange focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+        >
+          Wszystkie wpisy
+          <Icon
+            name="mdi:arrow-right"
+            class="h-4 w-4 transition-transform duration-150 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+          />
+        </a>
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .latest-post-title-link {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-size: 0 1px;
+    transition:
+      background-size 200ms ease-out,
+      color 200ms ease-out;
+  }
+
+  .latest-post-title-link:hover,
+  .latest-post-title-link:focus-visible {
+    color: var(--color-orange);
+    background-size: 100% 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .latest-post-title-link {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { trackClick, TrackingEvents } from "@lib/tracking";
+
+  trackClick(
+    "[data-blog-teaser-link]",
+    TrackingEvents.BLOG_TEASER_CLICKED,
+    (el) => ({
+      slug: el.getAttribute("data-slug") ?? "",
+      position: Number(el.getAttribute("data-position") ?? 0),
+    }),
+  );
+
+  trackClick(
+    "[data-blog-teaser-view-all]",
+    TrackingEvents.BLOG_TEASER_VIEW_ALL_CLICKED,
+  );
+</script>
