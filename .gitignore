@@ -31,3 +31,8 @@ test-results/
 .idea/
 
 .superpowers/
+
+# local private folders
+_playbook-premium/
+mentoring/
+playwright-ai-starter-kit/
