@@ -7,7 +7,7 @@ lang: pl
 draft: false
 ---
 
-Jeśli czytałeś poprzednie wpisy z serii, wiesz już, z czym wiąże się [niedeterminizm LLM-ów](/blog/ach-ta-niedeterministycznosc/) i dlaczego tradycyjne asercje w QA tu nie zadziałają. Omówiliśmy już [kategorie oceny (evals)](/blog/evals-co-wlasciwie-oceniamy/) oraz zbudowaliśmy nasz wzorzec, czyli [Golden Set](/blog/golden-set/). Zdefiniowaliśmy zatem bardzo dokładnie, *co* i *na czym* testujemy.
+Jeśli czytałeś poprzednie wpisy z serii, wiesz już, z czym wiąże się [niedeterminizm LLM-ów](/blog/ach-ta-niedeterministycznosc/) i dlaczego tradycyjne asercje w QA tu nie zadziałają. Omówiliśmy już [kategorie oceny (evals)](/blog/evals-co-wlasciwie-oceniamy/) oraz zbudowaliśmy nasz wzorzec, czyli [Golden Set](/blog/golden-set/). Zdefiniowaliśmy zatem bardzo dokładnie, _co_ i _na czym_ testujemy.
 
 Brakuje nam tylko jednego elementu: **kto ma to testować?**
 
@@ -20,6 +20,7 @@ Manualna ocena każdej wygenerowanej odpowiedzi to _gold standard_, ale kompletn
 Mówiąc najprościej: to sytuacja, w której używamy drugiego, silnego modelu językowego do tego, aby ocenił odpowiedź wygenerowaną przez testowanego asystenta. Twój agent AI jest sprawdzany przez innego agenta.
 
 Zamiast sztywnych asercji w kodzie testów automatycznych, piszemy dedykowany **prompt ewaluacyjny**. Taki prompt musi zawierać podstawowe elementy:
+
 1. **Input** - pytanie lub zadanie, które otrzymał nasz bot.
 2. **Output** - odpowiedź, którą nasz bot wygenerował.
 3. **Rubrykę** - bardzo jasną instrukcję, według jakich kryteriów sędzia ma ocenić tekst (np. od 1 do 5 w kategorii dokładności).
@@ -29,9 +30,10 @@ To zmienia układ sił. Zamiast czekać tygodniami na wyniki testów manualnych,
 
 ## Mechanizm "Chain of Thought" - dlaczego sędzia musi myśleć na głos?
 
-Podstawowym błędem podczas wdrażania LLM Judge'a jest proszenie go wyłącznie o wystawienie punktacji (np. `score: 4`). Model, który wypluwa od razu suchą cyfrę, częściej się myli i dużo trudniej go zdebugować. 
+Podstawowym błędem podczas wdrażania LLM Judge'a jest proszenie go wyłącznie o wystawienie punktacji (np. `score: 4`). Model, który wypluwa od razu suchą cyfrę, częściej się myli i dużo trudniej go zdebugować.
 
-Zamiast tego stosujemy zasadę *Chain-of-Thought* (CoT). Wymuszamy w prompcie sędziego, aby jego output miał określoną strukturę:
+Zamiast tego stosujemy zasadę _Chain-of-Thought_ (CoT). Wymuszamy w prompcie sędziego, aby jego output miał określoną strukturę:
+
 1. `reasoning` - najpierw uzasadnij swoją decyzję, wypunktuj co poszło dobrze, a co źle.
 2. `score` - dopiero potem podaj finalną ocenę numeryczną.
 3. `label` - oznacz test jako PASS/FAIL.
