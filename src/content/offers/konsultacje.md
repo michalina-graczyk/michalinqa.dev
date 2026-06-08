@@ -6,49 +6,50 @@ tags: ["mentoring", "1:1", "AI"]
 mode: "waitlist"
 ---
 
-Czujesz, że stoisz w miejscu ze swoim rozwojem w IT? Chcesz awansować na stanowisko Mid/Senior, świadomie poruszać się w świecie automatyzacji i wreszcie przestać udawać, że rozumiesz, czym są MCP, agenci AI, RAG czy zaawansowany prompt engineering?
+Masz dość bycia traktowanym jako "wykonawca testów" na końcu procesu produkcyjnego? Chcesz wreszcie zacząć dyktować architekturę, realnie zarządzać jakością i stać się dla biznesu partnerem z prawdziwego zdarzenia?
 
-To nie są klasyczne "korepetycje z programowania" ani sprawdzanie kodu linijka po linijce. To **strategiczny mentoring kariery i procesów**, którego celem jest demistyfikacja AI, zbudowanie Twojej niezależności jako Inżyniera Jakości i przygotowanie Cię na realia dzisiejszego rynku IT.
+Mój mentoring to proces, w którym pomagam inżynierom takim jak Ty wejść na wyższy, liderski poziom. Skupiamy się na tym, co naprawdę liczy się na dzisiejszym rynku: budowaniu nowoczesnej architektury, strategicznym podejściu do jakości i sprytnym wykorzystaniu sztucznej inteligencji w codziennej pracy.
 
-## Twój ekosystem rozwoju
+## Autorski Framework Architekta Kariery
 
-To, co najmocniej wyróżnia ten program, dzieje się **poza** sesją wideo. Każda osoba pod moimi skrzydłami otrzymuje spersonalizowane środowisko pracy.
+Wierzę, że największa wartość w mentoringu powstaje poza naszą godzinną sesją wideo. Dlatego opracowałam proces, który daje Ci konkretne ramy do rozwoju i bardzo ułatwia codzienną pracę w projekcie.
 
-### Dedykowane repozytorium na GitHubie
+### Prywatni Asystenci AI i gotowe Prompty
 
-Dla każdej osoby zakładam w pełni prywatne repozytorium - Twój osobisty hub wiedzy. Trafiają tam notatki z sesji, strategie rekrutacyjne, szablony i ustawienia narzędzi. Masz do tego ciągły dostęp, a wszystko jest uporządkowane w jednym miejscu, do którego wracasz długo po zakończeniu współpracy.
+Zamiast tylko rozmawiać o potędze AI, pomogę Ci wdrożyć ją w praktyce. Skonfiguruję dla Ciebie gotowe "Skille" (prompty) dobrane pod Twoje konkretne zadania. Zbudujemy narzędzia, które przejmą powtarzalne i nużące taski, pomogą Ci symulować trudne rozmowy (np. trudny feedback z managerem na 1:1) i po prostu pozwolą zaoszczędzić Ci mnóstwo czasu w każdym tygodniu.
 
-### Spersonalizowane reguły AI
+### Strategia i umiejętności biznesowe
 
-Przestaniesz traktować AI jako "magię", a zaczniesz jak narzędzie pracy. W Twoim repozytorium konfiguruję **AI rules** (system prompty, skille, agenty) dopasowane do Twojego konkretnego celu - przygotowania do rekrutacji, nauki nowego frameworka czy automatyzacji powtarzalnej pracy QA. Pokazuję, jak asystenci AI mogą znać Twój kontekst od pierwszej minuty rozmowy.
+Pracujemy nad kompetencjami, których nie znajdziesz w dokumentacji technicznej. Pokażę Ci, jak zoptymalizować profil na LinkedIn, przygotować się do trudnych rekrutacji na stanowiska Senior/Lead i przećwiczyć asertywne negocjacje. Uczysz się, jak rozmawiać o stawkach i świadomie budować swoją pozycję w zespole.
 
-### Stałe wsparcie na zamkniętym Discordzie
+### Twoje osobiste repozytorium na GitHubie
 
-Rozwój nie kończy się na godzinnej rozmowie wideo. Otrzymujesz dostęp do prywatnej przestrzeni na Discordzie, gdzie analizujemy oferty pracy, dyskutujemy o strategii, odpowiadamy na szybkie pytania i świętujemy Twoje sukcesy.
+Na start zakładam dla Ciebie prywatne repozytorium. To Twój hub wiedzy – trafiają tam precyzyjne notatki z naszych spotkań, szablony, strategie i konfiguracje narzędzi. Masz wszystko uporządkowane w jednym miejscu i wracasz do tego długo po zakończeniu naszej współpracy.
 
-### Strategia, biznes i pewność siebie
+### Bezpośrednie wsparcie komunikacyjne
 
-Uczę tego, czego nie znajdziesz w dokumentacji technicznej. Rozmawiamy o tym, jak komunikować się z biznesem, jak rozpoznawać i odrzucać toksyczne oferty pracy, jak pozycjonować swoje kompetencje na rynku napędzanym przez AI. Wspólnie optymalizujemy LinkedIna, przygotowujemy "ściągi rekrutacyjne" i ćwiczymy asertywne negocjacje finansowe.
+Twój rozwój nie pauzuje między spotkaniami. Masz priorytetowy dostęp do prywatnego kanału, na którym asynchronicznie rozwiązujemy pożary w Twoim projekcie i omawiamy postępy. 
 
-## Dla kogo to jest
+## Dla kogo to jest?
 
-- **Testerzy**, którzy chcą uporządkować wiedzę o AI, zrozumieć Agentów, MCP i LLM-y, i zintegrować te narzędzia z codzienną pracą - żeby pracować sprytniej, nie ciężej.
-- **QA Engineers**, którzy chcą odejść od "wyklikiwania" i stać się świadomymi partnerami w zespole produktowym (Shift-Left Testing).
-- **Specjaliści szukający stabilnej pracy** w firmach produktowych - którzy chcą mądrze poprowadzić rekrutację i wynegocjować lepsze stawki (B2B/UoP).
+- **Ambitnych QA i Testerów**, którzy chcą awansować do ról Mid/Senior lub Lead, porzucić ręczne "wyklikiwanie" na rzecz asystentów AI i po prostu zacząć pracować sprytniej, a nie ciężej.
+- **Obecnych i aspirujących Liderów**, którzy chcą zyskać realny wpływ na organizację (Shift-Left Testing), poukładać procesy od zera i zbudować autorytet w zespole.
+- **Specjalistów B2B/UoP**, którzy chcą świadomie kierować swoją karierą, przyciągać lepsze oferty pracy i poczuć się znacznie pewniej w negocjacjach.
 
-## Jak wygląda współpraca
+## Jak wygląda współpraca?
 
-**Pakiet startowy** (onboarding + sesja strategiczna) to nasze pierwsze spotkanie i pełne wdrożenie w nowy ekosystem nauki:
+**Faza Setupu (Onboarding + Sesja Strategiczna)**
 
-- 60-minutowa sesja wideo: audyt potrzeb, ustalenie celów, ułożenie planu rozwoju.
-- Praca asynchroniczna przed i po sesji: założenie i konfiguracja Twojego prywatnego repozytorium.
-- Spersonalizowane reguły AI dobrane pod Twój cel, wgrane do repozytorium.
-- Zaproszenie do prywatnego kanału na Discordzie.
+To pierwszy krok – solidne wdrożenie i ułożenie naszego planu gry:
 
-**Sesje kontynuacyjne** to praca na rozgrzanym silniku:
+- 60-minutowa sesja wideo: głęboki audyt Twojej obecnej sytuacji projektowej i wyznaczenie priorytetów.
+- Praca asynchroniczna przed i po sesji: w tym czasie uzbrajam Twoje repozytorium w pierwsze, przydatne szablony.
+- Otwarcie dostępu do prywatnego kanału komunikacji.
 
-- 60-minutowa sesja wideo skupiona na realizacji planu.
-- Analiza Twoich postępów z pracy własnej (np. przegląd interakcji z AI).
-- Bieżące Q&A na Discordzie pomiędzy sesjami (w granicach zdrowego rozsądku).
+**Współpraca ciągła (Sesje Kontynuacyjne)**
 
-Cennik i szczegóły organizacyjne omawiamy indywidualnie podczas rozmowy kwalifikacyjnej - dopasowuję zakres do Twojego celu.
+- 60-minutowe spotkania wideo, na których weryfikujemy założenia z planu i pracujemy nad nowymi celami.
+- Analiza postępów i iteracyjna praca np. nad doskonaleniem Twoich narzędzi AI.
+- Bieżące wsparcie asynchroniczne, żebyś mógł na bieżąco konsultować sytuacje ze swojej firmy.
+
+*Cennik i model współpracy ustalamy wspólnie podczas niezobowiązującej rozmowy. Zakres zawsze dobieram indywidualnie – tak, aby odpowiadał na Twoje cele i możliwości czasowe.*
