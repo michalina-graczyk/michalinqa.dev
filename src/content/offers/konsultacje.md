@@ -28,7 +28,7 @@ Na start zakładam dla Ciebie prywatne repozytorium. To Twój hub wiedzy – tra
 
 ### Bezpośrednie wsparcie komunikacyjne
 
-Twój rozwój nie pauzuje między spotkaniami. Masz priorytetowy dostęp do prywatnego kanału, na którym asynchronicznie rozwiązujemy pożary w Twoim projekcie i omawiamy postępy. 
+Twój rozwój nie pauzuje między spotkaniami. Masz priorytetowy dostęp do prywatnego kanału, na którym asynchronicznie rozwiązujemy pożary w Twoim projekcie i omawiamy postępy.
 
 ## Dla kogo to jest?
 
@@ -52,4 +52,4 @@ To pierwszy krok – solidne wdrożenie i ułożenie naszego planu gry:
 - Analiza postępów i iteracyjna praca np. nad doskonaleniem Twoich narzędzi AI.
 - Bieżące wsparcie asynchroniczne, żebyś mógł na bieżąco konsultować sytuacje ze swojej firmy.
 
-*Cennik i model współpracy ustalamy wspólnie podczas niezobowiązującej rozmowy. Zakres zawsze dobieram indywidualnie – tak, aby odpowiadał na Twoje cele i możliwości czasowe.*
+_Cennik i model współpracy ustalamy wspólnie podczas niezobowiązującej rozmowy. Zakres zawsze dobieram indywidualnie – tak, aby odpowiadał na Twoje cele i możliwości czasowe._
