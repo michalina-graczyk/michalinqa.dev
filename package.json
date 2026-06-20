@@ -21,7 +21,7 @@
     "@fontsource/inconsolata": "^5.2.8",
     "@fontsource/inter": "^5.2.8",
     "@tailwindcss/vite": "^4.3.0",
-    "astro": "^6.3.8",
+    "astro": "^6.4.8",
     "astro-embed": "^0.13.0",
     "astro-icon": "^1.1.5",
     "astro-navbar": "^2.4.0",
