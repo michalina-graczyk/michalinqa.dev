@@ -47,7 +47,6 @@ I tu pojawia się fundamentalne pytanie: jak oceniać systemy, które podają po
 
 Tu leży sedno paradoksu. Hallucination Detection zadziałał poprawnie - to był TRUE POSITIVE. Mechanizm był błędny: model nie miał grounding, wymyślił encję bez pokrycia w źródłach. Eval pipeline oceniał pierwotną odpowiedź, zanim model przyznał się do halucynacji po pytaniu o źródło. Grounding eval wystawił FAIL słusznie. Ale treść odpowiedzi okazała się zgodna z rzeczywistością - i użytkownik, który stanął przed telebimem, dostałby PASS. W systemach asystenckich to zabawna anegdota. W systemach medycznych, prawnych czy finansowych - śmiertelne niebezpieczeństwo. "Szczęśliwy traf" w dawkowaniu leku wciąż pozostaje krytycznym błędem systemu, nawet jeśli pacjent poczuł się lepiej.
 
-
 ## Wnioski z plaży w Calpe
 
 Niedeterminizm generatywnego AI potrafi oczarować i zaskoczyć. Jednak jako inżynierowie jakości nie możemy dać się upić tym sukcesem.
@@ -62,4 +61,4 @@ Kilka pytań, które warto zadać sobie przy projektowaniu ewaluacji:
 
 Halucynacja, która okazała się prawdą, to rzadki edge case. Ale to właśnie takie momenty weryfikują, czy twój system ewaluacji jest naprawdę przemyślany.
 
-*Vamos España! I udanych testów dla wszystkich.* 🇪🇸
+_Vamos España! I udanych testów dla wszystkich._ 🇪🇸
