@@ -2,7 +2,6 @@ import { expect, test } from "@playwright/test";
 import { acceptConsentIfVisible } from "./helpers/mixpanel";
 
 test.describe("Homepage section rhythm", () => {
-
   test.describe("About no longer claims full viewport", () => {
     test.use({ viewport: { width: 1280, height: 800 } });
 
@@ -28,7 +27,12 @@ test.describe("Homepage section rhythm", () => {
       await acceptConsentIfVisible(page);
     });
 
-    const tintedSections = ["latest-posts", "offers", "social-proof", "media-presence"] as const;
+    const tintedSections = [
+      "latest-posts",
+      "offers",
+      "social-proof",
+      "media-presence",
+    ] as const;
 
     for (const id of tintedSections) {
       test(`'${id}' carries the tinted background class`, async ({ page }) => {
