@@ -27,12 +27,9 @@ test.describe("Homepage section rhythm", () => {
       await acceptConsentIfVisible(page);
     });
 
-    const tintedSections = [
-      "latest-posts",
-      "offers",
-      "social-proof",
-      "media-presence",
-    ] as const;
+    // Tints alternate through the middle band so no two tinted sections sit
+    // back-to-back and merge into one gray slab.
+    const tintedSections = ["media-presence", "offers"] as const;
 
     for (const id of tintedSections) {
       test(`'${id}' carries the tinted background class`, async ({ page }) => {
@@ -42,8 +39,14 @@ test.describe("Homepage section rhythm", () => {
       });
     }
 
-    const anchorSections = ["hero", "about", "contact"] as const;
-    for (const id of anchorSections) {
+    const untintedSections = [
+      "hero",
+      "about",
+      "social-proof",
+      "latest-posts",
+      "contact",
+    ] as const;
+    for (const id of untintedSections) {
       test(`'${id}' does NOT carry the tinted background class`, async ({
         page,
       }) => {
