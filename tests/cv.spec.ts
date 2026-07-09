@@ -98,6 +98,10 @@ test.describe("CV Page", () => {
       }),
     ).toBeVisible();
 
+    const talksSection = page
+      .getByRole("heading", { name: "Wystąpienia" })
+      .locator("xpath=ancestor::section");
+
     const testingStationTalk = talksSection.locator("article").filter({
       hasText:
         "O testowaniu asystenta AI, pracy w InPost i nowych kierunkach QA",

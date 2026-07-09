@@ -82,8 +82,8 @@ test.describe("Page Content", () => {
       const sp = page.locator('[data-testid="social-proof"]');
       await expect(sp).toBeVisible();
 
-      // Section title (single h2 covers both testimonials and media)
-      await expect(sp.locator("h2")).toHaveText("Społeczność");
+      // Section title (testimonials only; media lives in MediaPresence)
+      await expect(sp.locator("h2")).toHaveText("Co mówią inni");
 
       // Testimonial cards
       const testimonialCards = sp.locator(

@@ -112,7 +112,7 @@ import cvData from "@data/cv.json";
         <div class="space-y-6 text-black dark:text-white">
           {
             (cvData.talks ?? []).map((talk) => (
-              <div>
+              <article>
                 <h3 class="text-xl font-bold">{talk.title}</h3>
                 <p class="text-orange">
                   {talk.show}
@@ -136,7 +136,7 @@ import cvData from "@data/cv.json";
                     </a>
                   ))}
                 </div>
-              </div>
+              </article>
             ))
           }
         </div>
