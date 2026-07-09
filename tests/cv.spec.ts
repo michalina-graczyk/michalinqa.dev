@@ -98,12 +98,10 @@ test.describe("CV Page", () => {
       }),
     ).toBeVisible();
 
-    const testingStationTalk = talksSection
-      .locator("article")
-      .filter({
-        hasText:
-          "O testowaniu asystenta AI, pracy w InPost i nowych kierunkach QA",
-      });
+    const testingStationTalk = talksSection.locator("article").filter({
+      hasText:
+        "O testowaniu asystenta AI, pracy w InPost i nowych kierunkach QA",
+    });
 
     await expect(testingStationTalk).toBeVisible();
     await expect(testingStationTalk.getByText("Testing Station")).toBeVisible();
