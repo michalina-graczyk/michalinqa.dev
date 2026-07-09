@@ -28,28 +28,35 @@ test.describe("Homepage SocialProof section", () => {
     ).toHaveCount(2);
   });
 
-  test("renders a media-appearance pill per talk in cv.json", async ({
+  test("renders media-appearance cards in the dedicated MediaPresence section", async ({
     page,
   }) => {
-    const sp = page.locator('[data-testid="social-proof"]');
-    const pills = sp.locator('[data-testid="social-proof-media-pill"]');
-    await expect(pills).not.toHaveCount(0);
-    const count = await pills.count();
+    const mp = page.locator('[data-testid="media-presence"]');
+    await expect(mp).toBeVisible();
+    const cards = mp.locator('[data-testid="media-presence-card"]');
+    await expect(cards).not.toHaveCount(0);
+  });
+
+  test("each media card links to an external URL with target=_blank", async ({
+    page,
+  }) => {
+    const cards = page.locator('[data-testid="media-presence-card"]');
+    const count = await cards.count();
     for (let i = 0; i < count; i++) {
-      const pill = pills.nth(i);
-      await expect(pill).toHaveAttribute("target", "_blank");
-      const href = await pill.getAttribute("href");
+      const card = cards.nth(i);
+      await expect(card).toHaveAttribute("target", "_blank");
+      const href = await card.getAttribute("href");
       expect(href).toMatch(/^https?:\/\//);
     }
   });
 
-  test("each media pill carries the talk summary as a title attribute", async ({
+  test("each media card carries the talk summary as a title attribute", async ({
     page,
   }) => {
-    const pills = page.locator('[data-testid="social-proof-media-pill"]');
-    const count = await pills.count();
+    const cards = page.locator('[data-testid="media-presence-card"]');
+    const count = await cards.count();
     for (let i = 0; i < count; i++) {
-      const title = await pills.nth(i).getAttribute("title");
+      const title = await cards.nth(i).getAttribute("title");
       expect(title?.length ?? 0).toBeGreaterThan(0);
     }
   });

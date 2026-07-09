@@ -2,24 +2,6 @@ import { expect, test } from "@playwright/test";
 import { acceptConsentIfVisible } from "./helpers/mixpanel";
 
 test.describe("Homepage section rhythm", () => {
-  test.describe("Hero tightening", () => {
-    test.use({ viewport: { width: 1280, height: 800 } });
-
-    test("LatestPosts H2 is within viewport on 1280x800 desktop", async ({
-      page,
-      baseURL,
-    }) => {
-      await page.goto(baseURL!);
-      await acceptConsentIfVisible(page);
-
-      const heading = page
-        .locator('[data-testid="latest-posts"]')
-        .getByRole("heading", { level: 2 });
-      const box = await heading.boundingBox();
-      expect(box).not.toBeNull();
-      expect(box!.y).toBeLessThan(800);
-    });
-  });
 
   test.describe("About no longer claims full viewport", () => {
     test.use({ viewport: { width: 1280, height: 800 } });
@@ -46,7 +28,7 @@ test.describe("Homepage section rhythm", () => {
       await acceptConsentIfVisible(page);
     });
 
-    const tintedSections = ["latest-posts", "offers", "social-proof"] as const;
+    const tintedSections = ["latest-posts", "offers", "social-proof", "media-presence"] as const;
 
     for (const id of tintedSections) {
       test(`'${id}' carries the tinted background class`, async ({ page }) => {
@@ -70,7 +52,7 @@ test.describe("Homepage section rhythm", () => {
   });
 
   test.describe("Section count and order", () => {
-    test("page renders exactly the 6 expected sections in order", async ({
+    test("page renders exactly the 7 expected sections in order", async ({
       page,
       baseURL,
     }) => {
@@ -79,10 +61,11 @@ test.describe("Homepage section rhythm", () => {
 
       const expected = [
         "hero",
-        "latest-posts",
         "about",
-        "offers",
+        "media-presence",
         "social-proof",
+        "offers",
+        "latest-posts",
         "contact",
       ];
 
