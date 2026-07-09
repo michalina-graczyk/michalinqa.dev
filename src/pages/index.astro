@@ -3,6 +3,7 @@ import About from "@components/About.astro";
 import Contact from "@components/Contact.astro";
 import Hero from "@components/Hero.astro";
 import LatestPosts from "@components/LatestPosts.astro";
+import MediaPresence from "@components/MediaPresence.astro";
 import Offers from "@components/Offers.astro";
 import SocialProof from "@components/SocialProof.astro";
 import BackToTop from "@components/ui/BackToTop.astro";
@@ -25,10 +26,11 @@ const personSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   <main id="main-content">
     <Hero />
-    <LatestPosts />
     <About />
-    <Offers />
+    <MediaPresence />
     <SocialProof />
+    <Offers />
+    <LatestPosts />
     <Contact />
     <BackToTop />
   </main>

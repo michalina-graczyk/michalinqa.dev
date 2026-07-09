@@ -12,30 +12,6 @@ test.describe("Homepage LatestPosts section", () => {
     await acceptConsentIfVisible(page);
   });
 
-  test("renders in DOM order: Hero → LatestPosts → About", async ({ page }) => {
-    const section = page.locator('[data-testid="latest-posts"]');
-    await expect(section).toBeVisible();
-    await expect(
-      section.getByRole("heading", { name: "Z bloga" }),
-    ).toBeVisible();
-
-    const order = await page.evaluate(() => {
-      const ids = ["hero", "latest-posts", "about"];
-      const tops = ids.map((id) => {
-        const el =
-          document.querySelector(`[data-testid="${id}"]`) ??
-          document.getElementById(id);
-        return el ? el.getBoundingClientRect().top + window.scrollY : null;
-      });
-      return tops;
-    });
-    expect(order[0]).not.toBeNull();
-    expect(order[1]).not.toBeNull();
-    expect(order[2]).not.toBeNull();
-    expect(order[0]!).toBeLessThan(order[1]!);
-    expect(order[1]!).toBeLessThan(order[2]!);
-  });
-
   test("shows at most 3 posts (and at least one when posts exist)", async ({
     page,
   }) => {
