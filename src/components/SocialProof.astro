@@ -21,8 +21,6 @@ const testimonials = [
       "Michalina has been an incredible support to every team member - always approachable, always encouraging, and deeply committed to everyone's success.",
   },
 ];
-
-const talks = cvData.talks ?? [];
 ---
 
 <section
@@ -31,7 +29,7 @@ const talks = cvData.talks ?? [];
   class="w-full bg-gray-50 py-16 dark:bg-gray-950 lg:py-24"
 >
   <div class="mx-auto w-full max-w-6xl px-4">
-    <SectionTitle>Społeczność</SectionTitle>
+    <SectionTitle>Co mówią inni</SectionTitle>
 
     <div class="flex w-full flex-col gap-6 md:flex-row md:gap-8">
       {
@@ -60,39 +58,5 @@ const talks = cvData.talks ?? [];
         ))
       }
     </div>
-
-    {
-      talks.length > 0 && (
-        <div class="mt-12">
-          <h3 class="mb-4 text-sm font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400">
-            Usłyszysz mnie też w
-          </h3>
-          <ul class="flex flex-wrap gap-3">
-            {talks.map((talk) => {
-              const primaryLink = (talk.links ?? [])[0];
-              if (!primaryLink) return null;
-              const label = talk.episode
-                ? `${talk.show} • ${talk.episode}`
-                : talk.show;
-              return (
-                <li>
-                  <a
-                    data-testid="social-proof-media-pill"
-                    href={primaryLink.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={talk.summary ?? ""}
-                    class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-black shadow-sm hover:bg-orange/10 hover:text-orange dark:bg-gray-800 dark:text-white dark:hover:bg-orange/20 dark:hover:text-orange"
-                  >
-                    <Icon name={primaryLink.icon} class="h-4 w-4" />
-                    <span>{label}</span>
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )
-    }
   </div>
 </section>

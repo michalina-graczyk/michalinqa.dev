@@ -126,6 +126,22 @@
   ],
   "talks": [
     {
+      "title": "Dlaczego AI nie słucha komend jak pies? Walka z niedeterministycznością w testach LLM",
+      "show": "AI Testers",
+      "episode": "Odc. 1",
+      "host": null,
+      "date": "lip 2026",
+      "lang": "pl",
+      "summary": "Pierwszy odcinek serii AI Testers: dlaczego testowanie LLM-ów to nie to samo co testowanie klasycznego oprogramowania i jak radzić sobie z niedeterministycznością.",
+      "links": [
+        {
+          "label": "YouTube",
+          "url": "https://www.youtube.com/watch?v=hxE-qr7whzE",
+          "icon": "simple-icons:youtube"
+        }
+      ]
+    },
+    {
       "title": "O testowaniu asystenta AI, pracy w InPost i nowych kierunkach QA",
       "show": "Testing Station",
       "episode": "S03E01",
