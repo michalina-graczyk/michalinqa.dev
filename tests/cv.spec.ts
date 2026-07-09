@@ -98,23 +98,27 @@ test.describe("CV Page", () => {
       }),
     ).toBeVisible();
 
-    const talksSection = page
-      .getByRole("heading", { name: "Wystąpienia" })
-      .locator("xpath=ancestor::section");
+    const testingStationTalk = talksSection
+      .locator("article")
+      .filter({
+        hasText:
+          "O testowaniu asystenta AI, pracy w InPost i nowych kierunkach QA",
+      });
 
-    await expect(talksSection.getByText("Testing Station")).toBeVisible();
+    await expect(testingStationTalk).toBeVisible();
+    await expect(testingStationTalk.getByText("Testing Station")).toBeVisible();
 
     await expect(
-      talksSection.getByRole("link", { name: "YouTube" }),
+      testingStationTalk.getByRole("link", { name: "YouTube" }),
     ).toHaveAttribute("href", "https://www.youtube.com/watch?v=H9tyKlE9Hzc");
     await expect(
-      talksSection.getByRole("link", { name: "Spotify" }),
+      testingStationTalk.getByRole("link", { name: "Spotify" }),
     ).toHaveAttribute(
       "href",
       "https://open.spotify.com/episode/5ycBXVusQImSyjXmkne3mu",
     );
     await expect(
-      talksSection.getByRole("link", { name: "Apple Podcasts" }),
+      testingStationTalk.getByRole("link", { name: "Apple Podcasts" }),
     ).toHaveAttribute(
       "href",
       "https://podcasts.apple.com/us/podcast/21-o-testowaniu-asystenta-ai-pracy-w-inpost-i-nowych/id1801809925?i=1000766797678",

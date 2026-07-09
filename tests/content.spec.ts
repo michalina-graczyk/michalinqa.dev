@@ -37,21 +37,17 @@ test.describe("Page Content", () => {
     }
   });
 
-  test("SocialProof media strip shows Testing Station with primary listen link", async ({
+  test("MediaPresence strip shows Testing Station with primary listen link", async ({
     page,
   }) => {
-    const sp = page.locator('[data-testid="social-proof"]');
-    await expect(sp).toBeVisible();
-    await expect(sp.getByText("Testing Station")).toBeVisible();
+    const mp = page.locator('[data-testid="media-presence"]');
+    await expect(mp).toBeVisible();
+    await expect(mp.getByText("Testing Station")).toBeVisible();
 
-    const pills = sp.locator('[data-testid="social-proof-media-pill"]');
-    await expect(pills).not.toHaveCount(0);
-    // The primary link for the Testing Station talk is the YouTube URL
-    // (first entry in talk.links in cv.json).
-    await expect(pills.first()).toHaveAttribute(
-      "href",
-      "https://www.youtube.com/watch?v=H9tyKlE9Hzc",
+    const testingStationLink = mp.locator(
+      'a[href="https://www.youtube.com/watch?v=H9tyKlE9Hzc"]',
     );
+    await expect(testingStationLink).toBeVisible();
   });
 
   test("Blog page has correct meta description", async ({ page, baseURL }) => {

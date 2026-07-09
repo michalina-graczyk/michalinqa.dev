@@ -37,26 +37,24 @@ test.describe("Homepage SocialProof section", () => {
     await expect(cards).not.toHaveCount(0);
   });
 
-  test("each media card links to an external URL with target=_blank", async ({
+  test("each media link points to an external URL with target=_blank", async ({
     page,
   }) => {
-    const cards = page.locator('[data-testid="media-presence-card"]');
-    const count = await cards.count();
+    const links = page.locator('[data-testid="media-presence"] a');
+    const count = await links.count();
     for (let i = 0; i < count; i++) {
-      const card = cards.nth(i);
-      await expect(card).toHaveAttribute("target", "_blank");
-      const href = await card.getAttribute("href");
+      const link = links.nth(i);
+      await expect(link).toHaveAttribute("target", "_blank");
+      const href = await link.getAttribute("href");
       expect(href).toMatch(/^https?:\/\//);
     }
   });
 
-  test("each media card carries the talk summary as a title attribute", async ({
-    page,
-  }) => {
-    const cards = page.locator('[data-testid="media-presence-card"]');
-    const count = await cards.count();
+  test("each media link carries a title attribute", async ({ page }) => {
+    const links = page.locator('[data-testid="media-presence"] a');
+    const count = await links.count();
     for (let i = 0; i < count; i++) {
-      const title = await cards.nth(i).getAttribute("title");
+      const title = await links.nth(i).getAttribute("title");
       expect(title?.length ?? 0).toBeGreaterThan(0);
     }
   });
