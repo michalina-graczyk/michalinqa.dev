@@ -126,4 +126,22 @@ test.describe("CV Page", () => {
       "https://podcasts.apple.com/us/podcast/21-o-testowaniu-asystenta-ai-pracy-w-inpost-i-nowych/id1801809925?i=1000766797678",
     );
   });
+
+  test("CV talks section shows AI Testers Odc. 2 entry", async ({ page }) => {
+    const talksSection = page
+      .getByRole("heading", { name: "Wystąpienia" })
+      .locator("xpath=ancestor::section");
+
+    const aiTestersOdc2 = talksSection.locator("article").filter({
+      hasText: "Kategorie Evals",
+    });
+
+    await expect(aiTestersOdc2).toBeVisible();
+    await expect(aiTestersOdc2).toContainText("AI Testers");
+    await expect(aiTestersOdc2).toContainText("Odc. 2");
+
+    await expect(
+      aiTestersOdc2.getByRole("link", { name: "YouTube" }),
+    ).toHaveAttribute("href", "https://www.youtube.com/watch?v=sQm7gtRdK-0");
+  });
 });

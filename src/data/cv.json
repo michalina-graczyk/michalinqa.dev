@@ -126,6 +126,22 @@
   ],
   "talks": [
     {
+      "title": "Kto tu jest \"dobrym pieskiem\"? Kategorie Evals, czyli jak oceniać jakość modeli LLM",
+      "show": "AI Testers",
+      "episode": "Odc. 2",
+      "host": null,
+      "date": "lip 2026",
+      "lang": "pl",
+      "summary": "Dlaczego klasyczne asercje zawodzą przy modelach językowych? Poznaj trzy filary Evals — Fidelity, Relevance i Tone & Format — i dowiedz się, jak mierzyć jakość odpowiedzi AI poprawnie.",
+      "links": [
+        {
+          "label": "YouTube",
+          "url": "https://www.youtube.com/watch?v=sQm7gtRdK-0",
+          "icon": "simple-icons:youtube"
+        }
+      ]
+    },
+    {
       "title": "Dlaczego AI nie słucha komend jak pies? Walka z niedeterministycznością w testach LLM",
       "show": "AI Testers",
       "episode": "Odc. 1",

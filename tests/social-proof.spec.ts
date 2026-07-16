@@ -21,11 +21,36 @@ test.describe("Homepage SocialProof section", () => {
     await expect(sp.locator("h2")).toHaveCount(1);
   });
 
-  test("renders 2 testimonial cards", async ({ page }) => {
+  test("renders 3 testimonial cards", async ({ page }) => {
     const sp = page.locator('[data-testid="social-proof"]');
     await expect(
       sp.locator('[data-testid="social-proof-testimonial"]'),
-    ).toHaveCount(2);
+    ).toHaveCount(3);
+  });
+
+  test("each testimonial card has a category badge", async ({ page }) => {
+    const cards = page.locator('[data-testid="social-proof-testimonial"]');
+    const count = await cards.count();
+    for (let i = 0; i < count; i++) {
+      const badge = cards.nth(i).locator("span").first();
+      await expect(badge).toBeVisible();
+      const text = await badge.textContent();
+      expect(text?.trim()).toMatch(/Mentoring|Collaboration/);
+    }
+  });
+
+  test("mentoring testimonial has Mentoring badge and collaboration ones have Collaboration badge", async ({
+    page,
+  }) => {
+    const sp = page.locator('[data-testid="social-proof"]');
+    const cards = sp.locator('[data-testid="social-proof-testimonial"]');
+
+    // First card (Ania) should have the Mentoring badge
+    await expect(cards.nth(0).getByText("Mentoring")).toBeVisible();
+
+    // Second and third cards should have the Collaboration badge
+    await expect(cards.nth(1).getByText("Collaboration")).toBeVisible();
+    await expect(cards.nth(2).getByText("Collaboration")).toBeVisible();
   });
 
   test("renders media-appearance cards in the dedicated MediaPresence section", async ({
