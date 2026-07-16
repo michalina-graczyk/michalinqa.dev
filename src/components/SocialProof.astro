@@ -3,10 +3,20 @@ import SectionTitle from "@components/ui/SectionTitle.astro";
 
 const testimonials = [
   {
+    name: "Ania",
+    role: "QA Engineer",
+    company: null,
+    linkedIn: null,
+    category: "mentoring",
+    quote:
+      "Thanks to our sessions, I demystified AI in software testing, understood AI architecture like agents and skills, and learned how to boost the efficiency of a modern tester. Every single session is 100% concrete, packed with deep knowledge, and focused entirely on practice.",
+  },
+  {
     name: "Patryk Andrzejewski",
     role: "Product Engineer",
     company: "Saleor Commerce",
     linkedIn: "https://www.linkedin.com/in/patryk-andrzejewski/",
+    category: "collaboration",
     quote:
       "She took ownership of our end-to-end software quality in a way that made everyone feel more confident about what we were shipping. She's professional, experienced, and honestly just great to work with.",
   },
@@ -15,6 +25,7 @@ const testimonials = [
     role: "People & Culture",
     company: "Saleor Commerce",
     linkedIn: "https://www.linkedin.com/in/gabrielasalamon/",
+    category: "collaboration",
     quote:
       "Michalina has been an incredible support to every team member - always approachable, always encouraging, and deeply committed to everyone's success.",
   },
@@ -34,22 +45,37 @@ const testimonials = [
         testimonials.map((t) => (
           <article
             data-testid="social-proof-testimonial"
-            class="flex-1 rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800 dark:shadow-orange/20"
+            class="relative flex-1 rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800 dark:shadow-orange/20"
           >
-            <blockquote class="mb-4 italic text-black dark:text-white">
+            <span
+              class:list={[
+                "absolute right-4 top-4 inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium",
+                t.category === "mentoring"
+                  ? "border-orange/30 bg-orange/10 text-orange dark:bg-orange/20"
+                  : "border-gray-300 bg-gray-100 text-gray-600 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300",
+              ]}
+            >
+              {t.category === "mentoring" ? "🎓 Mentoring" : "🤝 Collaboration"}
+            </span>
+            <blockquote class="mb-4 mt-4 italic text-black dark:text-white">
               "{t.quote}"
             </blockquote>
             <footer class="text-sm">
-              <a
-                href={t.linkedIn}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="font-semibold text-orange hover:underline"
-              >
-                {t.name}
-              </a>
+              {t.linkedIn ? (
+                <a
+                  href={t.linkedIn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="font-semibold text-orange hover:underline"
+                >
+                  {t.name}
+                </a>
+              ) : (
+                <span class="font-semibold text-orange">{t.name}</span>
+              )}
               <p class="text-gray-600 dark:text-gray-400">
-                {t.role}, {t.company}
+                {t.role}
+                {t.company ? `, ${t.company}` : ""}
               </p>
             </footer>
           </article>

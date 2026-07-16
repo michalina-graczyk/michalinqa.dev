@@ -89,9 +89,9 @@ test.describe("Page Content", () => {
       const testimonialCards = sp.locator(
         '[data-testid="social-proof-testimonial"]',
       );
-      await expect(testimonialCards).toHaveCount(2);
+      await expect(testimonialCards).toHaveCount(3);
 
-      // LinkedIn links still present, open in new tab
+      // LinkedIn links present for testimonials that have one (Ania has none)
       const linkedInLinks = sp.locator('a[href*="linkedin.com"]');
       await expect(linkedInLinks).toHaveCount(2);
 
