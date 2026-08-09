@@ -34,6 +34,13 @@ interface Props {
    * `Offers.astro`) so the document outline stays in order.
    */
   titleTag?: "h3" | "h4";
+  /**
+   * `vertical` stacks image over text — the grid default. `horizontal` puts the
+   * image beside the text so a lone card can hold a full-width row instead of
+   * shrinking into a corner (see the single-offer audience group in
+   * `Offers.astro`). Falls back to stacked below `sm`.
+   */
+  orientation?: "vertical" | "horizontal";
 }
 
 interface ImageMap {
@@ -58,10 +65,12 @@ const {
   mode = "booking",
   wrapperClass = "w-full p-4 lg:w-1/3 flex flex-col",
   titleTag = "h3",
+  orientation = "vertical",
 } = Astro.props;
 
 const image = (slug && imageMap[slug]) ?? fallbackImage;
 const Title = titleTag;
+const isHorizontal = orientation === "horizontal";
 ---
 
 <section class={wrapperClass}>
@@ -69,9 +78,19 @@ const Title = titleTag;
     data-testid="card"
     class="flex flex-1 flex-col rounded-xl bg-white dark:bg-gray-800 p-3 shadow-lg dark:shadow-orange/20 transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-orange/10 dark:hover:shadow-orange/30 motion-reduce:transition-none motion-reduce:hover:scale-100"
   >
-    <a href={url} aria-label={title ? `Zobacz ofertę: ${title}` : "Zobacz szczegóły oferty"} class="flex h-full flex-col">
+    <a
+      href={url}
+      aria-label={title ? `Zobacz ofertę: ${title}` : "Zobacz szczegóły oferty"}
+      class:list={[
+        "flex h-full flex-col",
+        isHorizontal && "sm:flex-row sm:items-stretch sm:gap-2",
+      ]}
+    >
       <div
-        class="relative flex items-end justify-center overflow-hidden rounded-xl"
+        class:list={[
+          "relative flex items-end justify-center overflow-hidden rounded-xl",
+          isHorizontal && "sm:w-2/5 sm:shrink-0",
+        ]}
       >
         <!-- 4:3 crop, done by the image pipeline rather than CSS: the offer
              illustrations are square, and at the two-column card width an
@@ -90,9 +109,25 @@ const Title = titleTag;
           class="w-full"
         />
       </div>
-      <div class="mt-1 flex flex-grow flex-col p-2">
+      <div
+        class:list={[
+          "mt-1 flex flex-grow flex-col p-2",
+          isHorizontal && "sm:mt-0 sm:justify-center",
+        ]}
+      >
         <Title class="text-xl text-orange lg:text-2xl">{title}</Title>
-        <p class="flex-grow text-black dark:text-white text-s">{description}</p>
+        <p
+          class:list={[
+            "text-s text-black dark:text-white",
+            // Stacked cards need the description to push the tag row to the
+            // bottom edge so a grid of cards keeps its tags aligned. Beside
+            // the image there is no row to align to, so the text block just
+            // centres as one unit instead of stretching.
+            isHorizontal ? "flex-grow sm:mb-3 sm:flex-grow-0" : "flex-grow",
+          ]}
+        >
+          {description}
+        </p>
         <Tags tags={tags} mode={mode} />
       </div>
     </a>

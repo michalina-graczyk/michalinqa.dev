@@ -77,9 +77,7 @@ const groups = groupDefinitions
           <div
             class:list={[
               "grid gap-6",
-              group.offers.length > 1
-                ? "sm:grid-cols-2"
-                : "max-w-md justify-self-start",
+              group.offers.length > 1 ? "sm:grid-cols-2" : "grid-cols-1",
             ]}
           >
             {group.offers.map((offer) => (
@@ -93,6 +91,9 @@ const groups = groupDefinitions
                 mode={offer.data.mode}
                 titleTag="h4"
                 wrapperClass="flex w-full flex-col"
+                orientation={
+                  group.offers.length === 1 ? "horizontal" : "vertical"
+                }
               />
             ))}
           </div>
