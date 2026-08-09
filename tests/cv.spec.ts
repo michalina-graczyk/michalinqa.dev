@@ -144,4 +144,22 @@ test.describe("CV Page", () => {
       aiTestersOdc2.getByRole("link", { name: "YouTube" }),
     ).toHaveAttribute("href", "https://www.youtube.com/watch?v=sQm7gtRdK-0");
   });
+
+  test("CV talks section shows AI Testers Odc. 6 entry", async ({ page }) => {
+    const talksSection = page
+      .getByRole("heading", { name: "Wystąpienia" })
+      .locator("xpath=ancestor::section");
+
+    const aiTestersOdc6 = talksSection.locator("article").filter({
+      hasText: "Czy jeden pies może pilnować drugiego",
+    });
+
+    await expect(aiTestersOdc6).toBeVisible();
+    await expect(aiTestersOdc6).toContainText("AI Testers");
+    await expect(aiTestersOdc6).toContainText("Odc. 6");
+
+    await expect(
+      aiTestersOdc6.getByRole("link", { name: "YouTube" }),
+    ).toHaveAttribute("href", "https://www.youtube.com/watch?v=KaGYRqOwRBI");
+  });
 });

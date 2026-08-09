@@ -126,6 +126,70 @@
   ],
   "talks": [
     {
+      "title": "Czy jeden pies może pilnować drugiego? Jak działa LLM-as-a-Judge w testach AI",
+      "show": "AI Testers",
+      "episode": "Odc. 6",
+      "host": null,
+      "date": "sie 2026",
+      "lang": "pl",
+      "summary": "Wykorzystanie LLM do oceniania innych modeli. Jak wdrożyć podejście LLM-as-a-Judge w testach AI.",
+      "links": [
+        {
+          "label": "YouTube",
+          "url": "https://www.youtube.com/watch?v=KaGYRqOwRBI",
+          "icon": "simple-icons:youtube"
+        }
+      ]
+    },
+    {
+      "title": "Pies na ruchliwej ulicy. Testowanie odporności (Robustness) modeli LLM na chaos",
+      "show": "AI Testers",
+      "episode": "Odc. 5",
+      "host": null,
+      "date": "sie 2026",
+      "lang": "pl",
+      "summary": "Testowanie odporności (Robustness) modeli LLM na chaos. Zobacz jak modele radzą sobie w trudnych warunkach.",
+      "links": [
+        {
+          "label": "YouTube",
+          "url": "https://www.youtube.com/watch?v=oHZdJ0-ikCg",
+          "icon": "simple-icons:youtube"
+        }
+      ]
+    },
+    {
+      "title": "Żeby Twój model nie pogryzł użytkowników. Guardrails i Safety w testowaniu AI",
+      "show": "AI Testers",
+      "episode": "Odc. 4",
+      "host": null,
+      "date": "sie 2026",
+      "lang": "pl",
+      "summary": "Jak dbać o bezpieczeństwo modeli językowych? Wprowadzenie do Guardrails i Safety w testowaniu AI.",
+      "links": [
+        {
+          "label": "YouTube",
+          "url": "https://www.youtube.com/watch?v=_GD_G2jsT8Q",
+          "icon": "simple-icons:youtube"
+        }
+      ]
+    },
+    {
+      "title": "Golden Retriever w świecie QA? Jak stworzyć Golden Set do testowania LLM",
+      "show": "AI Testers",
+      "episode": "Odc. 3",
+      "host": null,
+      "date": "sie 2026",
+      "lang": "pl",
+      "summary": "Dowiedz się jak stworzyć Golden Set do testowania LLM i dlaczego jest to kluczowe w procesie QA.",
+      "links": [
+        {
+          "label": "YouTube",
+          "url": "https://www.youtube.com/watch?v=H4NmJcXGqn8",
+          "icon": "simple-icons:youtube"
+        }
+      ]
+    },
+    {
       "title": "Kto tu jest \"dobrym pieskiem\"? Kategorie Evals, czyli jak oceniać jakość modeli LLM",
       "show": "AI Testers",
       "episode": "Odc. 2",
