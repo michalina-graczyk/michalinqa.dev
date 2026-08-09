@@ -3,12 +3,13 @@ title: Audyt procesu jakości
 description: Audyt jakości i procesu testowania dla zespołów tech - znajdujemy, gdzie umyka jakość, zanim zrobi to za Was produkcja.
 img_alt: Ekran z zielonymi checkami CI/CD i dashboardem metryk jakości
 tags: ["audyt", "QA", "proces jakości"]
+audience: "team"
 mode: "booking"
 ---
 
 Zielone checki w CI, a mimo to bug wychodzi na produkcję i dowiaduje się o nim klient, nie zespół? To nie jest problem jednego złego testu. To sygnał, że coś nie działa w całym procesie jakości - od wymagań, przez code review, aż do tego, co realnie sprawdza pipeline.
 
-Prowadzę audyty procesu jakości dla zespołów tech, które chcą wiedzieć, gdzie faktycznie stoją. Nie liczę testów i nie patrzę na procent coverage. Sprawdzam, co się dzieje, gdy coś pójdzie nie tak. Jako Quality Engineering Mentor, pomagam zespołom przejść od silosowego testowania do podejścia Shift-Left i odpowiedzialności za jakość w całym zespole (Whole-Team Quality). 
+Prowadzę audyty procesu jakości dla zespołów tech, które chcą wiedzieć, gdzie faktycznie stoją. Nie liczę testów i nie patrzę na procent coverage. Sprawdzam, co się dzieje, gdy coś pójdzie nie tak. Jako Quality Engineering Mentor, pomagam zespołom przejść od silosowego testowania do podejścia Shift-Left i odpowiedzialności za jakość w całym zespole (Whole-Team Quality).
 
 ## Jak przebiega audyt?
 

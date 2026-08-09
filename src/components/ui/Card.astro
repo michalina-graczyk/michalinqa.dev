@@ -27,6 +27,12 @@ interface Props {
    * fill a different slot (e.g. single-offer hero composition in `Offers.astro`).
    */
   wrapperClass?: string;
+  /**
+   * Heading level for the card title. Defaults to `h3`. Pass `h4` when the
+   * card sits under a group heading (see the audience groups in
+   * `Offers.astro`) so the document outline stays in order.
+   */
+  titleTag?: "h3" | "h4";
 }
 
 interface ImageMap {
@@ -50,9 +56,11 @@ const {
   tags = ["Tags"],
   mode = "booking",
   wrapperClass = "w-full p-4 lg:w-1/3 flex flex-col",
+  titleTag = "h3",
 } = Astro.props;
 
 const image = (slug && imageMap[slug]) ?? fallbackImage;
+const Title = titleTag;
 ---
 
 <section class={wrapperClass}>
@@ -64,16 +72,25 @@ const image = (slug && imageMap[slug]) ?? fallbackImage;
       <div
         class="relative flex items-end justify-center overflow-hidden rounded-xl"
       >
+        <!-- 4:3 crop, done by the image pipeline rather than CSS: the offer
+             illustrations are square, and at the two-column card width an
+             uncropped square turns the card into a poster. `position: top`
+             keeps the subject in frame and drops the empty bottom of the
+             artwork. -->
         <Image
           src={image}
           alt={alt}
           layout="constrained"
-          width={400}
+          width={500}
+          height={375}
+          fit="cover"
+          position="top"
           loading="lazy"
+          class="w-full"
         />
       </div>
       <div class="mt-1 flex flex-grow flex-col p-2">
-        <h3 class="text-xl text-orange lg:text-2xl">{title}</h3>
+        <Title class="text-xl text-orange lg:text-2xl">{title}</Title>
         <p class="flex-grow text-black dark:text-white text-s">{description}</p>
         <Tags tags={tags} mode={mode} />
       </div>
