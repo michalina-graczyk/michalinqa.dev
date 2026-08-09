@@ -77,7 +77,7 @@ const groups = groupDefinitions
           <div
             class:list={[
               "grid gap-6",
-              group.offers.length > 1 ? "sm:grid-cols-2" : "grid-cols-1",
+              group.offers.length > 1 ? "sm:grid-cols-2" : "sm:grid-cols-2", // Always use a 2-column grid on sm+ so cards are exactly the same width
             ]}
           >
             {group.offers.map((offer) => (
@@ -91,9 +91,7 @@ const groups = groupDefinitions
                 mode={offer.data.mode}
                 titleTag="h4"
                 wrapperClass="flex w-full flex-col"
-                orientation={
-                  group.offers.length === 1 ? "horizontal" : "vertical"
-                }
+                orientation="vertical"
               />
             ))}
           </div>
