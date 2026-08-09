@@ -1,7 +1,7 @@
 ---
 import consultationImage from "@assets/images/consultation.png";
-import audytJakosciImage from "@assets/images/audyt-jakosci.png";
-import szkolenieAiImage from "@assets/images/szkolenie-ai.png";
+import audytJakosciImage from "@assets/images/audyt-jakosci.jpg";
+import szkolenieAiImage from "@assets/images/szkolenie-ai-w-qa.jpg";
 import fallbackImage from "@assets/images/hero.png";
 
 import { Image } from "astro:assets";
@@ -13,8 +13,9 @@ interface Props {
   /**
    * Stable identifier used to look up the card image. Keying off `slug`
    * (frontmatter file name) instead of `title` means renaming the offer's
-   * visible title doesn't silently break the image — and the build will
-   * fail loudly if a new offer slug is added without an image entry below.
+   * visible title doesn't silently break the image. An offer with no entry
+   * in `imageMap` falls back to the hero illustration, so check the card
+   * after adding one — the build stays green either way.
    */
   slug?: string;
   title?: string;

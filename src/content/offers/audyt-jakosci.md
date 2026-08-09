@@ -1,7 +1,7 @@
 ---
 title: Audyt procesu jakości
 description: Audyt jakości i procesu testowania dla zespołów tech - znajdujemy, gdzie umyka jakość, zanim zrobi to za Was produkcja.
-img_alt: Ekran z zielonymi checkami CI/CD i dashboardem metryk jakości
+img_alt: Kobieta wskazuje tablicę z wykresami i pękającą ikoną błędu
 tags: ["audyt", "QA", "proces jakości"]
 audience: "team"
 mode: "booking"
@@ -23,15 +23,15 @@ Wybieramy wspólnie maksymalnie kilka krytycznych systemów i analizuję je pod 
 
 ### 3. Raport i warsztat (Rozwiązania, które da się wdrożyć)
 
-Nie dostajesz ogólników w stylu "warto zwiększyć coverage". Każdy problem ma określony format: co jest nie tak, jakie realne ryzyko biznesowe niesie i jakie jest konkretne rozwiązanie (w kodzie lub w procesie). Zwieńczeniem audytu jest wspólna sesja, na której priorytetyzujemy findingi w realny plan działania. Wdrożenie zostaje po stronie Waszego zespołu - to Wy najlepiej znacie swój kod.
+Nie dostajesz ogólników w stylu "warto zwiększyć coverage". Każdy problem ma określony format: co jest nie tak, jakie realne ryzyko biznesowe niesie i jakie jest konkretne rozwiązanie (w kodzie lub w procesie). Zwieńczeniem audytu jest wspólna sesja, na której priorytetyzujemy obserwacje w realny plan działania. Wdrożenie zostaje po stronie Waszego zespołu - to Wy najlepiej znacie swój kod.
 
 ## Co dostajesz?
 
 - **Executive Summary** - jedna teza, do której wraca cały raport, napisana językiem biznesu, nie testera.
-- **Pain Points** - problemy krytyczne i ważne, każdy poparty konkretnym findingiem, nie założeniem.
-- **Low Hanging Fruits** - lista akcji do wdrożenia w mniej niż miesiąc.
-- **Kierunek Strategiczny** - plan na 3-6 miesięcy: piramida testów, quality gates, rola QA w organizacji.
-- **Warsztat Roadmapy** - krótka wspólna sesja, na której zmieniamy raport w priorytetową listę działań.
+- **Pain Points** - problemy krytyczne i ważne, każda poparta konkretną obserwacją, nie założeniem.
+- **Szybkie wygrane** - lista akcji do wdrożenia w mniej niż miesiąc.
+- **Kierunek strategiczny** - plan na 3-6 miesięcy: piramida testów, quality gates, rola QA w organizacji.
+- **Warsztat roadmapy** - krótka wspólna sesja, na której zmieniamy raport w priorytetową listę działań.
 
 ## Dla kogo to jest?
 
@@ -41,8 +41,4 @@ Nie dostajesz ogólników w stylu "warto zwiększyć coverage". Każdy problem m
 
 _Praca odbywa się w pełni po Waszej stronie - VPN, dostępy, NDA. Nic nie wychodzi poza Wasze środowisko bez zgody._
 
-## Porozmawiajmy o wyzwaniach Twojego zespołu
-
 Każdy zespół jest inny, dlatego zakres, liczbę systemów do deep-dive'u i wycenę ustalamy wspólnie, na podstawie Waszej aktualnej skali.
-
-**Umów się na bezpłatną, 15-minutową konsultację (Discovery Call), podczas której sprawdzimy, czy taki audyt to krok, którego obecnie potrzebujecie.**
