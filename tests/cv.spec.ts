@@ -151,7 +151,7 @@ test.describe("CV Page", () => {
       .locator("xpath=ancestor::section");
 
     const aiTestersOdc6 = talksSection.locator("article").filter({
-      hasText: "LLM-as-a-Judge",
+      hasText: "Czy jeden pies może pilnować drugiego",
     });
 
     await expect(aiTestersOdc6).toBeVisible();
