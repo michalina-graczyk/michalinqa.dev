@@ -3,12 +3,37 @@ import Card from "@components/ui/Card.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
 import { getCollection } from "astro:content";
 
-const offers = await getCollection("offers");
+// Waitlist offers always sort last. A sold-out card wedged between two
+// bookable ones reads as a hole in the row rather than a deliberate state.
+const allOffers = (await getCollection("offers")).sort(
+  (a, b) =>
+    Number(a.data.mode === "waitlist") - Number(b.data.mode === "waitlist"),
+);
 
-// When only one offer is live we pair it with an editorial lead column so the
-// section feels intentional instead of a lonely card floating in a sea of
-// negative space. Multi-offer state keeps the original wrapping flex row.
-const isSingle = offers.length === 1;
+// The lineup speaks to two different buyers: a company with a budget, and a
+// person paying for their own career. Grouping by `audience` lets a visitor
+// self-select from the group label instead of reading every card to find the
+// one that applies to them. Empty groups drop out, so the section still works
+// when only one audience has live offers.
+const groupDefinitions = [
+  {
+    audience: "team" as const,
+    heading: "Dla zespołów i firm",
+    lead: "Praca z organizacją: audyt procesu jakości i szkolenia dla zespołu. Rozliczenie B2B, praca w Waszym środowisku.",
+  },
+  {
+    audience: "individual" as const,
+    heading: "Dla osób indywidualnych",
+    lead: "Praca 1:1 nad Twoją karierą, architekturą testów i codziennym wykorzystaniem AI.",
+  },
+];
+
+const groups = groupDefinitions
+  .map((group) => ({
+    ...group,
+    offers: allOffers.filter((offer) => offer.data.audience === group.audience),
+  }))
+  .filter((group) => group.offers.length > 0);
 ---
 
 <section
@@ -17,63 +42,61 @@ const isSingle = offers.length === 1;
   class="mb-10 flex flex-col items-center justify-center bg-gray-50 py-16 dark:bg-gray-950 lg:mb-0 lg:py-24"
 >
   <SectionTitle>Oferta</SectionTitle>
-  {
-    isSingle ? (
-      <div class="grid w-full max-w-6xl items-center gap-10 px-4 lg:grid-cols-2 lg:gap-16">
-        <div class="order-2 flex max-w-prose flex-col gap-4 text-black dark:text-white lg:order-1">
-          <p class="text-lg leading-relaxed">
-            Skupiam się teraz na pracy 1:1 z osobami, które chcą świadomie
-            poruszać się w QA napędzanym przez AI - zamiast rozpraszać uwagę
-            na wiele formatów naraz.
+
+  <div class="mx-auto w-full max-w-6xl px-4">
+    <p
+      class="mx-auto mb-12 max-w-prose text-center text-lg leading-relaxed text-black dark:text-white"
+    >
+      Pomagam układać jakość w zespołach, które rosną szybciej niż ich proces
+      testowania - i towarzyszę inżynierom, którzy chcą świadomie poruszać się w
+      QA napędzanym przez AI. Jeśli żaden z formatów nie pasuje, materiały
+      publikuję na{" "}
+      <a href="/blog" class="text-orange underline-offset-4 hover:underline">
+        blogu
+      </a>{" "}
+      oraz w{" "}
+      <a href="#contact" class="text-orange underline-offset-4 hover:underline"
+        >newsletterze</a
+      >.
+    </p>
+
+    {
+      groups.map((group) => (
+        <div
+          class="mb-14 last:mb-0"
+          data-testid={`offers-group-${group.audience}`}
+        >
+          <h3 class="font-monospace text-xl text-black lg:text-2xl dark:text-white">
+            {group.heading}
+          </h3>
+          <div class="mt-2 mb-6 h-1 w-10 bg-orange" />
+          <p class="mb-8 max-w-prose text-gray-600 dark:text-gray-400">
+            {group.lead}
           </p>
-          <p class="text-black/80 dark:text-white/80">
-            Jeśli ten format do Ciebie nie pasuje, najnowsze przemyślenia i
-            materiały publikuję na{" "}
-            <a
-              href="/blog"
-              class="text-orange underline-offset-4 hover:underline"
-            >
-              blogu
-            </a>{" "}
-            oraz w{" "}
-            <a
-              href="#contact"
-              class="text-orange underline-offset-4 hover:underline"
-            >
-              newsletterze
-            </a>
-            .
-          </p>
+
+          <div
+            class:list={[
+              "grid gap-6",
+              group.offers.length > 1 ? "sm:grid-cols-2" : "sm:grid-cols-2", // Always use a 2-column grid on sm+ so cards are exactly the same width
+            ]}
+          >
+            {group.offers.map((offer) => (
+              <Card
+                url={`/offers/${offer.id}`}
+                slug={offer.id}
+                title={offer.data.title}
+                description={offer.data.description}
+                alt={offer.data.img_alt}
+                tags={offer.data.tags}
+                mode={offer.data.mode}
+                titleTag="h4"
+                wrapperClass="flex w-full flex-col"
+                orientation="vertical"
+              />
+            ))}
+          </div>
         </div>
-        <div class="order-1 flex w-full justify-center lg:order-2">
-          {offers.map((offer) => (
-            <Card
-              url={`/offers/${offer.id}`}
-              slug={offer.id}
-              title={offer.data.title}
-              description={offer.data.description}
-              alt={offer.data.img_alt}
-              tags={offer.data.tags}
-              mode={offer.data.mode}
-              wrapperClass="flex w-full max-w-md flex-col p-4"
-            />
-          ))}
-        </div>
-      </div>
-    ) : (
-      <div class="mb-10 flex w-full flex-col flex-wrap items-stretch justify-center md:flex-row">
-        {offers.map((offer) => (
-          <Card
-            url={`/offers/${offer.id}`}
-            slug={offer.id}
-            title={offer.data.title}
-            description={offer.data.description}
-            alt={offer.data.img_alt}
-            tags={offer.data.tags}
-            mode={offer.data.mode}
-          />
-        ))}
-      </div>
-    )
-  }
+      ))
+    }
+  </div>
 </section>

@@ -3,6 +3,7 @@ title: Mentoring 1:1
 description: Strategiczny mentoring kariery dla QA i liderów IT. Ekosystem, AI, Discord i indywidualny plan rozwoju. Obecnie brak miejsc - zapisz się na listę oczekujących.
 img_alt: Dwie osoby pracujące razem przy laptopie podczas sesji mentorskiej
 tags: ["mentoring", "1:1", "AI"]
+audience: "individual"
 mode: "waitlist"
 ---
 

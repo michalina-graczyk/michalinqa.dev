@@ -38,6 +38,13 @@
   --color-gray-900: #111827;
   --color-gray-950: #030712;
 
+  /* Amber - waitlist state only (see WaitlistBadge.astro). `--color-*: initial`
+     above wipes the default Tailwind palette, so every amber utility the badge
+     uses has to be declared here or it silently renders unstyled. */
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-700: #b45309;
+
   /* Font families */
   --font-sans: "Inter", sans-serif;
   --font-monospace: "Inconsolata", monospace;

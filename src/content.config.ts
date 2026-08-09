@@ -9,6 +9,12 @@ const offersCollection = defineCollection({
     description: z.string(),
     tags: z.array(z.string()),
     img_alt: z.string().optional(),
+    /**
+     * Who buys this offer. Drives the grouping in `Offers.astro`: a company
+     * with a budget and a person paying for their own career read the page
+     * differently, so each group gets its own labelled row.
+     */
+    audience: z.enum(["team", "individual"]).default("team"),
     mode: z.enum(["booking", "waitlist"]).default("booking"),
     waitlistSubject: z.string().optional(),
   }),
