@@ -70,19 +70,16 @@ test.describe("Button Functionality", () => {
   });
 
   test("Meeting button functionality", async ({ page }) => {
-    const buttonLocator = "text=Umów spotkanie";
+    const meetingLink = page.getByRole("link", { name: "Umów spotkanie" });
 
-    await page.click(buttonLocator);
-
-    const calendlyPopup = await page.waitForSelector(".calendly-popup-content");
-    expect(calendlyPopup).toBeTruthy();
-
-    const dataUrl = await calendlyPopup.getAttribute("data-url");
-    expect(dataUrl).toEqual(
-      expect.stringContaining(
-        "https://calendly.com/michalina_graczyk/konsultacje",
-      ),
+    await expect(meetingLink).toHaveAttribute(
+      "href",
+      "https://zcal.co/michalina-graczyk/pierwsza-konsultacja",
     );
+    await expect(meetingLink).toHaveAttribute("target", "_blank");
+    await expect(meetingLink).toHaveAttribute("rel", "noopener noreferrer");
+
+    await meetingLink.click({ modifiers: ["Meta"] });
 
     const mixpanelEventsTracked = await getTrackedEvents(page);
     expectLastEventToBeTracked(

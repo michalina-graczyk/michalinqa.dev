@@ -1,0 +1,42 @@
+---
+import Button from "./Button.astro";
+import { TrackingEvents, type EventName } from "@lib/tracking";
+
+interface Props {
+  bookingUrl: string;
+  trackingEvent?: EventName;
+  size?: "sm" | "md" | "lg";
+}
+
+const { bookingUrl, trackingEvent = TrackingEvents.CALENDLY_BOOKING_OPENED, size = "lg" } = Astro.props;
+---
+
+<Button
+  size={size}
+  style="primary"
+  name="Meeting"
+  href={bookingUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="booking-trigger"
+  data-tracking-event={trackingEvent}
+>
+  <slot />
+</Button>
+
+<script>
+  import { isValidEventName, onReady, track } from "@lib/tracking";
+
+  function initBookingButtons() {
+    document.querySelectorAll(".booking-trigger").forEach((button) => {
+      if (button.hasAttribute("data-tracking-initialized")) return;
+      button.setAttribute("data-tracking-initialized", "true");
+      button.addEventListener("click", () => {
+        const event = button.getAttribute("data-tracking-event");
+        if (event && isValidEventName(event)) track(event);
+      });
+    });
+  }
+
+  onReady(initBookingButtons, "booking-buttons");
+</script>
