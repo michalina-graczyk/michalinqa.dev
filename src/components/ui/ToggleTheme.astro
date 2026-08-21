@@ -7,7 +7,7 @@
     <input
       type="checkbox"
       id="checkbox"
-      class="hidden"
+      class="sr-only"
       aria-label="Przełącz na tryb ciemny"
     />
     <div
@@ -20,6 +20,11 @@
 <style>
   input:checked + .slider:before {
     transform: translateX(26px);
+  }
+
+  input:focus-visible + .slider {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
   }
 </style>
 

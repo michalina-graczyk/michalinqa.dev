@@ -19,7 +19,6 @@ test.describe("Quality checks", () => {
       baseURL,
     }) => {
       await page.goto(`${baseURL}${route.path}`);
-      await rejectConsentIfVisible(page);
 
       const results = await new AxeBuilder({ page }).analyze();
       expect(results.violations).toEqual([]);
