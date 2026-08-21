@@ -1,6 +1,7 @@
 module.exports = {
   ci: {
     collect: {
+      chromePath: process.env.CHROME_PATH,
       url: [
         `${process.env.BASE_URL}/`,
         `${process.env.BASE_URL}/cv`,
