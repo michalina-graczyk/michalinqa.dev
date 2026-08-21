@@ -85,16 +85,6 @@ jobs:
           path: .lighthouseci/
           retention-days: 30
 
-      # Temporary baseline regeneration. Remove after downloading the Linux baselines.
-      - name: Generate Linux visual baselines
-        run: npx playwright test tests/quality.spec.ts --project=Chromium --update-snapshots
-
-      - name: Upload Linux visual baselines
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: linux-visual-baselines
-          path: tests/quality.spec.ts-snapshots/
-
       - name: Run Playwright tests
         run: npm run test:ci
         env:
