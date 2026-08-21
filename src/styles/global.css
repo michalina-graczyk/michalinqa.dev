@@ -78,6 +78,10 @@
     color: var(--color-brand-orange) !important;
   }
 
+  .nav-item.border-orange {
+    border-color: var(--color-brand-orange) !important;
+  }
+
   h2 {
     letter-spacing: var(--tracking-wide);
     font-weight: bold;

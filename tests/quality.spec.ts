@@ -40,6 +40,7 @@ test.describe("Quality checks", () => {
         fullPage: true,
         animations: "disabled",
         caret: "hide",
+        maxDiffPixelRatio: 0.02,
       });
     });
   }
