@@ -68,7 +68,7 @@ const {
   orientation = "vertical",
 } = Astro.props;
 
-const image = (slug && imageMap[slug]) ?? fallbackImage;
+const image = slug ? (imageMap[slug] ?? fallbackImage) : fallbackImage;
 const Title = titleTag;
 const isHorizontal = orientation === "horizontal";
 ---
