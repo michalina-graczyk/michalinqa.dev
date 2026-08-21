@@ -15,7 +15,7 @@ export const TrackingEvents = {
   NAVIGATION_ITEM_CLICKED: "Navigation Item Clicked",
   SOCIAL_LINK_CLICKED: "Social Link Clicked",
   EMAIL_CONTACT_CLICKED: "Email Contact Clicked",
-  CALENDLY_BOOKING_OPENED: "Calendly Booking Opened",
+  BOOKING_OPENED: "Booking Opened",
   OFFER_EMAIL_CLICKED: "Offer Email Clicked",
   OFFER_BOOKING_CLICKED: "Offer Booking Clicked",
   OFFER_WAITLIST_CLICKED: "Offer Waitlist Clicked",

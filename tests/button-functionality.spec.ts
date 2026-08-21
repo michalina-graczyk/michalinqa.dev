@@ -84,7 +84,7 @@ test.describe("Button Functionality", () => {
     const mixpanelEventsTracked = await getTrackedEvents(page);
     expectLastEventToBeTracked(
       mixpanelEventsTracked,
-      TrackingEvents.CALENDLY_BOOKING_OPENED,
+      TrackingEvents.BOOKING_OPENED,
     );
   });
 

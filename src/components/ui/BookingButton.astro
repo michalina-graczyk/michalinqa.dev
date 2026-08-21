@@ -8,7 +8,7 @@ interface Props {
   size?: "sm" | "md" | "lg";
 }
 
-const { bookingUrl, trackingEvent = TrackingEvents.CALENDLY_BOOKING_OPENED, size = "lg" } = Astro.props;
+const { bookingUrl, trackingEvent = TrackingEvents.BOOKING_OPENED, size = "lg" } = Astro.props;
 ---
 
 <Button
