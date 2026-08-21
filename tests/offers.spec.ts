@@ -262,7 +262,7 @@ test.describe("Offers", () => {
       await page.goto(`${baseURL}/offers/konsultacje`);
       await acceptConsentIfVisible(page);
       await expect(
-        page.getByRole("button", { name: "Umów spotkanie" }),
+        page.getByRole("link", { name: "Umów spotkanie" }),
       ).toHaveCount(0);
       await expect(page.getByText("Zainteresowany/a?")).toHaveCount(0);
     });
