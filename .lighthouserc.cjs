@@ -10,7 +10,8 @@ module.exports = {
       ],
       numberOfRuns: 1,
       settings: {
-        chromeFlags: "--no-sandbox --ignore-certificate-errors",
+        chromeFlags:
+          "--no-sandbox --ignore-certificate-errors --disable-dev-shm-usage --disable-gpu",
         skipAudits: ["uses-http2"],
       },
     },
