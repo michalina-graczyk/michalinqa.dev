@@ -12,7 +12,8 @@ module.exports = {
       settings: {
         chromeFlags:
           "--no-sandbox --ignore-certificate-errors --disable-dev-shm-usage --disable-gpu",
-        skipAudits: ["uses-http2"],
+        // Cloudflare marks preview deployments noindex by design.
+        skipAudits: ["uses-http2", "is-crawlable"],
       },
     },
     assert: {

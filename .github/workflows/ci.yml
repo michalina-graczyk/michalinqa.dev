@@ -75,6 +75,7 @@ jobs:
         run: npm run lhci
         env:
           BASE_URL: ${{ env.BASE_URL }}
+          LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.event.pull_request.head.sha }}
 
       - name: Upload Lighthouse report
         if: always()
