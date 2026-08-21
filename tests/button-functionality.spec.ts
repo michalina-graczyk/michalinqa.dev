@@ -37,22 +37,26 @@ test.describe("Button Functionality", () => {
   });
 
   test("Theme toggle button functionality", async ({ page, isMobile }) => {
-    if (!isMobile) {
-      const themeToggleButton = page.locator('[data-testid="theme-switch"]');
-      await themeToggleButton.click();
-      await expect(page.locator("html")).toHaveClass("scroll-smooth dark");
-
-      await page.evaluate(() => {
-        window.localStorage.setItem("theme", "dark");
-      });
-
-      await themeToggleButton.click();
-      await expect(page.locator("html")).toHaveClass("scroll-smooth");
-
-      await page.evaluate(() => {
-        window.localStorage.removeItem("theme");
-      });
+    if (isMobile) {
+      await page.locator("#astronav-menu").click();
     }
+    const themeToggleButton = page.locator('[data-testid="theme-switch"]');
+    const themeInput = page.locator("#checkbox");
+    await themeToggleButton.click();
+    await expect(page.locator("html")).toHaveClass("scroll-smooth dark");
+    await expect(themeInput).toHaveAttribute(
+      "aria-label",
+      "Przełącz na tryb jasny",
+    );
+
+    await themeToggleButton.click();
+    await expect(page.locator("html")).toHaveClass("scroll-smooth");
+    await expect(themeInput).toHaveAttribute(
+      "aria-label",
+      "Przełącz na tryb ciemny",
+    );
+
+    await page.evaluate(() => window.localStorage.removeItem("theme"));
   });
 
   test("Email button functionality", async ({ page }) => {

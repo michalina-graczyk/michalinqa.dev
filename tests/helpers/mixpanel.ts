@@ -44,6 +44,14 @@ export async function acceptConsentIfVisible(page: Page) {
   }
 }
 
+export async function rejectConsentIfVisible(page: Page) {
+  const banner = page.locator('[data-testid="consent-banner"]');
+  if (await banner.isVisible().catch(() => false)) {
+    await page.click('[data-testid="consent-reject"]', { force: true });
+    await expect(banner).not.toBeVisible();
+  }
+}
+
 export async function getTrackedEvents(page: Page) {
   return await page.evaluate(() => window.mixpanel?.eventsTracked ?? []);
 }
