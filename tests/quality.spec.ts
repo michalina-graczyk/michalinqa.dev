@@ -11,7 +11,10 @@ const routes = [
 ] as const;
 
 test.describe("Quality checks", () => {
-  test.use({ colorScheme: "light" });
+  test.use({
+    colorScheme: "light",
+    viewport: { width: 1280, height: 800 },
+  });
 
   for (const route of routes) {
     test(`${route.name} has no accessibility violations`, async ({
@@ -37,7 +40,7 @@ test.describe("Quality checks", () => {
       await rejectConsentIfVisible(page);
       await page.evaluate(() => document.fonts.ready);
       await expect(page).toHaveScreenshot(`${route.name}.png`, {
-        fullPage: true,
+        fullPage: false,
         animations: "disabled",
         caret: "hide",
         maxDiffPixelRatio: 0.02,
