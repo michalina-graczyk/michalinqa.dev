@@ -66,7 +66,10 @@ jobs:
         run: node .github/scripts/wait-cf-pages.mjs
 
       - name: Locate Chromium for Lighthouse CI
-        run: echo "CHROME_PATH=$(find /ms-playwright -type f -path '*/chrome-linux/chrome' -print -quit)" >> "$GITHUB_ENV"
+        run: |
+          CHROME_PATH=$(find /ms-playwright -type f -name chrome -print -quit)
+          test -n "$CHROME_PATH"
+          echo "CHROME_PATH=$CHROME_PATH" >> "$GITHUB_ENV"
 
       - name: Run Lighthouse CI
         run: npm run lhci
