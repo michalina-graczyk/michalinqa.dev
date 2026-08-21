@@ -1,0 +1,25 @@
+---
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout
+  title="Nie znaleziono strony | Michalina Graczyk"
+  description="Strona, której szukasz, nie istnieje."
+  noindex
+>
+  <main id="main-content" class="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
+    <p class="font-monospace text-6xl text-orange" aria-hidden="true">404</p>
+    <h1 class="mt-4 text-3xl font-bold text-black dark:text-white">
+      Nie znaleziono strony
+    </h1>
+    <p class="mt-4 max-w-lg text-black dark:text-white">
+      Ta strona nie istnieje albo została przeniesiona.
+    </p>
+    <a
+      href="/"
+      class="mt-8 rounded bg-orange px-6 py-3 font-bold text-white transition hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+    >
+      Wróć na stronę główną
+    </a>
+  </main>
+</Layout>

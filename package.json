@@ -11,7 +11,8 @@
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "test:ci": "npx playwright test",
-    "test:local": "BASE_URL=http://localhost:4321 npx playwright test"
+    "test:local": "BASE_URL=http://localhost:4321 npx playwright test",
+    "lhci": "lhci autorun"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.5",
@@ -35,8 +36,10 @@
   "packageManager": "npm@11.12.1",
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/simple-icons": "^1.2.93",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.62.1",
     "@types/node": "^22",
     "dotenv": "^17.4.2",

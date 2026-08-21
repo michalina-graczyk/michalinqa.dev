@@ -3,9 +3,13 @@
     data-testid="theme-switch"
     class="theme-switch relative flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center"
     for="checkbox"
-    aria-label="Przełącz na tryb ciemny"
   >
-    <input type="checkbox" id="checkbox" class="hidden" />
+    <input
+      type="checkbox"
+      id="checkbox"
+      class="hidden"
+      aria-label="Przełącz na tryb ciemny"
+    />
     <div
       class="slider relative h-[34px] w-[60px] rounded-full bg-black before:absolute before:bottom-[4px] before:left-[4px] before:h-[26px] before:w-[26px] before:rounded-full before:bg-orange before:transition-[0.4s] motion-reduce:before:transition-none dark:bg-white"
     >
@@ -24,13 +28,15 @@
     const button = document.querySelector(
       '.theme-switch input[type="checkbox"]'
     ) as HTMLInputElement;
-    const label = document.querySelector('.theme-switch') as HTMLLabelElement;
+    const input = document.querySelector(
+      '.theme-switch input[type="checkbox"]',
+    ) as HTMLInputElement;
 
     const updateAriaLabel = () => {
       if (document.documentElement.classList.contains("dark")) {
-        label.setAttribute("aria-label", "Przełącz na tryb jasny");
+        input.setAttribute("aria-label", "Przełącz na tryb jasny");
       } else {
-        label.setAttribute("aria-label", "Przełącz na tryb ciemny");
+        input.setAttribute("aria-label", "Przełącz na tryb ciemny");
       }
     };
 

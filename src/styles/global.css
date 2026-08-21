@@ -21,7 +21,8 @@
   /* Custom colors - minimal palette */
   --color-black: #000;
   --color-white: #fff;
-  --color-orange: #e06330;
+  --color-orange: #9e3b17;
+  --color-brand-orange: #e06330;
   --color-transparent: transparent;
   --color-current: currentColor;
 
@@ -67,6 +68,16 @@
 
 /* Base component styles (migrated from Tailwind plugin) */
 @layer base {
+  /* Preserve the brand orange for large display text. Small text uses the
+     accessible orange token above. */
+  .font-monospace.text-orange,
+  .font-monospace .text-orange,
+  .text-3xl.text-orange,
+  .text-4xl.text-orange,
+  .text-5xl.text-orange {
+    color: var(--color-brand-orange);
+  }
+
   h2 {
     letter-spacing: var(--tracking-wide);
     font-weight: bold;
