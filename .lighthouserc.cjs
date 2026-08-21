@@ -10,7 +10,7 @@ module.exports = {
       ],
       numberOfRuns: 1,
       settings: {
-        chromeFlags: "--no-sandbox",
+        chromeFlags: "--no-sandbox --ignore-certificate-errors",
         skipAudits: ["uses-http2"],
       },
     },
