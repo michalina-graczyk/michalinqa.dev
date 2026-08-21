@@ -43,7 +43,6 @@ test.describe("Quality checks", () => {
         fullPage: false,
         animations: "disabled",
         caret: "hide",
-        maxDiffPixelRatio: 0.04,
       });
     });
   }
