@@ -46,7 +46,7 @@ jobs:
     # IMPORTANT: keep this image tag in lockstep with @playwright/test in
     # package.json. Renovate/Dependabot can manage this — see follow-up issue.
     container:
-      image: mcr.microsoft.com/playwright:v1.60.0-noble
+      image: mcr.microsoft.com/playwright:v1.62.1-noble
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         name: Check out repository code
