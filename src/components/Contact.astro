@@ -1,10 +1,10 @@
 ---
 import Button from "@components/ui/Button.astro";
-import CalendlyButton from "@components/ui/CalendlyButton.astro";
+import BookingButton from "@components/ui/BookingButton.astro";
 import Social from "@components/ui/Social.astro";
 import SectionTitle from "@components/ui/SectionTitle.astro";
 import NewsletterSignup from "@components/NewsletterSignup.astro";
-import { calendlyURL, emailAddress } from "@config/contact";
+import { bookingURL, emailAddress } from "@config/contact";
 import { TrackingEvents } from "@lib/tracking";
 
 const socials = [
@@ -42,12 +42,12 @@ const socials = [
     >
       Napisz maila
     </Button>
-    <CalendlyButton
-      calendlyUrl={calendlyURL}
-      trackingEvent={TrackingEvents.CALENDLY_BOOKING_OPENED}
+    <BookingButton
+      bookingUrl={bookingURL}
+      trackingEvent={TrackingEvents.BOOKING_OPENED}
     >
       Umów spotkanie
-    </CalendlyButton>
+    </BookingButton>
   </div>
   <hr class="w-1/2" />
   <Social socials={socials} />

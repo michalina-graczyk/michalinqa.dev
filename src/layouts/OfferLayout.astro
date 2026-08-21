@@ -2,9 +2,9 @@
 import Layout from "./Layout.astro";
 import BackToTop from "@components/ui/BackToTop.astro";
 import Button from "@components/ui/Button.astro";
-import CalendlyButton from "@components/ui/CalendlyButton.astro";
+import BookingButton from "@components/ui/BookingButton.astro";
 import { Icon } from "astro-icon/components";
-import { calendlyURL, emailAddress } from "@config/contact";
+import { bookingURL, emailAddress } from "@config/contact";
 import { TrackingEvents } from "@lib/tracking";
 import { buildWaitlistMailto, tagsWithoutWaitlist } from "@lib/offers";
 import WaitlistBadge from "@components/ui/WaitlistBadge.astro";
@@ -130,12 +130,12 @@ const serviceSchema = {
               Umów bezpłatną 15-minutową rozmowę, podczas której omówimy Twoje potrzeby.
             </p>
             <div class="flex flex-wrap gap-4">
-              <CalendlyButton
-                calendlyUrl={calendlyURL}
+              <BookingButton
+                bookingUrl={bookingURL}
                 trackingEvent={TrackingEvents.OFFER_BOOKING_CLICKED}
               >
                 Umów spotkanie
-              </CalendlyButton>
+              </BookingButton>
               <Button
                 size="lg"
                 style="secondary"

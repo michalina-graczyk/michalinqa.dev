@@ -1,9 +1,5 @@
 import type { OverridedMixpanel } from "mixpanel-browser";
 
-interface CalendlyWidget {
-  initPopupWidget: (options: { url: string }) => void;
-}
-
 interface TrackedEvent {
   eventName: string;
   eventProperties?: Record<string, unknown>;
@@ -19,6 +15,5 @@ declare global {
     mixpanelReady?: boolean;
     /** Set to true when consent is given but SDK is still loading. Used to queue events. */
     analyticsConsentPending?: boolean;
-    Calendly: CalendlyWidget;
   }
 }

@@ -95,17 +95,7 @@ const websiteSchema = {
       title="Michalina Graczyk - Blog"
       href="/rss.xml"
     />
-    <link rel="preconnect" href="https://assets.calendly.com" />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
-    <link
-      href="https://assets.calendly.com/assets/external/widget.css"
-      rel="stylesheet"
-    />
-
-    <script
-      src="https://assets.calendly.com/assets/external/widget.js"
-      type="text/javascript"
-      async></script>
   </head>
   <body
     class="mx-auto max-w-screen-xl bg-white px-5 font-sans text-white dark:bg-black xs:text-[16px] md:text-[18px]"
@@ -141,10 +131,6 @@ const websiteSchema = {
         color: #fff;
       }
 
-      /* Hide Calendly's parent-page spinner - iframe has its own loading state */
-      .calendly-spinner {
-        display: none !important;
-      }
     </style>
   </body>
 </html>

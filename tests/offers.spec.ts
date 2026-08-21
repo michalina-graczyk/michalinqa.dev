@@ -226,7 +226,7 @@ test.describe("Offers", () => {
             page.getByRole("heading", { name: "Zainteresowany/a?" }),
           ).toBeVisible();
           await expect(
-            page.getByRole("button", { name: "Umów spotkanie" }),
+            page.getByRole("link", { name: "Umów spotkanie" }),
           ).toBeVisible();
           await expect(
             page.getByRole("link", { name: "Dołącz do waitlisty" }),
@@ -255,14 +255,14 @@ test.describe("Offers", () => {
       }
     });
 
-    test("waitlist mode hides Calendly button on offer page", async ({
+    test("waitlist mode hides booking button on offer page", async ({
       page,
       baseURL,
     }) => {
       await page.goto(`${baseURL}/offers/konsultacje`);
       await acceptConsentIfVisible(page);
       await expect(
-        page.getByRole("button", { name: "Umów spotkanie" }),
+        page.getByRole("link", { name: "Umów spotkanie" }),
       ).toHaveCount(0);
       await expect(page.getByText("Zainteresowany/a?")).toHaveCount(0);
     });
@@ -282,44 +282,23 @@ test.describe("Offers", () => {
       await expect(page).toHaveURL(`${baseURL}/#offers`);
     });
 
-    test("booking offer opens Calendly popup and tracks OFFER_BOOKING_CLICKED", async ({
+    test("booking offer opens the booking link and tracks OFFER_BOOKING_CLICKED", async ({
       page,
       baseURL,
     }) => {
-      // Calendly's widget script is blocked and `window.Calendly` stubbed, so
-      // the assertion covers our click handler instead of Calendly's CDN —
-      // otherwise the test would be network-bound and the real script would
-      // overwrite the stub.
-      await page.route("https://assets.calendly.com/**", (route) =>
-        route.abort(),
-      );
-      await page.addInitScript(() => {
-        (window as unknown as Record<string, unknown>).Calendly = {
-          initPopupWidget: (options: { url: string }) => {
-            (
-              window as unknown as Record<string, unknown>
-            ).__calendlyOpenedWith = options.url;
-          },
-        };
-      });
-
       await page.goto(`${baseURL}/offers/${bookingOffers[0].slug}`);
       await acceptConsentIfVisible(page);
 
-      const meetingButton = page.getByRole("button", {
+      const meetingLink = page.getByRole("link", {
         name: "Umów spotkanie",
       });
-      await meetingButton.click();
-
-      await expect
-        .poll(() =>
-          page.evaluate(
-            () =>
-              (window as unknown as Record<string, string | undefined>)
-                .__calendlyOpenedWith,
-          ),
-        )
-        .toContain("calendly.com");
+      await expect(meetingLink).toHaveAttribute(
+        "href",
+        "https://zcal.co/michalina-graczyk/pierwsza-konsultacja",
+      );
+      await expect(meetingLink).toHaveAttribute("target", "_blank");
+      await expect(meetingLink).toHaveAttribute("rel", "noopener noreferrer");
+      await meetingLink.click({ modifiers: ["Meta"] });
 
       const mixpanelEventsTracked = await getTrackedEvents(page);
       expectLastEventToBeTracked(
