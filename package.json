@@ -14,18 +14,18 @@
     "test:local": "BASE_URL=http://localhost:4321 npx playwright test"
   },
   "dependencies": {
-    "@astrojs/mdx": "^7.0.5",
+    "@astrojs/mdx": "^7.0.8",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/ts-plugin": "^1.10.10",
     "@fontsource/inconsolata": "^5.3.0",
     "@fontsource/inter": "^5.3.0",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.2.0",
-    "astro-embed": "^0.13.1",
+    "astro": "^7.2.9",
+    "astro-embed": "^0.14.0",
     "astro-icon": "^1.2.0",
     "astro-navbar": "^2.4.0",
-    "astro-seo": "^1.1.0",
+    "astro-seo": "^1.2.0",
     "mixpanel-browser": "^2.81.0",
     "tailwindcss": "^4.1.3"
   },
