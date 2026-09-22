@@ -92,17 +92,16 @@ const isHorizontal = orientation === "horizontal";
           isHorizontal && "sm:w-2/5 sm:shrink-0",
         ]}
       >
-        <!-- 4:3 crop, done by the image pipeline rather than CSS: the offer
-             illustrations are square, and at the two-column card width an
-             uncropped square turns the card into a poster. `position: top`
-             keeps the subject in frame and drops the empty bottom of the
-             artwork. -->
+        <!-- 16:9 crop: the offer illustrations are square.
+             Cropping them to a wider aspect ratio prevents the cards 
+             from becoming too tall and overwhelming the layout. 
+             `position: top` keeps the subject in frame. -->
         <Image
           src={image}
           alt={alt}
           layout="constrained"
           width={500}
-          height={375}
+          height={280}
           fit="cover"
           position="top"
           loading="lazy"
