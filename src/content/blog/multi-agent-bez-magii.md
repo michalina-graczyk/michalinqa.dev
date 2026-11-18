@@ -89,4 +89,4 @@ Główna rada z artykułu Anthropic jest nam dobrze znana: zacznij od najprostsz
 
 Jeśli masz za sobą pierwsze próby z zespołami agentów, [złapmy się na LinkedInie](https://www.linkedin.com/in/michalina-graczyk/). Chętnie posłucham, co u Was zadziałało, a co skończyło się tylko ładnym slajdem.
 
-_Poco a poco._ Najpierw jeden agent. 🤖
+_Na spokojnie, zacznij od jednego agenta._ 🤖
