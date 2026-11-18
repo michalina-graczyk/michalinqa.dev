@@ -91,6 +91,26 @@ test.describe("Blog", () => {
       await expect(ogUrl).toHaveAttribute("content", expectedCanonical);
     });
 
+    test("tables have left-aligned headers and top-aligned cells", async ({
+      page,
+      baseURL,
+    }) => {
+      await page.goto(`${baseURL}/blog/multi-agent-bez-magii/`);
+      await acceptConsentIfVisible(page);
+
+      const table = page.locator(".prose table").first();
+      await expect(table).toBeVisible();
+      await expect(table.locator("th").first()).toHaveCSS("text-align", "left");
+      await expect(table.locator("td").first()).toHaveCSS(
+        "vertical-align",
+        "top",
+      );
+      await expect(table.locator("td").first()).not.toHaveCSS(
+        "border-bottom-width",
+        "0px",
+      );
+    });
+
     test("images load successfully", async ({ page, baseURL }) => {
       // Track failed image requests
       const failedImages: string[] = [];
