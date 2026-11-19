@@ -1,6 +1,6 @@
 ---
 title: "Multi-agent bez magii: po co Ci więcej niż jeden agent AI?"
-date: 2026-11-18
+date: 2026-11-19
 excerpt: "Zespoły agentów AI to jeden z najgorętszych tematów konferencyjnych. Czym właściwie jest agent, kiedy jeden przestaje wystarczać i dlaczego więcej agentów nie zawsze oznacza lepszy wynik?"
 tags: ["ai", "agents", "multi-agent", "llm", "quality-assurance"]
 lang: pl
