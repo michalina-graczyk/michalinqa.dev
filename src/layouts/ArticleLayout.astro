@@ -220,5 +220,27 @@ const articleSchema = {
   .prose :global(hr) {
     @apply my-8 border-orange/30;
   }
+
+  /* Markdown tables: left-aligned header, top-aligned cells, row separators. */
+  .prose :global(table) {
+    @apply mb-8 w-full border-collapse text-base;
+  }
+
+  .prose :global(th) {
+    @apply border-b-2 border-orange/50 px-3 py-2 text-left align-bottom font-bold;
+  }
+
+  .prose :global(td) {
+    @apply border-b border-gray-200 px-3 py-3 align-top leading-snug dark:border-gray-700;
+  }
+
+  .prose :global(th:first-child),
+  .prose :global(td:first-child) {
+    @apply pl-0;
+  }
+
+  .prose :global(tbody tr:last-child td) {
+    @apply border-b-0;
+  }
 </style>
 
